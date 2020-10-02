@@ -4,6 +4,7 @@ import * as Animatable from 'react-native-animatable';
 
 import Video from '../Components/BackgroundVideo';
 import Button from '../Components/Button';
+import Routes from '../Navigation/routes';
 
 const {width, height} = Dimensions.get('window');
 
@@ -66,6 +67,7 @@ function IntroScreen(props) {
             textColor="#33A4FF"
             size={24}
             weight="bold"
+            onPress={() => props.navigation.navigate(Routes.LOGIN)}
           />
         </Animatable.View>
         <Animatable.View
@@ -73,14 +75,20 @@ function IntroScreen(props) {
           delay={3500}
           animation="fadeIn"
           easing="ease-in">
-          <Text style={styles.notRegister}>NOT REGISTERD?</Text>
+          <Text style={styles.notRegister}>NOT REGISTERED?</Text>
         </Animatable.View>
         <Animatable.View
           style={styles.registerButton}
           delay={4000}
           animation="fadeIn"
           easing="ease-in">
-          <Button title="Join us" textColor="white" size={34} weight="bold" />
+          <Button
+            title="Join us"
+            textColor="white"
+            size={34}
+            weight="bold"
+            onPress={() => props.navigation.navigate(Routes.REGISTER)}
+          />
         </Animatable.View>
         <Animatable.View
           style={styles.separator2}
@@ -149,9 +157,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   separator2: {
+    marginTop: 5,
     alignSelf: 'center',
     height: 1,
-    width: 130,
+    width: 125,
     backgroundColor: 'white',
   },
   terms: {

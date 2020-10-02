@@ -1,21 +1,13 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 
-import IntroScreen from './src/Screens/IntroScreen';
+import {navigationRef} from './src/Navigation/rootNavigation';
+import AuthNavigator from './src/Navigation/AuthNavigation';
 
 export default function App() {
   return (
-    <View>
-      <IntroScreen />
-    </View>
+    <NavigationContainer ref={navigationRef}>
+      <AuthNavigator />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

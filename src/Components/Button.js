@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: 'white',
     borderRadius: 20,
+    // marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 9,
