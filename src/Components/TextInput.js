@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 
+import Colors from '../Constants/Colors';
+
 function AppTextInput({width = '100%', ...otherProps}) {
   return (
     <View style={[styles.container, {width}]}>
       <TextInput
-        placeholderTextColor="gray"
+        placeholderTextColor={Colors.placeholder}
         style={styles.text}
         {...otherProps}
       />
@@ -15,14 +17,16 @@ function AppTextInput({width = '100%', ...otherProps}) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     borderRadius: 10,
     marginVertical: 5,
-    borderColor: '#33A4FF',
+    borderColor: Colors.primary,
     borderWidth: 3,
     justifyContent: 'center',
+    elevation: 9,
   },
   text: {
+    marginLeft: 5,
     fontSize: 18,
     height: 40,
   },

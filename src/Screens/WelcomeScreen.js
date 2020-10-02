@@ -4,6 +4,7 @@ import * as Animatable from 'react-native-animatable';
 
 import Video from '../Components/BackgroundVideo';
 import Button from '../Components/Button';
+import Colors from '../Constants/Colors';
 import Routes from '../Navigation/routes';
 
 const {width, height} = Dimensions.get('window');
@@ -16,16 +17,16 @@ function IntroScreen(props) {
 
   const repetingInterval = setInterval(() => {
     if (changingText.current) {
-      changingText.current.fadeOut(2000).then(() => {
+      changingText.current.fadeOut(3000).then(() => {
         if (fadingText === 'NUMEROLOGY AND ASTROLOGY DATING') {
           setFadingText('THE SCIENCE OF ATTRACTION');
         } else {
           setFadingText('NUMEROLOGY AND ASTROLOGY DATING');
         }
       });
-      changingText.current.fadeIn(1000);
+      changingText.current.fadeIn(3000);
     }
-  }, 3000);
+  }, 7000);
 
   useEffect(() => {
     return () => {
@@ -47,8 +48,7 @@ function IntroScreen(props) {
           style={styles.sloganContainer}
           delay={3000}
           animation="fadeIn"
-          ref={changingText}
-          easing="ease-in">
+          ref={changingText}>
           <Text style={styles.slogan}>{fadingText}</Text>
         </Animatable.View>
         <Animatable.View
@@ -59,12 +59,12 @@ function IntroScreen(props) {
         <Animatable.View
           style={styles.signInButton}
           delay={3000}
-          animation="fadeIn"
-          easing="ease-in">
+          animation="fadeIn">
           <Button
             title="Sign In"
             color="white"
-            textColor="#33A4FF"
+            textColor={Colors.primary}
+            elevation={5}
             size={24}
             weight="bold"
             onPress={() => props.navigation.navigate(Routes.LOGIN)}
@@ -73,19 +73,17 @@ function IntroScreen(props) {
         <Animatable.View
           style={styles.notRegisterContainer}
           delay={3500}
-          animation="fadeIn"
-          easing="ease-in">
+          animation="fadeIn">
           <Text style={styles.notRegister}>NOT REGISTERED?</Text>
         </Animatable.View>
         <Animatable.View
           style={styles.registerButton}
           delay={4000}
-          animation="fadeIn"
-          easing="ease-in">
+          animation="fadeIn">
           <Button
             title="Join us"
-            textColor="white"
-            size={34}
+            textColor={Colors.white}
+            size={30}
             weight="bold"
             onPress={() => props.navigation.navigate(Routes.REGISTER)}
           />
@@ -100,7 +98,11 @@ function IntroScreen(props) {
           delay={4000}
           animation="fadeIn"
           easing="ease-in">
-          <Button title="terms & condition" textColor="#d0d0e1" size={14} />
+          <Button
+            title="terms & condition"
+            textColor={Colors.medium}
+            size={14}
+          />
         </Animatable.View>
       </SafeAreaView>
     </View>
@@ -129,18 +131,18 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',
-    color: 'white',
+    color: Colors.white,
   },
   separator: {
     marginTop: 120,
     alignSelf: 'center',
     height: 3,
     width: 150,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
   },
   signInButton: {
     marginTop: 70,
-    color: 'white',
+    color: Colors.white,
     alignItems: 'center',
   },
   notRegisterContainer: {
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
   },
   notRegister: {
     marginTop: 30,
-    color: '#d0d0e1',
+    color: Colors.placeholder,
     fontWeight: 'bold',
     fontSize: 16,
   },
@@ -160,8 +162,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     alignSelf: 'center',
     height: 1,
-    width: 125,
-    backgroundColor: 'white',
+    width: 110,
+    backgroundColor: Colors.white,
   },
   terms: {
     marginTop: 70,

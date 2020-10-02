@@ -1,7 +1,16 @@
 import React, {useState} from 'react';
-import {View, Text, Platform, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import Colors from '../Constants/Colors';
+
+const {width} = Dimensions.get('window');
 
 function AppCalendar(props) {
   const [date, setDate] = useState(null);
@@ -14,8 +23,6 @@ function AppCalendar(props) {
     setDate(currentDate);
   };
 
-  console.log(date);
-
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
@@ -26,43 +33,40 @@ function AppCalendar(props) {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.buttom} onPress={showDatepicker}>
-        <Text style={styles.input}>
-          {date ? moment(date).format('MMMM, DD YYYY') : 'Select date'}
-        </Text>
-      </TouchableOpacity>
+    <TouchableOpacity style={styles.container} onPress={showDatepicker}>
+      <Text style={styles.input}>
+        {date ? moment(date).format('MMMM, DD YYYY') : ''}
+      </Text>
 
       {show && (
         <DateTimePicker
           testID="dateTimePicker"
           value={date || new Date()}
           mode={mode}
-          is24Hour={true}
           display="default"
           onChange={onChange}
         />
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     marginLeft: 10,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 9,
-    width: '60%',
+    width: width * 0.52,
     height: 45,
     borderWidth: 3,
-    borderColor: '#33A4FF',
+    elevation: 9,
+    borderColor: Colors.primary,
   },
-  button: {
-    fontSize: 24,
-    color: 'white',
+  input: {
+    fontSize: 20,
+    color: Colors.dark,
   },
 });
 
