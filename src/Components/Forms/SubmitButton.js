@@ -3,21 +3,14 @@ import {View} from 'react-native';
 import {useFormikContext} from 'formik';
 
 import Button from '../Button';
+import Colors from '../../Constants/Colors';
 
 function SubmitButton({title, marginTop}) {
   const {handleSubmit} = useFormikContext();
 
   return (
     <View style={{alignItems: 'center', marginTop: marginTop}}>
-      <Button
-        title={title}
-        color="white"
-        elevation={9}
-        textColor="#33A4FF"
-        size={24}
-        weight="bold"
-        onPress={handleSubmit}
-      />
+      <Button onPress={handleSubmit} title={title} />
     </View>
   );
 }

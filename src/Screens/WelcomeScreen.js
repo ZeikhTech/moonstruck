@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, SafeAreaView, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 import Video from '../Components/BackgroundVideo';
@@ -39,7 +46,7 @@ function IntroScreen(props) {
       <SafeAreaView style={styles.safeAreaView}>
         <Animatable.Image
           style={styles.logo}
-          source={require('../assets/logo.png')}
+          source={require('../assets/Misc/logo.png')}
           animation={'zoomIn'}
           delay={2000}
           resizeMode="contain"
@@ -62,11 +69,7 @@ function IntroScreen(props) {
           animation="fadeIn">
           <Button
             title="Sign In"
-            color="white"
             textColor={Colors.primary}
-            elevation={5}
-            size={24}
-            weight="bold"
             onPress={() => props.navigation.navigate(Routes.LOGIN)}
           />
         </Animatable.View>
@@ -74,19 +77,20 @@ function IntroScreen(props) {
           style={styles.notRegisterContainer}
           delay={3500}
           animation="fadeIn">
-          <Text style={styles.notRegister}>NOT REGISTERED?</Text>
+          <Text
+            onPress={() => props.navigation.navigate(Routes.REGISTER)}
+            style={styles.notRegister}>
+            NOT REGISTERED?
+          </Text>
         </Animatable.View>
         <Animatable.View
           style={styles.registerButton}
           delay={4000}
           animation="fadeIn">
-          <Button
-            title="Join us"
-            textColor={Colors.white}
-            size={30}
-            weight="bold"
-            onPress={() => props.navigation.navigate(Routes.REGISTER)}
-          />
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate(Routes.REGISTER)}>
+            <Text style={styles.join}>JOIN US</Text>
+          </TouchableOpacity>
         </Animatable.View>
         <Animatable.View
           style={styles.separator2}
@@ -94,15 +98,13 @@ function IntroScreen(props) {
           animation="fadeIn"
         />
         <Animatable.View
-          style={styles.terms}
+          style={styles.termsContainer}
           delay={4000}
           animation="fadeIn"
           easing="ease-in">
-          <Button
-            title="terms & condition"
-            textColor={Colors.medium}
-            size={14}
-          />
+          <TouchableOpacity>
+            <Text style={styles.terms}>TERMS & CONDITIONS</Text>
+          </TouchableOpacity>
         </Animatable.View>
       </SafeAreaView>
     </View>
@@ -142,7 +144,6 @@ const styles = StyleSheet.create({
   },
   signInButton: {
     marginTop: 70,
-    color: Colors.white,
     alignItems: 'center',
   },
   notRegisterContainer: {
@@ -158,6 +159,11 @@ const styles = StyleSheet.create({
     marginTop: 30,
     alignItems: 'center',
   },
+  join: {
+    color: Colors.white,
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
   separator2: {
     marginTop: 5,
     alignSelf: 'center',
@@ -165,9 +171,13 @@ const styles = StyleSheet.create({
     width: 110,
     backgroundColor: Colors.white,
   },
-  terms: {
+  termsContainer: {
     marginTop: 70,
     alignSelf: 'center',
+  },
+  terms: {
+    fontSize: 12,
+    color: Colors.white,
   },
 });
 

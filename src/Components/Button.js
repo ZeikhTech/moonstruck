@@ -1,46 +1,40 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 
-// import colors from "../../Config/colors";
+import Colors from '../Constants/Colors';
 
-function AppButton({
-  title,
-  onPress,
-  color,
-  textColor,
-  size,
-  weight,
-  elevation,
-}) {
+function AppButton({title, onPress}) {
   return (
-    <TouchableOpacity
-      style={[styles.button, {backgroundColor: color, elevation: elevation}]}
-      onPress={onPress}>
-      <Text
-        style={[
-          styles.text,
-          {color: textColor, fontSize: size, fontWeight: weight},
-        ]}>
-        {title}
-      </Text>
+    <TouchableOpacity style={styles.button} onPress={onPress}>
+      <View style={styles.view}>
+        <Text style={styles.text}>{title}</Text>
+      </View>
+      <Image
+        style={styles.bgImage}
+        source={require('../assets/Misc/button.png')}
+      />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'white',
-    borderRadius: 20,
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: 9,
-    width: '70%',
-    height: 45,
-    // elevation: 5,
+    justifyContent: 'center',
+  },
+  view: {
+    zIndex: 1,
+    position: 'absolute',
+    backgroundColor: 'transparent',
+  },
+  bgImage: {
+    width: 300,
+    height: 50,
   },
   text: {
-    color: '#33A4FF',
-    fontSize: 24,
+    color: Colors.white,
+    fontSize: 22,
+    fontWeight: 'bold',
     textTransform: 'uppercase',
   },
 });

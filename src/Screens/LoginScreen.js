@@ -1,13 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Keyboard} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Keyboard,
+  TouchableOpacity,
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import * as Yup from 'yup';
 
-import Screen from '../Components/Screen';
 import {ErrorMessage, Form, FormField, SubmitButton} from '../Components/Forms';
 import BackgroundVideo from '../Components/BackgroundVideo';
 import Colors from '../Constants/Colors';
+import Routes from '../Navigation/routes';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('*Email'),
@@ -24,19 +30,18 @@ function LoginScreen(props) {
       <BackgroundVideo />
       <View style={styles.headerContainer}>
         <Animatable.View delay={3000} animation={'fadeIn'}>
-          <Icon
-            style={styles.backIcon}
-            onPress={() => props.navigation.goBack()}
-            name="arrow-left"
-            size={34}
-            color="white"
-          />
+          <TouchableOpacity onPress={() => props.navigation.goBack()}>
+            <Image
+              style={styles.backIcon}
+              source={require('../assets/Misc/back-arrow.png')}
+            />
+          </TouchableOpacity>
         </Animatable.View>
         <Animatable.Image
           delay={2000}
           animation={'zoomIn'}
           style={styles.logo}
-          source={require('../assets/logo.png')}
+          source={require('../assets/Misc/logo.png')}
           resizeMode="contain"
         />
       </View>
@@ -66,6 +71,10 @@ function LoginScreen(props) {
               secureTextEntry
               textContentType="password"
             />
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate(Routes.FORGOT)}>
+              <Text style={styles.forgot}>Forgoten your password?</Text>
+            </TouchableOpacity>
             <SubmitButton title="Login" marginTop={50} />
           </Form>
         </Animatable.View>
@@ -86,6 +95,8 @@ const styles = StyleSheet.create({
   },
   backIcon: {
     bottom: 10,
+    height: 40,
+    width: 40,
   },
   logo: {
     marginLeft: 30,
@@ -100,6 +111,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: Colors.white,
+  },
+  forgot: {
+    marginTop: 5,
+    marginRight: 10,
+    fontSize: 18,
+    color: Colors.white,
+    textAlign: 'right',
   },
 });
 

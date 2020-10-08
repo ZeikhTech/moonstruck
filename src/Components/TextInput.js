@@ -18,12 +18,12 @@ function AppTextInput({width = '100%', ...otherProps}) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
+    justifyContent: 'center',
+    elevation: 10,
     borderRadius: 10,
     marginVertical: 5,
     borderColor: Colors.primary,
     borderWidth: 3,
-    justifyContent: 'center',
-    elevation: 9,
   },
   text: {
     marginLeft: 5,

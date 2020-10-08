@@ -2,7 +2,8 @@ import React from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 import Video from 'react-native-video';
 
-const videoSource = require('../assets/IntroiPhone-Android.m4v');
+const videoSource = require('../assets/Backgrounds/Intro.m4v');
+
 const {height} = Dimensions.get('window');
 
 function BackgroundVideo(props) {
