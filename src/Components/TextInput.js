@@ -17,6 +17,7 @@ function AppTextInput({width = '100%', ...otherProps}) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: Colors.white,
     justifyContent: 'center',
     elevation: 10,
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   text: {
     marginLeft: 5,
     fontSize: 18,
-    height: 40,
+    height: 45,
   },
 });
 

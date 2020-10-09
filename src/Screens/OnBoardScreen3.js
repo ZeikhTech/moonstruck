@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Platform,
+  ImageBackground,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
@@ -19,45 +20,47 @@ const {width, height} = Dimensions.get('screen');
 function OnBoardScreen3(props) {
   return (
     <View style={styles.container}>
-      <BackgroundVideo />
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={props.onBackPress}>
+      <ImageBackground
+        style={styles.bgImage}
+        source={require('../assets/Backgrounds/BG.png')}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={props.onBackPress}>
+            <Image
+              style={styles.backIcon}
+              source={require('../assets/Misc/back-arrow.png')}
+            />
+          </TouchableOpacity>
           <Image
-            style={styles.backIcon}
-            source={require('../assets/Misc/back-arrow.png')}
+            style={styles.logo}
+            source={require('../assets/Misc/logo.png')}
+            resizeMode="contain"
           />
-        </TouchableOpacity>
-        <Image
-          style={styles.logo}
-          source={require('../assets/Misc/logo.png')}
-          resizeMode="contain"
-        />
-      </View>
+        </View>
 
-      <View style={styles.imageContainer}>
-        <Image
-          resizeMode="contain"
-          style={styles.image}
-          source={require('../assets/Misc/Onboarding-3.png')}
-        />
-      </View>
-      <View style={styles.textContainer}>
-        <Animatable.Text style={styles.label} delay={3500} animation="fadeIn">
-          LEARN ABOUT NUMEROLOGY
-        </Animatable.Text>
-        <Text>{'\n'}</Text>
-        <Animatable.View
-          style={styles.sloganContainer}
-          delay={4500}
-          animation="fadeIn">
-          <Text style={styles.slogan}>
-            Learn about the science underlying numerology...
-          </Text>
-        </Animatable.View>
-      </View>
-      <View style={styles.button}>
-        <Button title="About numerology" />
-      </View>
+        <View style={styles.imageContainer}>
+          <Image
+            resizeMode="contain"
+            style={styles.image}
+            source={require('../assets/Misc/Onboarding-3.png')}
+          />
+        </View>
+        <View style={styles.textContainer}>
+          <Animatable.Text style={styles.label} delay={3500} animation="fadeIn">
+            LEARN ABOUT NUMEROLOGY
+          </Animatable.Text>
+          <Animatable.View
+            style={styles.sloganContainer}
+            delay={4500}
+            animation="fadeIn">
+            <Text style={styles.slogan}>
+              Learn about the science underlying numerology...
+            </Text>
+          </Animatable.View>
+        </View>
+        <View style={styles.button}>
+          <Button title="About numerology" />
+        </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -66,23 +69,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
+  bgImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   headerContainer: {
-    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   backIcon: {
-    bottom: 10,
+    marginRight: 20,
     height: 35,
     width: 35,
   },
   logo: {
-    marginLeft: 20,
-    width: '70%',
-    height: 60,
-    marginBottom: 20,
+    width: width * 0.6,
+    height: height * 0.09,
   },
   imageContainer: {
     alignItems: 'center',
@@ -104,9 +107,9 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
+    bottom: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    bottom: 40,
   },
   label: {
     fontSize: 22,
@@ -114,15 +117,16 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   sloganContainer: {
+    top: 20,
     width: width * 0.85,
   },
   slogan: {
-    fontSize: 20,
     textAlign: 'center',
+    fontSize: 20,
     color: Colors.white,
   },
   button: {
-    height: height * 0.14,
+    bottom: 30,
   },
 });
 

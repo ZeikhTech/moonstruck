@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,95 +8,107 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import {useNavigation} from '@react-navigation/native';
 import Video from 'react-native-video';
 
-const videoSource = require('../assets/Backgrounds/Onboarding_1.m4v');
+import Screen from '../Components/Screen';
 import Button from '../Components/Button';
 import Colors from '../Constants/Colors';
-import Routes from '../Navigation/routes';
+
+const videoSource = require('../assets/Backgrounds/Onboarding_1.m4v');
 
 const {height, width} = Dimensions.get('screen');
 
 function OnBoardingScreen1(props) {
+  const navigation = useNavigation();
+  const [pause, setPause] = useState(false);
+
+  useEffect(() => {
+    navigation.addListener('focus', (route) => {
+      setPause(false);
+    });
+    navigation.addListener('blur', (route) => {
+      setPause(true);
+    });
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Video
-        style={styles.video}
-        source={videoSource}
-        resizeMode="cover"
-        paused={false}
-        repeat={false}
-        audioOnly={true}
-      />
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={props.onBackPress}>
-          <Image
-            style={styles.backIcon}
-            source={require('../assets/Misc/back-arrow.png')}
-          />
-        </TouchableOpacity>
-        <Image
-          style={styles.logo}
-          source={require('../assets/Misc/logo.png')}
-          resizeMode="contain"
+    <Screen>
+      <View style={styles.container}>
+        <Video
+          style={styles.video}
+          source={videoSource}
+          resizeMode="cover"
+          paused={pause}
+          audioOnly={true}
         />
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={props.onBackPress}>
+            <Image
+              style={styles.backIcon}
+              source={require('../assets/Misc/back-arrow.png')}
+            />
+          </TouchableOpacity>
+          <Image
+            style={styles.logo}
+            source={require('../assets/Misc/logo.png')}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={styles.textContainer}>
+          <Animatable.Text style={styles.label} delay={3500} animation="fadeIn">
+            NUMEROLOGY DATING
+          </Animatable.Text>
+          <Animatable.View
+            style={styles.sloganContainer}
+            delay={4000}
+            animation="fadeIn">
+            <Text style={styles.slogan}>
+              Use numerology and astrology to find others you vibe with...
+            </Text>
+          </Animatable.View>
+        </View>
+        <View style={styles.button}>
+          <Button title="Start Dating now" onPress={props.onStart} />
+        </View>
       </View>
-      <View style={styles.textContainer}>
-        <Animatable.Text style={styles.label} delay={3500} animation="fadeIn">
-          NUMEROLOGY DATING
-        </Animatable.Text>
-        <Text>{'\n'}</Text>
-        <Animatable.View
-          style={styles.sloganContainer}
-          delay={4000}
-          animation="fadeIn">
-          <Text style={styles.slogan}>
-            Use numerology and astrology to find others you vibe with...
-          </Text>
-        </Animatable.View>
-      </View>
-      <View style={styles.button}>
-        <Button title="Start Dating now" onPress={props.onStartDatingPress} />
-      </View>
-    </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height,
-    width,
-    position: 'relative',
+    flex: 1,
   },
   video: {
-    height: height,
+    height,
     position: 'absolute',
     top: 0,
     left: 0,
-    alignItems: 'stretch',
     bottom: 0,
     right: 0,
   },
   headerContainer: {
-    marginTop: 10,
+    bottom: 5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   backIcon: {
+    marginRight: 20,
     bottom: 10,
     height: 35,
     width: 35,
   },
   logo: {
-    marginLeft: 20,
-    width: '70%',
-    height: 60,
+    width: width * 0.6,
+    height: height * 0.09,
     marginBottom: 20,
   },
   textContainer: {
     flex: 1,
-    marginTop: 200,
+    top: 65,
+    marginTop: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -106,15 +118,16 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   sloganContainer: {
+    top: 20,
     width: width * 0.85,
   },
   slogan: {
+    fontSize: 20,
     textAlign: 'center',
-    fontSize: 18,
     color: Colors.white,
   },
   button: {
-    height: height * 0.185,
+    bottom: 30,
   },
 });
 

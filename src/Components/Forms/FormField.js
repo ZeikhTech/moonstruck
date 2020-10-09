@@ -5,7 +5,7 @@ import {useFormikContext} from 'formik';
 import TextInput from '../TextInput';
 import ErrorMessage from './ErrorMessage';
 
-function AppFormField({name, width, ...otherProps}) {
+function AppFormField({name, width, label, ...otherProps}) {
   const {
     setFieldTouched,
     setFieldValue,
@@ -21,6 +21,7 @@ function AppFormField({name, width, ...otherProps}) {
         onChangeText={(text) => setFieldValue(name, text)}
         value={values[name]}
         width={width}
+        label={label}
         {...otherProps}
       />
       <View style={styles.error}>

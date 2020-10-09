@@ -5,15 +5,21 @@ import {
   StyleSheet,
   Image,
   Keyboard,
+  ScrollView,
+  Dimensions,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import * as Yup from 'yup';
 
 import {ErrorMessage, Form, FormField, SubmitButton} from '../Components/Forms';
 import BackgroundVideo from '../Components/BackgroundVideo';
+import Screen from '../Components/Screen';
 import Colors from '../Constants/Colors';
 import Routes from '../Navigation/routes';
+
+const {width, height} = Dimensions.get('screen');
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('*Email'),
@@ -26,86 +32,94 @@ function LoginScreen(props) {
   };
 
   return (
-    <View style={styles.container}>
-      <BackgroundVideo />
-      <View style={styles.headerContainer}>
-        <Animatable.View delay={3000} animation={'fadeIn'}>
-          <TouchableOpacity onPress={() => props.navigation.goBack()}>
-            <Image
-              style={styles.backIcon}
-              source={require('../assets/Misc/back-arrow.png')}
-            />
-          </TouchableOpacity>
-        </Animatable.View>
-        <Animatable.Image
-          delay={2000}
-          animation={'zoomIn'}
-          style={styles.logo}
-          source={require('../assets/Misc/logo.png')}
-          resizeMode="contain"
-        />
-      </View>
-      <View style={styles.form}>
-        <Animatable.View delay={2500} animation={'fadeIn'}>
-          <Form
-            initialValues={{email: '', password: ''}}
-            onSubmit={handleSubmit}
-            validationSchema={validationSchema}>
-            <ErrorMessage error="Invalid email and/or password." />
-            <Text style={styles.label}>EMAIL :</Text>
-            <FormField
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="email-address"
-              name="email"
-              placeholder="Enter your email..."
-              textContentType="emailAddress"
-            />
-            <Text>{'\n'}</Text>
-            <Text style={styles.label}>PASSWORD :</Text>
-            <FormField
-              autoCapitalize="none"
-              autoCorrect={false}
-              name="password"
-              placeholder="Enter your password..."
-              secureTextEntry
-              textContentType="password"
-            />
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate(Routes.FORGOT)}>
-              <Text style={styles.forgot}>Forgoten your password?</Text>
-            </TouchableOpacity>
-            <SubmitButton title="Login" marginTop={50} />
-          </Form>
-        </Animatable.View>
-      </View>
-    </View>
+    <Screen>
+      <KeyboardAvoidingView
+        behavior="padding"
+        enabled={Platform.OS === 'ios'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
+        <View style={styles.container}>
+          <BackgroundVideo />
+          <ScrollView style={{height: '100%'}}>
+            <View style={styles.headerContainer}>
+              <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                <Animatable.Image
+                  style={styles.backIcon}
+                  delay={3000}
+                  animation={'fadeIn'}
+                  resizeMode="contain"
+                  source={require('../assets/Misc/back-arrow.png')}
+                />
+              </TouchableOpacity>
+              <Animatable.Image
+                delay={2000}
+                animation={'zoomIn'}
+                style={styles.logo}
+                source={require('../assets/Misc/logo.png')}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.form}>
+              <Animatable.View delay={2500} animation={'fadeIn'}>
+                <Form
+                  initialValues={{email: '', password: ''}}
+                  onSubmit={handleSubmit}
+                  validationSchema={validationSchema}>
+                  <ErrorMessage error="Invalid email and/or password." />
+                  <Text style={styles.label}>EMAIL :</Text>
+                  <FormField
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="email-address"
+                    name="email"
+                    placeholder="Enter your email..."
+                    textContentType="emailAddress"
+                  />
+                  <Text style={styles.label}>PASSWORD :</Text>
+                  <FormField
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    name="password"
+                    placeholder="Enter your password..."
+                    secureTextEntry
+                    textContentType="password"
+                  />
+                  <TouchableOpacity
+                    onPress={() => props.navigation.navigate(Routes.FORGOT)}>
+                    <Text style={styles.forgot}>Forgoten your password?</Text>
+                  </TouchableOpacity>
+                  <SubmitButton title="Login" marginTop={50} />
+                </Form>
+              </Animatable.View>
+            </View>
+          </ScrollView>
+        </View>
+      </KeyboardAvoidingView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    position: 'relative',
   },
   headerContainer: {
-    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   backIcon: {
+    marginRight: 30,
     bottom: 10,
-    height: 40,
-    width: 40,
+    height: 35,
+    width: 35,
   },
   logo: {
-    marginLeft: 30,
-    width: '70%',
-    height: 60,
+    width: width * 0.6,
+    height: height * 0.09,
     marginBottom: 20,
   },
   form: {
-    marginTop: 60,
+    marginTop: '10%',
   },
   label: {
     fontSize: 16,

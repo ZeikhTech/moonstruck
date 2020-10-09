@@ -8,8 +8,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Alert,
   Modal,
+  Dimensions,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import * as Yup from 'yup';
@@ -23,8 +23,11 @@ import {
   SubmitButton,
 } from '../Components/Forms';
 import BackgroundVideo from '../Components/BackgroundVideo';
+import Screen from '../Components/Screen';
 import Routes from '../Navigation/routes';
 import Colors from '../Constants/Colors';
+
+const {width, height} = Dimensions.get('screen');
 
 const validationSchema = Yup.object().shape({
   fname: Yup.string().required().label('*First Name'),
@@ -68,152 +71,156 @@ function RegisterScreen(props) {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      enabled={Platform.OS === 'ios'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
-      <View style={styles.container}>
-        <BackgroundVideo />
-        <ScrollView style={{height: '100%'}}>
-          <View style={styles.headerContainer}>
-            <Animatable.View delay={3000} animation={'fadeIn'}>
+    <Screen>
+      <KeyboardAvoidingView
+        behavior="padding"
+        enabled={Platform.OS === 'ios'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
+        <View style={styles.container}>
+          <BackgroundVideo />
+          <ScrollView style={{height: '100%'}}>
+            <View style={styles.headerContainer}>
               <TouchableOpacity onPress={() => props.navigation.goBack()}>
-                <Image
+                <Animatable.Image
                   style={styles.backIcon}
+                  delay={3000}
+                  animation={'fadeIn'}
+                  resizeMode="contain"
                   source={require('../assets/Misc/back-arrow.png')}
                 />
               </TouchableOpacity>
+              <Animatable.Image
+                delay={2000}
+                animation={'zoomIn'}
+                style={styles.logo}
+                source={require('../assets/Misc/logo.png')}
+                resizeMode="contain"
+              />
+            </View>
+            <Animatable.View
+              style={{flex: 1}}
+              delay={2500}
+              animation={'fadeIn'}>
+              <Form
+                initialValues={initialValues}
+                onSubmit={handleSubmit}
+                validationSchema={validationSchema}>
+                <ErrorMessage error="" />
+                <Text style={styles.label}>FIRST NAME :</Text>
+                <FormField
+                  autoCorrect={false}
+                  name="fname"
+                  placeholder="Enter your first Name..."
+                />
+                <Text style={styles.label}>LAST NAME :</Text>
+                <FormField
+                  autoCorrect={false}
+                  name="lname"
+                  placeholder="Enter your last Name..."
+                />
+                <Text style={styles.label}>PASSWORD :</Text>
+                <FormField
+                  name="password"
+                  placeholder="Enter your password..."
+                  textContentType="password"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  secureTextEntry
+                />
+                <Text style={styles.label}>REPEAT PASSWORD :</Text>
+                <FormField
+                  name="confirmPassword"
+                  placeholder="Confirm your password..."
+                  textContentType="password"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  secureTextEntry
+                />
+                <Text style={styles.label}>EMAIL :</Text>
+                <FormField
+                  name="email"
+                  placeholder="Enter your email..."
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+                <View style={styles.genderContainer}>
+                  <Text style={styles.label}>GENDER :</Text>
+                  <FormRadio name="gender" />
+                </View>
+                <View style={styles.dateContainer}>
+                  <Text style={styles.label}>YOUR BIRTHDAY :</Text>
+                  <FormBirthday name="birthday" />
+                </View>
+                <SubmitButton title="Register" marginTop={25} />
+              </Form>
             </Animatable.View>
-            <Animatable.Image
-              delay={2000}
-              animation={'zoomIn'}
-              style={styles.logo}
-              source={require('../assets/Misc/logo.png')}
-              resizeMode="contain"
-            />
-          </View>
-          <Animatable.View delay={2500} animation={'fadeIn'}>
-            <Form
-              initialValues={initialValues}
-              onSubmit={handleSubmit}
-              validationSchema={validationSchema}>
-              <ErrorMessage error="dasdasdsa" />
-              <Text style={styles.label}>FIRST NAME :</Text>
-              <FormField
-                autoCorrect={false}
-                name="fname"
-                placeholder="Enter your first Name..."
-              />
-              <Text style={styles.label}>LAST NAME :</Text>
-              <FormField
-                autoCorrect={false}
-                name="lname"
-                placeholder="Enter your last Name..."
-              />
-              <Text style={styles.label}>PASSWORD :</Text>
-              <FormField
-                name="password"
-                placeholder="Enter your password..."
-                textContentType="password"
-                autoCapitalize="none"
-                autoCorrect={false}
-                secureTextEntry
-              />
-              <Text style={styles.label}>REPEAT PASSWORD :</Text>
-              <FormField
-                name="confirmPassword"
-                placeholder="Confirm your password..."
-                textContentType="password"
-                autoCapitalize="none"
-                autoCorrect={false}
-                secureTextEntry
-              />
-              <Text style={styles.label}>EMAIL :</Text>
-              <FormField
-                name="email"
-                placeholder="Enter your email..."
-                textContentType="emailAddress"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-              <View style={styles.genderContainer}>
-                <Text style={styles.label}>GENDER :</Text>
-                <FormRadio name="gender" />
-              </View>
-              <View style={styles.dateContainer}>
-                <Text style={styles.label}>YOUR BIRTHDAY :</Text>
-                <FormBirthday name="birthday" />
-              </View>
-              <SubmitButton title="Register" marginTop={25} />
-            </Form>
-          </Animatable.View>
-        </ScrollView>
-        {isVisible && (
-          <Modal visible={isVisible} animationType="slide" transparent={true}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>
-                  Are you sure? Moonstruck only works if you enter the correct
-                  information.
-                </Text>
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => setModalVisible(!isVisible)}>
-                    <View style={{zIndex: 1, position: 'absolute'}}>
-                      <Text style={styles.textStyle1}>
-                        No, let me edit the info
-                      </Text>
-                    </View>
-                    <Image
-                      style={styles.editButton}
-                      resizeMode="contain"
-                      source={require('../assets/Misc/edit-button.png')}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={confirmButton}>
-                    <View style={{zIndex: 1, position: 'absolute'}}>
-                      <Text style={styles.textStyle}>Yes, I am sure</Text>
-                    </View>
-                    <Image
-                      style={styles.yesButton}
-                      resizeMode="contain"
-                      source={require('../assets/Misc/button.png')}
-                    />
-                  </TouchableOpacity>
+          </ScrollView>
+          {isVisible && (
+            <Modal visible={isVisible} animationType="slide" transparent={true}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>
+                    Are you sure? Moonstruck only works if you enter the correct
+                    information.
+                  </Text>
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => setModalVisible(!isVisible)}>
+                      <View style={{zIndex: 1, position: 'absolute'}}>
+                        <Text style={styles.textStyle1}>
+                          No, let me edit the info
+                        </Text>
+                      </View>
+                      <Image
+                        style={styles.editButton}
+                        resizeMode="stretch"
+                        source={require('../assets/Misc/edit-button.png')}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={confirmButton}>
+                      <View style={{zIndex: 1, position: 'absolute'}}>
+                        <Text style={styles.textStyle}>Yes, I am sure</Text>
+                      </View>
+                      <Image
+                        style={styles.yesButton}
+                        resizeMode="stretch"
+                        source={require('../assets/Misc/button.png')}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          </Modal>
-        )}
-      </View>
-    </KeyboardAvoidingView>
+            </Modal>
+          )}
+        </View>
+      </KeyboardAvoidingView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 15,
-    position: 'relative',
   },
   headerContainer: {
-    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   backIcon: {
-    height: 40,
-    width: 40,
+    marginRight: 30,
     bottom: 10,
+    height: 35,
+    width: 35,
   },
   logo: {
-    marginLeft: 30,
-    width: '70%',
-    height: 60,
-    alignSelf: 'center',
+    width: width * 0.6,
+    height: height * 0.09,
     marginBottom: 20,
   },
   label: {
@@ -226,7 +233,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   dateContainer: {
-    marginTop: 15,
+    marginTop: 10,
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -238,8 +245,8 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     backgroundColor: Colors.primary,
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: 25,
+    padding: 5,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -248,15 +255,16 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 9,
+    elevation: 15,
   },
   textStyle: {
+    fontSize: 22,
     color: Colors.white,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyle1: {
-    fontSize: 12,
+    fontSize: 18,
     fontWeight: 'bold',
     color: Colors.black,
     textAlign: 'center',
@@ -270,17 +278,17 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 5,
+    margin: 2,
   },
   buttonContainer: {
     flexDirection: 'row',
   },
   editButton: {
-    width: 140,
+    width: width * 0.45,
     height: 50,
   },
   yesButton: {
-    width: 140,
+    width: width * 0.45,
     height: 50,
   },
 });

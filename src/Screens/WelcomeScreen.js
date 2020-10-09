@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
+import Screen from '../Components/Screen';
 import Video from '../Components/BackgroundVideo';
 import Button from '../Components/Button';
 import Colors from '../Constants/Colors';
@@ -16,7 +17,7 @@ import Routes from '../Navigation/routes';
 
 const {width, height} = Dimensions.get('window');
 
-function IntroScreen(props) {
+function IntroScreen({navigation}) {
   const [fadingText, setFadingText] = useState(
     'NUMEROLOGY AND ASTROLOGY DATING',
   );
@@ -41,9 +42,9 @@ function IntroScreen(props) {
     };
   }, []);
   return (
-    <View style={styles.container}>
-      <Video />
-      <SafeAreaView style={styles.safeAreaView}>
+    <Screen>
+      <View style={styles.container}>
+        <Video />
         <Animatable.Image
           style={styles.logo}
           source={require('../assets/Misc/logo.png')}
@@ -70,7 +71,7 @@ function IntroScreen(props) {
           <Button
             title="Sign In"
             textColor={Colors.primary}
-            onPress={() => props.navigation.navigate(Routes.LOGIN)}
+            onPress={() => navigation.navigate(Routes.LOGIN)}
           />
         </Animatable.View>
         <Animatable.View
@@ -78,7 +79,7 @@ function IntroScreen(props) {
           delay={3500}
           animation="fadeIn">
           <Text
-            onPress={() => props.navigation.navigate(Routes.REGISTER)}
+            onPress={() => navigation.navigate(Routes.REGISTER)}
             style={styles.notRegister}>
             NOT REGISTERED?
           </Text>
@@ -88,7 +89,7 @@ function IntroScreen(props) {
           delay={4000}
           animation="fadeIn">
           <TouchableOpacity
-            onPress={() => props.navigation.navigate(Routes.REGISTER)}>
+            onPress={() => navigation.navigate(Routes.REGISTER)}>
             <Text style={styles.join}>JOIN US</Text>
           </TouchableOpacity>
         </Animatable.View>
@@ -106,28 +107,22 @@ function IntroScreen(props) {
             <Text style={styles.terms}>TERMS & CONDITIONS</Text>
           </TouchableOpacity>
         </Animatable.View>
-      </SafeAreaView>
-    </View>
+      </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height,
-    width,
-    position: 'relative',
-  },
-  safeAreaView: {
     flex: 1,
   },
   logo: {
-    marginTop: 30,
     height: 100,
     width: '90%',
     alignSelf: 'center',
   },
   sloganContainer: {
-    marginTop: 50,
+    marginTop: 'auto',
   },
   slogan: {
     fontSize: 30,
@@ -136,33 +131,33 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   separator: {
-    marginTop: 120,
+    marginTop: 'auto',
     alignSelf: 'center',
     height: 3,
     width: 150,
     backgroundColor: Colors.white,
   },
   signInButton: {
-    marginTop: 70,
+    marginTop: 'auto',
     alignItems: 'center',
   },
   notRegisterContainer: {
     alignItems: 'center',
   },
   notRegister: {
-    marginTop: 30,
-    color: Colors.placeholder,
-    fontWeight: 'bold',
+    top: 30,
     fontSize: 16,
+    fontWeight: 'bold',
+    color: Colors.placeholder,
   },
   registerButton: {
-    marginTop: 30,
+    marginTop: 'auto',
     alignItems: 'center',
   },
   join: {
-    color: Colors.white,
     fontSize: 30,
     fontWeight: 'bold',
+    color: Colors.white,
   },
   separator2: {
     marginTop: 5,
@@ -172,10 +167,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   termsContainer: {
-    marginTop: 70,
+    marginTop: 'auto',
     alignSelf: 'center',
   },
   terms: {
+    bottom: 15,
     fontSize: 12,
     color: Colors.white,
   },

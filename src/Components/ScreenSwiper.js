@@ -7,12 +7,14 @@ import OnBoardScreen2 from '../Screens/OnBoardScreen2';
 import OnBoardScreen3 from '../Screens/OnBoardScreen3';
 import Routes from '../Navigation/routes';
 
-const ScreenSwiper = (props) => {
+const ScreenSwiper = ({navigation}) => {
+  const isFocused = navigation.isFocused();
+
   const onBackPress = () => {
-    props.navigation.goBack();
+    return navigation.goBack();
   };
-  const onStartDatingPress = () => {
-    props.navigation.navigate(Routes.PROFILE);
+  const handleAction = (action) => {
+    return navigation.navigate(Routes.PROFILE);
   };
 
   return (
@@ -33,10 +35,7 @@ const ScreenSwiper = (props) => {
         />
       }
       paginationStyle={styles.dotStyle}>
-      <OnBoardScreen1
-        onBackPress={onBackPress}
-        onStartDatingPress={onStartDatingPress}
-      />
+      <OnBoardScreen1 onBackPress={onBackPress} onStart={handleAction} />
       <OnBoardScreen2 onBackPress={onBackPress} />
       <OnBoardScreen3 onBackPress={onBackPress} />
     </Swiper>
@@ -47,11 +46,10 @@ const {height, width} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   dotStyle: {
-    position: 'absolute',
-    marginBottom: height * 0.15,
+    marginBottom: 80,
   },
   dots: {
-    height: 15,
+    height: height * 0.02,
     width: width * 0.07,
   },
 });

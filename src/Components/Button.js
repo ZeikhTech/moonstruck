@@ -3,7 +3,8 @@ import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 
 import Colors from '../Constants/Colors';
 
-function AppButton({title, onPress}) {
+export default (props) => {
+  const {title, onPress} = props;
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <View style={styles.view}>
@@ -15,7 +16,7 @@ function AppButton({title, onPress}) {
       />
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   button: {
@@ -38,5 +39,3 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
 });
-
-export default AppButton;
