@@ -7,6 +7,8 @@ import RegisterScreen from '../Screens/RegisterScreen';
 import WelcomeScreen from '../Screens/WelcomeScreen';
 import ScreenSwiper from '../Components/ScreenSwiper';
 import ProfileScreen from './../Screens/ProfileScreen';
+import SettingsScreen from './../Screens/SettingScreen';
+import ProfilePhotoScreen from './../Screens/ProfilePhotoScreen';
 
 const Stack = createStackNavigator();
 
@@ -40,6 +42,16 @@ const AuthNavigator = () => (
     <Stack.Screen
       name="Profile"
       component={ProfileScreen}
+      options={{headerShown: false}}
+    />
+    <Stack.Screen
+      name="Settings"
+      component={SettingsScreen}
+      options={{headerShown: false}}
+    />
+    <Stack.Screen
+      name="ProfilePic"
+      component={ProfilePhotoScreen}
       options={{headerShown: false}}
     />
   </Stack.Navigator>

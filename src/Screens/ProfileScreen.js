@@ -5,12 +5,14 @@ import {
   StyleSheet,
   ImageBackground,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 import Colors from '../Constants/Colors';
 import Button from '../Components/Button';
 import Screen from '../Components/Screen';
+import Routes from '../Navigation/routes';
 
 const {width, height} = Dimensions.get('window');
 
@@ -30,13 +32,16 @@ function ProfileScreen(props) {
               resizeMode="contain"
               source={require('../assets/Misc/logo.png')}
             />
-            <Animatable.Image
-              delay={900}
-              animation="rotate"
-              resizeMode="contain"
-              style={styles.settingsIcon}
-              source={require('../assets/Misc/settings-gear.png')}
-            />
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate(Routes.SETTING)}>
+              <Animatable.Image
+                delay={900}
+                animation="rotate"
+                resizeMode="contain"
+                style={styles.settingsIcon}
+                source={require('../assets/Misc/settings-gear.png')}
+              />
+            </TouchableOpacity>
           </View>
           <Animatable.View
             delay={1500}

@@ -48,12 +48,12 @@ function ForgotScreen(props) {
               delay={3000}
               animation={'fadeIn'}>
               <FormField
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="email-address"
                 name="email"
-                placeholder="Enter your email address..."
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="email-address"
                 textContentType="emailAddress"
+                placeholder="Enter your email address..."
               />
             </Animatable.View>
             <Animatable.View
@@ -94,13 +94,12 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 10,
-    marginLeft: 65,
+    marginLeft: 50,
     color: Colors.white,
   },
   form: {
     padding: 20,
   },
-  submit: {},
 });
 
 export default ForgotScreen;

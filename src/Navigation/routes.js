@@ -5,4 +5,6 @@ export default Object.freeze({
   FORGOT: 'Forgot',
   SWIPER: 'Swiper',
   PROFILE: 'Profile',
+  SETTING: 'Settings',
+  PROFILE_PIC: 'ProfilePic',
 });
