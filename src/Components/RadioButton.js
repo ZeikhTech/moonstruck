@@ -5,13 +5,12 @@ import {RadioButton} from 'react-native-paper';
 import Colors from '../Constants/Colors';
 
 function AppRadioButton(props) {
+  const {onChange, value, onPress} = props;
   return (
-    <RadioButton.Group
-      onValueChange={(value) => props.onChange(value)}
-      value={props.value}>
+    <RadioButton.Group onValueChange={(value) => onChange(value)} value={value}>
       <View style={styles.radio}>
         <RadioButton
-          onPress={props.onPress}
+          onPress={onPress}
           value="Male"
           color={Colors.primary}
           uncheckedColor={Colors.white}

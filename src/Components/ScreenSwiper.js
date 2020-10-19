@@ -6,10 +6,9 @@ import OnBoardScreen1 from '../Screens/OnBoardScreen1';
 import OnBoardScreen2 from '../Screens/OnBoardScreen2';
 import OnBoardScreen3 from '../Screens/OnBoardScreen3';
 import Routes from '../Navigation/routes';
+import Images from '../Constants/Images';
 
 const ScreenSwiper = ({navigation}) => {
-  const isFocused = navigation.isFocused();
-
   const onBackPress = () => {
     return navigation.goBack();
   };
@@ -21,17 +20,13 @@ const ScreenSwiper = ({navigation}) => {
     <Swiper
       loop={false}
       dot={
-        <Image
-          style={styles.dots}
-          resizeMode="center"
-          source={require('../assets/Misc/Slider-Dot-2.png')}
-        />
+        <Image style={styles.dots} resizeMode="center" source={Images.Dot} />
       }
       activeDot={
         <Image
           style={styles.dots}
           resizeMode="center"
-          source={require('../assets/Misc/Slider-Dot-1.png')}
+          source={Images.ActiveDot}
         />
       }
       paginationStyle={styles.dotStyle}>

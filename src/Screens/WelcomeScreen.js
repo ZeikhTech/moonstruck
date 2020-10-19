@@ -14,6 +14,7 @@ import Video from '../Components/BackgroundVideo';
 import Button from '../Components/Button';
 import Colors from '../Constants/Colors';
 import Routes from '../Navigation/routes';
+import Images from '../Constants/Images';
 
 const {width, height} = Dimensions.get('window');
 
@@ -47,7 +48,7 @@ function IntroScreen({navigation}) {
         <Video />
         <Animatable.Image
           style={styles.logo}
-          source={require('../assets/Misc/logo.png')}
+          source={Images.Logo}
           animation={'zoomIn'}
           delay={2000}
           resizeMode="contain"
@@ -78,11 +79,10 @@ function IntroScreen({navigation}) {
           style={styles.notRegisterContainer}
           delay={3500}
           animation="fadeIn">
-          <Text
-            onPress={() => navigation.navigate(Routes.REGISTER)}
-            style={styles.notRegister}>
-            NOT REGISTERED?
-          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(Routes.REGISTER)}>
+            <Text style={styles.notRegister}>NOT REGISTERED?</Text>
+          </TouchableOpacity>
         </Animatable.View>
         <Animatable.View
           style={styles.registerButton}

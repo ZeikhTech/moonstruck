@@ -26,6 +26,7 @@ import BackgroundVideo from '../Components/BackgroundVideo';
 import Screen from '../Components/Screen';
 import Routes from '../Navigation/routes';
 import Colors from '../Constants/Colors';
+import Images from '../Constants/Images';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -86,14 +87,14 @@ function RegisterScreen(props) {
                   delay={3000}
                   animation={'fadeIn'}
                   resizeMode="contain"
-                  source={require('../assets/Misc/back-arrow.png')}
+                  source={Images.BackArrow}
                 />
               </TouchableOpacity>
               <Animatable.Image
                 delay={2000}
                 animation={'zoomIn'}
                 style={styles.logo}
-                source={require('../assets/Misc/logo.png')}
+                source={Images.Logo}
                 resizeMode="contain"
               />
             </View>
@@ -177,7 +178,7 @@ function RegisterScreen(props) {
                       <Image
                         style={styles.editButton}
                         resizeMode="stretch"
-                        source={require('../assets/Misc/edit-button.png')}
+                        source={Images.EditButton}
                       />
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -189,7 +190,7 @@ function RegisterScreen(props) {
                       <Image
                         style={styles.yesButton}
                         resizeMode="stretch"
-                        source={require('../assets/Misc/button.png')}
+                        source={Images.Button}
                       />
                     </TouchableOpacity>
                   </View>

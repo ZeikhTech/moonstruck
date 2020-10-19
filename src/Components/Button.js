@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 
 import Colors from '../Constants/Colors';
+import Images from '../Constants/Images';
 
 export default (props) => {
   const {title, onPress} = props;
@@ -10,10 +11,7 @@ export default (props) => {
       <View style={styles.view}>
         <Text style={styles.text}>{title}</Text>
       </View>
-      <Image
-        style={styles.bgImage}
-        source={require('../assets/Misc/button.png')}
-      />
+      <Image style={styles.bgImage} source={Images.Button} />
     </TouchableOpacity>
   );
 };

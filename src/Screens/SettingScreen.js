@@ -12,29 +12,24 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import {Slider, CheckBox} from 'react-native-elements';
-import * as Animatable from 'react-native-animatable';
 
 import Screen from '../Components/Screen';
 import Colors from '../Constants/Colors';
 import Button from '../Components/Button';
 import Routes from '../Navigation/routes';
-
-import manOFF from '../assets/Misc/Male-OFF.png';
-import manON from '../assets/Misc/Male-ON.png';
-import womanOFF from '../assets/Misc/Female-OFF.png';
-import womanON from '../assets/Misc/Female-ON.png';
+import Images from '../Constants/Images';
 
 const {width, height} = Dimensions.get('screen');
 
 function SettingsScreen(props) {
+  const [value, setValue] = useState(500);
   const [isMan, setIsMan] = useState(false);
   const [isWoman, setIsWoman] = useState(false);
-  const [value, setValue] = useState(500);
   const [manChecked, setmanChecked] = useState(false);
   const [womanChecked, setwomanChecked] = useState(false);
 
-  const manIconSource = isMan ? manON : manOFF;
-  const womanIconSource = isWoman ? womanON : womanOFF;
+  const manIconSource = isMan ? Images.manON : Images.manOFF;
+  const womanIconSource = isWoman ? Images.womanON : Images.womanOFF;
 
   return (
     <Screen>
@@ -47,18 +42,15 @@ function SettingsScreen(props) {
           <ImageBackground
             style={styles.bgImage}
             resizeMode="stretch"
-            source={require('../assets/Backgrounds/BG.png')}>
+            source={Images.BackgroundImage}>
             <ScrollView style={{height: '100%'}}>
               <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => props.navigation.goBack()}>
-                  <Image
-                    style={styles.backIcon}
-                    source={require('../assets/Misc/back-arrow.png')}
-                  />
+                  <Image style={styles.backIcon} source={Images.BackArrow} />
                 </TouchableOpacity>
                 <Image
                   style={styles.logo}
-                  source={require('../assets/Misc/logo.png')}
+                  source={Images.Logo}
                   resizeMode="contain"
                 />
               </View>
@@ -68,7 +60,7 @@ function SettingsScreen(props) {
                 <Image
                   style={styles.settingIcon}
                   resizeMode="center"
-                  source={require('../assets/Misc/settings-gear.png')}
+                  source={Images.SettingIcon}
                 />
               </View>
               <View style={styles.subtitleContainer}>
@@ -122,7 +114,7 @@ function SettingsScreen(props) {
                   <Slider
                     value={value}
                     onValueChange={setValue}
-                    step={1}
+                    step={5}
                     maximumValue={1000}
                     minimumValue={0}
                     thumbStyle={{height: 35, width: 35, borderRadius: 25}}
@@ -303,7 +295,7 @@ const styles = StyleSheet.create({
     color: Colors.secondary,
   },
   lookingContainer: {
-    flex: 0.8,
+    height: 130,
     width: '90%',
     marginLeft: 20,
     bottom: 10,
@@ -315,7 +307,9 @@ const styles = StyleSheet.create({
   womanLook: {
     flexDirection: 'row',
   },
-  button: {},
+  button: {
+    bottom: 10,
+  },
 });
 
 export default SettingsScreen;

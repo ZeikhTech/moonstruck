@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   Keyboard,
   ScrollView,
   Dimensions,
@@ -13,11 +12,13 @@ import {
 import * as Animatable from 'react-native-animatable';
 import * as Yup from 'yup';
 
-import {ErrorMessage, Form, FormField, SubmitButton} from '../Components/Forms';
 import BackgroundVideo from '../Components/BackgroundVideo';
 import Screen from '../Components/Screen';
 import Colors from '../Constants/Colors';
 import Routes from '../Navigation/routes';
+import Images from '../Constants/Images';
+
+import {ErrorMessage, Form, FormField, SubmitButton} from '../Components/Forms';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -47,14 +48,14 @@ function LoginScreen(props) {
                   delay={3000}
                   animation={'fadeIn'}
                   resizeMode="contain"
-                  source={require('../assets/Misc/back-arrow.png')}
+                  source={Images.BackArrow}
                 />
               </TouchableOpacity>
               <Animatable.Image
                 delay={2000}
                 animation={'zoomIn'}
                 style={styles.logo}
-                source={require('../assets/Misc/logo.png')}
+                source={Images.Logo}
                 resizeMode="contain"
               />
             </View>

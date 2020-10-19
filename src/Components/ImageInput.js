@@ -2,10 +2,21 @@ import React from 'react';
 import {View, Image, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
-export default (props) => {
-  const [profile, setProfile] = React.useState();
+import Images from '../Constants/Images';
 
-  const handlePress = async () => {
+export default (props) => {
+  const {imageUri, onChangeImage} = props;
+
+  const handlePress = () => {
+    if (!imageUri) selectImage();
+    else
+      Alert.alert('Delete', 'Are you sure you want to delete this image?', [
+        {text: 'Yes', onPress: () => onChangeImage(null)},
+        {text: 'No'},
+      ]);
+  };
+
+  const selectImage = async () => {
     try {
       const image = await ImagePicker.openPicker({
         width: 720,
@@ -18,7 +29,7 @@ export default (props) => {
         uri: image.path,
         type: image.mime,
       };
-      return setProfile(data);
+      if (image) onChangeImage(data.uri);
     } catch (e) {
       if (e.code !== 'E_PICKER_CANCELLED') {
         console.log(e);
@@ -36,13 +47,13 @@ export default (props) => {
           <Image
             resizeMode="cover"
             style={styles.polaroid}
-            source={require('../assets/Misc/polaroid.png')}
+            source={Images.Frame}
           />
         </View>
-        {profile && (
+        {imageUri && (
           <View style={styles.wrapper}>
             <Image
-              source={profile}
+              source={{uri: imageUri}}
               style={styles.selectedImage}
               resizeMode="cover"
             />
@@ -63,18 +74,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   wrapper: {
-    left: 15,
-    bottom: 186,
-    width: '87%',
-    height: '50%',
+    bottom: 190,
+    width: '100%',
+    height: '55%',
   },
   selectedImage: {
-    alignSelf: 'center',
     width: '100%',
     height: '100%',
   },
   polaroid: {
-    alignSelf: 'center',
     width: '100%',
     height: 200,
     zIndex: 1,

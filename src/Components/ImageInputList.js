@@ -1,27 +1,41 @@
 import React, {useRef} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
+
 import ImageInput from './ImageInput';
 
-function ImageInputList({imageUris = [], addImage}) {
+function ImageInputList({imageUris = [], onRemoveImage, onAddImage}) {
   const scrollView = useRef();
 
   return (
-    <View>
-      <View style={styles.container}>
-        <ImageInput image={imageUris} onChangeImage={(uri) => addImage(uri)} />
-        {/* <ImageInput onChangeImage={(uri) => addImage(uri)} /> */}
-      </View>
+    <View style={styles.container}>
+      <ScrollView
+        ref={scrollView}
+        onContentSizeChange={() => scrollView.current.scrollToEnd()}>
+        {imageUris.map((uri, i) => (
+          <View key={i} style={styles.image}>
+            <ImageInput
+              imageUri={uri}
+              onChangeImage={() => onRemoveImage(uri)}
+            />
+          </View>
+        ))}
+        <View style={{alignItems: 'center'}}>
+          <ImageInput onChangeImage={(uri) => onAddImage(uri)} />
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    left: 60,
-    flexDirection: 'column',
+    flex: 1,
+    margin: 10,
+    marginTop: 30,
   },
   image: {
-    marginTop: 30,
+    marginBottom: 30,
+    alignItems: 'center',
   },
 });
 

@@ -11,6 +11,8 @@ import * as Animatable from 'react-native-animatable';
 
 import Colors from '../Constants/Colors';
 import Screen from '../Components/Screen';
+import Images from '../Constants/Images';
+
 import {Form, FormField, SubmitButton} from '../Components/Forms';
 
 function ForgotScreen(props) {
@@ -19,15 +21,10 @@ function ForgotScreen(props) {
   return (
     <Screen>
       <View style={styles.container}>
-        <ImageBackground
-          style={styles.bgImage}
-          source={require('../assets/Backgrounds/BG.png')}>
+        <ImageBackground style={styles.bgImage} source={Images.BackgroundImage}>
           <Animatable.View delay={4000} animation={'fadeIn'}>
             <TouchableOpacity onPress={() => props.navigation.goBack()}>
-              <Image
-                style={styles.backIcon}
-                source={require('../assets/Misc/back-arrow.png')}
-              />
+              <Image style={styles.backIcon} source={Images.BackArrow} />
             </TouchableOpacity>
           </Animatable.View>
           <Animatable.View delay={1500} animation={'zoomIn'}>

@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
-import BackgroundVideo from '../Components/BackgroundVideo';
 import Screen from '../Components/Screen';
 import Button from '../Components/Button';
 import Colors from '../Constants/Colors';
+import Images from '../Constants/Images';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -22,19 +22,14 @@ function OnBoardScreen2(props) {
   return (
     <Screen>
       <View style={styles.container}>
-        <ImageBackground
-          style={styles.bgImage}
-          source={require('../assets/Backgrounds/BG.png')}>
+        <ImageBackground style={styles.bgImage} source={Images.BackgroundImage}>
           <View style={styles.headerContainer}>
             <TouchableOpacity onPress={props.onBackPress}>
-              <Image
-                style={styles.backIcon}
-                source={require('../assets/Misc/back-arrow.png')}
-              />
+              <Image style={styles.backIcon} source={Images.BackArrow} />
             </TouchableOpacity>
             <Image
               style={styles.logo}
-              source={require('../assets/Misc/logo.png')}
+              source={Images.Logo}
               resizeMode="contain"
             />
           </View>
@@ -43,7 +38,7 @@ function OnBoardScreen2(props) {
             <Image
               style={styles.image}
               resizeMode="contain"
-              source={require('../assets/Misc/Onboarding-2.png')}
+              source={Images.Onboarding2}
             />
           </View>
           <View style={styles.textContainer}>

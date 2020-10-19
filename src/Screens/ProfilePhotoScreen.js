@@ -4,23 +4,28 @@ import {
   Image,
   Text,
   StyleSheet,
-  ScrollView,
-  TouchableOpacity,
   Dimensions,
   ImageBackground,
-  KeyboardAvoidingView,
+  TouchableOpacity,
 } from 'react-native';
+import * as Yup from 'yup';
 
 import Screen from '../Components/Screen';
 import Colors from '../Constants/Colors';
-import ImageInput from '../Components/ImageInputList';
+import Images from '../Constants/Images';
 
-const {width, height} = Dimensions.get('screen');
+import {Form, FormImagePicker, SubmitButton} from '../Components/Forms';
+
+const {width, height} = Dimensions.get('window');
+
+const schema = Yup.object().shape({
+  images: Yup.array().min(2),
+});
 
 function ProfilePhotoScreen(props) {
-  const scrollView = useRef();
-
-  const handleScroll = () => {};
+  const handleSubmit = (values) => {
+    console.log('Images----', values);
+  };
 
   return (
     <Screen>
@@ -28,89 +33,38 @@ function ProfilePhotoScreen(props) {
         <ImageBackground
           style={styles.bgImage}
           resizeMode="stretch"
-          source={require('../assets/Backgrounds/BG.png')}>
+          source={Images.BackgroundImage}>
           <View style={styles.headerContainer}>
             <TouchableOpacity onPress={() => props.navigation.goBack()}>
-              <Image
-                style={styles.backIcon}
-                source={require('../assets/Misc/back-arrow.png')}
-              />
+              <Image style={styles.backIcon} source={Images.BackArrow} />
             </TouchableOpacity>
             <Image
               style={styles.logo}
-              source={require('../assets/Misc/logo.png')}
+              source={Images.Logo}
               resizeMode="contain"
             />
           </View>
-          <ScrollView ref={scrollView} style={{}}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>SETTINGS</Text>
-              <Image
-                style={styles.settingIcon}
-                resizeMode="center"
-                source={require('../assets/Misc/settings-gear.png')}
-              />
-            </View>
-            <View style={styles.photoContainer}>
-              <Text style={styles.label}>ADD PROFILE PHOTOS</Text>
-            </View>
-            <View style={{marginBottom: 20}}>
-              <View style={styles.addImage}>
-                <ImageInput />
-              </View>
-              <View style={styles.addImage2}>
-                <ImageInput />
-                <Text>
-                  {'\n'}
-                  {'\n'}
-                </Text>
-              </View>
-            </View>
-            <View style={{}}>
-              <View style={styles.addImage}>
-                <ImageInput />
-              </View>
-              <View style={styles.addImage2}>
-                <ImageInput />
-                <Text>
-                  {'\n'}
-                  {'\n'}
-                  {'\n'}
-                  {'\n'}
-                  {'\n'}
-                  {'\n'}
-                </Text>
-              </View>
-            </View>
-            <View style={{}}>
-              <View style={styles.addImage}>
-                <ImageInput />
-              </View>
-              <View style={styles.addImage2}>
-                <ImageInput />
-                <Text>
-                  {'\n'}
-                  {'\n'}
-                  {'\n'}
-                  {'\n'}
-                  {'\n'}
-                  {'\n'}
-                </Text>
-              </View>
-            </View>
-          </ScrollView>
-          <View style={styles.downIconContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                scrollView.current.scrollTo({x: 0, y: 550, animation: true})
-              }>
-              <Image
-                style={styles.downIcon}
-                resizeMode="contain"
-                source={require('../assets/Misc/downArrow.png')}
-              />
-            </TouchableOpacity>
+
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleText}>SETTINGS</Text>
+            <Image
+              style={styles.settingIcon}
+              resizeMode="center"
+              source={Images.SettingIcon}
+            />
           </View>
+          <View style={styles.photoContainer}>
+            <Text style={styles.label}>ADD PROFILE PHOTOS</Text>
+          </View>
+          <Form
+            initialValues={{images: []}}
+            validationSchema={schema}
+            onSubmit={handleSubmit}>
+            <FormImagePicker name="images" />
+            <View style={styles.button}>
+              <SubmitButton title="upload" />
+            </View>
+          </Form>
         </ImageBackground>
       </View>
     </Screen>
@@ -146,8 +100,8 @@ const styles = StyleSheet.create({
   },
   settingIcon: {
     marginLeft: 30,
-    width: 55,
-    height: 55,
+    width: 40,
+    height: 40,
   },
 
   titleText: {
@@ -165,27 +119,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.white,
   },
-  addImage: {
-    marginTop: 30,
-  },
-
-  addImage2: {
-    marginTop: 30,
-  },
-  polaroid2: {
-    alignSelf: 'center',
-    width: '90%',
-    height: 200,
-  },
-  downIconContainer: {
-    right: 0,
-    left: 0,
-    bottom: 30,
-    alignItems: 'center',
-  },
-  downIcon: {
-    height: 30,
-    width: 30,
+  button: {
+    flex: 0.2,
   },
 });
 

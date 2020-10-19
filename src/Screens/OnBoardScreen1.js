@@ -14,6 +14,7 @@ import Video from 'react-native-video';
 import Screen from '../Components/Screen';
 import Button from '../Components/Button';
 import Colors from '../Constants/Colors';
+import Images from '../Constants/Images';
 
 const videoSource = require('../assets/Backgrounds/Onboarding_1.m4v');
 
@@ -44,14 +45,11 @@ function OnBoardingScreen1(props) {
         />
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={props.onBackPress}>
-            <Image
-              style={styles.backIcon}
-              source={require('../assets/Misc/back-arrow.png')}
-            />
+            <Image style={styles.backIcon} source={Images.BackArrow} />
           </TouchableOpacity>
           <Image
             style={styles.logo}
-            source={require('../assets/Misc/logo.png')}
+            source={Images.Logo}
             resizeMode="contain"
           />
         </View>
