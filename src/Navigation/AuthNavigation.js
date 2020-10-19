@@ -1,7 +1,8 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 
 import LoginScreen from '../Screens/LoginScreen';
+import SplashScreen from '../Screens/SplashScreen';
 import ForgotScreen from '../Screens/ForgotScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
 import WelcomeScreen from '../Screens/WelcomeScreen';
@@ -13,7 +14,12 @@ import ProfilePhotoScreen from './../Screens/ProfilePhotoScreen';
 const Stack = createStackNavigator();
 
 const AuthNavigator = () => (
-  <Stack.Navigator initialRouteName="Welcome">
+  <Stack.Navigator initialRouteName="SplashScreen">
+    <Stack.Screen
+      name="SplashScreen"
+      component={SplashScreen}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
+    />
     <Stack.Screen
       name="Welcome"
       component={WelcomeScreen}
