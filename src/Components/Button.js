@@ -1,17 +1,33 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  Image,
+} from 'react-native';
 
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 
+const {width, height} = Dimensions.get('window');
+
 export default (props) => {
-  const {title, onPress} = props;
+  const {title, onPress, white = false, color} = props;
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <View style={styles.view}>
-        <Text style={styles.text}>{title}</Text>
+        <Text
+          style={[styles.text, color ? {color: color, fontSize: 15} : null]}>
+          {title}
+        </Text>
       </View>
-      <Image style={styles.bgImage} source={Images.Button} />
+      <Image
+        resizeMode="contain"
+        style={[styles.bgImage, white ? {width: width * 0.45} : null]}
+        source={white ? Images.EditButton : Images.Button}
+      />
     </TouchableOpacity>
   );
 };
@@ -27,7 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   bgImage: {
-    width: 300,
+    width: width * 0.8,
     height: 50,
   },
   text: {

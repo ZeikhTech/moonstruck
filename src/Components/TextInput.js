@@ -3,7 +3,7 @@ import {View, TextInput, StyleSheet} from 'react-native';
 
 import Colors from '../Constants/Colors';
 
-function AppTextInput({width = '100%', ...otherProps}) {
+export default ({width = '100%', ...otherProps}) => {
   return (
     <View style={[styles.container, {width}]}>
       <TextInput
@@ -13,7 +13,7 @@ function AppTextInput({width = '100%', ...otherProps}) {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -31,5 +31,3 @@ const styles = StyleSheet.create({
     height: 45,
   },
 });
-
-export default AppTextInput;

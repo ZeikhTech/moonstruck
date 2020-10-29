@@ -7,4 +7,6 @@ export default Object.freeze({
   PROFILE: 'Profile',
   SETTING: 'Settings',
   PROFILE_PIC: 'ProfilePic',
+  SWIPECARD: 'SwipeCard',
+  SEETING2: 'Setting2',
 });

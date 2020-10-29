@@ -1,16 +1,15 @@
-import * as React from 'react';
+import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 
 import Colors from '../Constants/Colors';
 
-function AppRadioButton(props) {
-  const {onChange, value, onPress} = props;
+export default (props) => {
+  const {onChange, value} = props;
   return (
     <RadioButton.Group onValueChange={(value) => onChange(value)} value={value}>
       <View style={styles.radio}>
         <RadioButton
-          onPress={onPress}
           value="Male"
           color={Colors.primary}
           uncheckedColor={Colors.white}
@@ -18,7 +17,6 @@ function AppRadioButton(props) {
         <View style={styles.labelContainer}>
           <Text style={styles.label}>Male</Text>
         </View>
-
         <RadioButton
           value="Female"
           color={Colors.primary}
@@ -31,7 +29,7 @@ function AppRadioButton(props) {
       </View>
     </RadioButton.Group>
   );
-}
+};
 
 const styles = StyleSheet.create({
   radio: {
@@ -46,5 +44,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-export default AppRadioButton;

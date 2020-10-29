@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import Video from 'react-native-video';
 
 const videoSource = require('../assets/Backgrounds/Intro.m4v');
 
 const {height} = Dimensions.get('window');
 
-function BackgroundVideo(props) {
+export default (props) => {
   return (
     <Video
       style={styles.video}
@@ -16,7 +16,7 @@ function BackgroundVideo(props) {
       repeat={true}
     />
   );
-}
+};
 
 const styles = StyleSheet.create({
   video: {
@@ -29,5 +29,3 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
-
-export default BackgroundVideo;

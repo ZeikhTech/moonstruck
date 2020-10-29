@@ -1,16 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   Image,
-  StyleSheet,
+  Modal,
   Platform,
   ScrollView,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-  Modal,
+  StyleSheet,
   Dimensions,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from 'react-native';
+import Tooltip from 'react-native-walkthrough-tooltip';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 import * as Yup from 'yup';
 
@@ -28,11 +31,12 @@ import Routes from '../Navigation/routes';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 
-const {width, height} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('window');
 
 const validationSchema = Yup.object().shape({
   fname: Yup.string().required().label('*First Name'),
   lname: Yup.string().required().label('*Last Name'),
+  uname: Yup.string().required().label('*Username'),
   email: Yup.string().required().email().label('*Email'),
   password: Yup.string().required().min(4).label('*Password'),
   confirmPassword: Yup.string()
@@ -46,7 +50,9 @@ const validationSchema = Yup.object().shape({
 
 const initialValues = {
   fname: '',
+  mname: '',
   lname: '',
+  uname: '',
   password: '',
   confirmPassword: '',
   email: '',
@@ -55,7 +61,8 @@ const initialValues = {
 };
 
 function RegisterScreen(props) {
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [toolTip, setToolTip] = useState(false);
 
   const handleSubmit = (values) => {
     console.log('values', values);
@@ -73,13 +80,13 @@ function RegisterScreen(props) {
 
   return (
     <Screen>
-      <KeyboardAvoidingView
-        behavior="padding"
-        enabled={Platform.OS === 'ios'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
-        <View style={styles.container}>
-          <BackgroundVideo />
-          <ScrollView style={{height: '100%'}}>
+      <BackgroundVideo />
+      <ScrollView>
+        <KeyboardAvoidingView
+          behavior="padding"
+          enabled={Platform.OS === 'ios'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
+          <View style={styles.container}>
             <View style={styles.headerContainer}>
               <TouchableOpacity onPress={() => props.navigation.goBack()}>
                 <Animatable.Image
@@ -107,17 +114,53 @@ function RegisterScreen(props) {
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema}>
                 <ErrorMessage error="" />
-                <Text style={styles.label}>FIRST NAME :</Text>
+                <View style={{flexDirection: 'row', flex: 1}}>
+                  <Text style={styles.label}>FIRST NAME :</Text>
+                  <View style={styles.tooltip}>
+                    <Tooltip
+                      isVisible={toolTip}
+                      content={
+                        <Text style={{color: Colors.white, fontSize: 16}}>
+                          Please enter your FULL NAME at birth, including middle
+                          name.
+                        </Text>
+                      }
+                      contentStyle={{backgroundColor: Colors.primary}}
+                      placement="left"
+                      onClose={() => setToolTip(false)}>
+                      <TouchableWithoutFeedback
+                        onPress={() => setToolTip(true)}>
+                        <Icon
+                          name="information-circle-outline"
+                          size={30}
+                          color={Colors.white}
+                        />
+                      </TouchableWithoutFeedback>
+                    </Tooltip>
+                  </View>
+                </View>
                 <FormField
                   autoCorrect={false}
                   name="fname"
                   placeholder="Enter your first Name..."
+                />
+                <Text style={styles.label}>MIDDLE NAME :</Text>
+                <FormField
+                  autoCorrect={false}
+                  name="mname"
+                  placeholder="Enter your middle Name..."
                 />
                 <Text style={styles.label}>LAST NAME :</Text>
                 <FormField
                   autoCorrect={false}
                   name="lname"
                   placeholder="Enter your last Name..."
+                />
+                <Text style={styles.label}>USERNAME :</Text>
+                <FormField
+                  autoCorrect={false}
+                  name="uname"
+                  placeholder="Enter Username..."
                 />
                 <Text style={styles.label}>PASSWORD :</Text>
                 <FormField
@@ -157,56 +200,58 @@ function RegisterScreen(props) {
                 <SubmitButton title="Register" marginTop={25} />
               </Form>
             </Animatable.View>
-          </ScrollView>
-          {isVisible && (
-            <Modal visible={isVisible} animationType="slide" transparent={true}>
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <Text style={styles.modalText}>
-                    Are you sure? Moonstruck only works if you enter the correct
-                    information.
-                  </Text>
-                  <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => setModalVisible(!isVisible)}>
-                      <View style={{zIndex: 1, position: 'absolute'}}>
-                        <Text style={styles.textStyle1}>
-                          No, let me edit the info
-                        </Text>
-                      </View>
-                      <Image
-                        style={styles.editButton}
-                        resizeMode="stretch"
-                        source={Images.EditButton}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={confirmButton}>
-                      <View style={{zIndex: 1, position: 'absolute'}}>
-                        <Text style={styles.textStyle}>Yes, I am sure</Text>
-                      </View>
-                      <Image
-                        style={styles.yesButton}
-                        resizeMode="stretch"
-                        source={Images.Button}
-                      />
-                    </TouchableOpacity>
+
+            {isVisible && (
+              <Modal
+                visible={isVisible}
+                animationType="slide"
+                transparent={true}>
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalText}>
+                      Are you sure? Moonstruck only works if you enter the
+                      correct information.
+                    </Text>
+                    <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => setModalVisible(!isVisible)}>
+                        <View style={{zIndex: 1, position: 'absolute'}}>
+                          <Text style={styles.textStyle1}>EDIT INFO</Text>
+                        </View>
+                        <Image
+                          style={styles.editButton}
+                          resizeMode="contain"
+                          source={Images.EditButton}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={confirmButton}>
+                        <View style={{zIndex: 1, position: 'absolute'}}>
+                          <Text style={styles.textStyle}>YES, I AM SURE</Text>
+                        </View>
+                        <Image
+                          style={styles.yesButton}
+                          resizeMode="contain"
+                          source={Images.Button}
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </Modal>
-          )}
-        </View>
-      </KeyboardAvoidingView>
+              </Modal>
+            )}
+          </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 20,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -228,6 +273,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'white',
+  },
+  tooltip: {
+    top: -7,
+    right: 0,
+    left: 0,
+    position: 'absolute',
+    alignItems: 'flex-end',
   },
   genderContainer: {
     alignItems: 'center',
@@ -259,7 +311,7 @@ const styles = StyleSheet.create({
     elevation: 15,
   },
   textStyle: {
-    fontSize: 22,
+    fontSize: 18,
     color: Colors.white,
     fontWeight: 'bold',
     textAlign: 'center',

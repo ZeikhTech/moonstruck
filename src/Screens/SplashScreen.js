@@ -9,7 +9,7 @@ import Routes from '../Navigation/routes';
 
 function SplashScreen(props) {
   useEffect(() => {
-    setTimeout(navigateToNextScreen, 2000);
+    setTimeout(navigateToNextScreen, 3000);
   }, []);
 
   const navigateToNextScreen = () => {

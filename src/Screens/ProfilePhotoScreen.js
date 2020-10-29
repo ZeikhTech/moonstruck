@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {
   View,
   Image,
@@ -13,18 +13,26 @@ import * as Yup from 'yup';
 import Screen from '../Components/Screen';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
+import Routes from '../Navigation/routes';
 
-import {Form, FormImagePicker, SubmitButton} from '../Components/Forms';
+import {
+  Form,
+  FormImagePicker,
+  FormVideoPicker,
+  SubmitButton,
+} from '../Components/Forms';
+import VideoInput from '../Components/VideoInput';
 
 const {width, height} = Dimensions.get('window');
 
 const schema = Yup.object().shape({
-  images: Yup.array().min(2),
+  images: Yup.array().min(5),
 });
 
-function ProfilePhotoScreen(props) {
+function ProfilePhotoScreen({navigation}) {
   const handleSubmit = (values) => {
     console.log('Images----', values);
+    navigation.navigate(Routes.SEETING2);
   };
 
   return (
@@ -33,7 +41,7 @@ function ProfilePhotoScreen(props) {
         <ImageBackground
           style={styles.bgImage}
           resizeMode="stretch"
-          source={Images.BackgroundImage}>
+          source={Images.BluredBackground}>
           <View style={styles.headerContainer}>
             <TouchableOpacity onPress={() => props.navigation.goBack()}>
               <Image style={styles.backIcon} source={Images.BackArrow} />
@@ -44,7 +52,6 @@ function ProfilePhotoScreen(props) {
               resizeMode="contain"
             />
           </View>
-
           <View style={styles.titleContainer}>
             <Text style={styles.titleText}>SETTINGS</Text>
             <Image
@@ -54,13 +61,18 @@ function ProfilePhotoScreen(props) {
             />
           </View>
           <View style={styles.photoContainer}>
-            <Text style={styles.label}>ADD PROFILE PHOTOS</Text>
+            <Text style={styles.label}>ADD PROFILE / VIDEOS</Text>
+            <Text style={styles.subLabel}>NOTE: 10 SEC MAX FOR THE VIDEO</Text>
           </View>
           <Form
-            initialValues={{images: []}}
+            initialValues={{images: [], video: ''}}
             validationSchema={schema}
             onSubmit={handleSubmit}>
             <FormImagePicker name="images" />
+            <View style={styles.videoContainer}>
+              {/* <FormVideoPicker name="video" /> */}
+              <VideoInput />
+            </View>
             <View style={styles.button}>
               <SubmitButton title="upload" />
             </View>
@@ -119,8 +131,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.white,
   },
+  subLabel: {
+    marginTop: 5,
+    fontSize: 16,
+    color: Colors.white,
+  },
+  videoContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
   button: {
-    flex: 0.2,
+    marginTop: 10,
+    flex: 0.35,
   },
 });
 

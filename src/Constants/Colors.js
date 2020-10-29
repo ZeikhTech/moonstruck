@@ -11,4 +11,5 @@ export default {
   text: '#8ad8fa',
   man: '#5ec9f7',
   range: '#80c8e7',
+  toggleSwitch: '#4cda64',
 };

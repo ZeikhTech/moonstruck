@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
@@ -143,9 +142,9 @@ const styles = StyleSheet.create({
   },
   notRegisterContainer: {
     alignItems: 'center',
+    top: 30,
   },
   notRegister: {
-    top: 30,
     fontSize: 16,
     fontWeight: 'bold',
     color: Colors.placeholder,
@@ -169,9 +168,9 @@ const styles = StyleSheet.create({
   termsContainer: {
     marginTop: 'auto',
     alignSelf: 'center',
+    bottom: 15,
   },
   terms: {
-    bottom: 15,
     fontSize: 12,
     color: Colors.white,
   },

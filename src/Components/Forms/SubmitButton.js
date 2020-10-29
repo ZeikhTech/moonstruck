@@ -3,7 +3,6 @@ import {View} from 'react-native';
 import {useFormikContext} from 'formik';
 
 import Button from '../Button';
-import Colors from '../../Constants/Colors';
 
 function SubmitButton({title, marginTop}) {
   const {handleSubmit} = useFormikContext();

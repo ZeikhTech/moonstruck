@@ -24,7 +24,7 @@ function ProfileScreen(props) {
         <ImageBackground
           style={styles.bgImage}
           resizeMode="cover"
-          source={Images.ProfileBackground}>
+          source={Images.BluredBackground}>
           <View style={styles.header}>
             <Animatable.Image
               delay={700}

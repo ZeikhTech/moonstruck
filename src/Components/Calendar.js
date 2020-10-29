@@ -7,7 +7,7 @@ import Colors from '../Constants/Colors';
 
 const {width} = Dimensions.get('window');
 
-function AppCalendar(props) {
+export default (props) => {
   const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
 
@@ -36,7 +36,7 @@ function AppCalendar(props) {
       )}
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -56,5 +56,3 @@ const styles = StyleSheet.create({
     color: Colors.dark,
   },
 });
-
-export default AppCalendar;

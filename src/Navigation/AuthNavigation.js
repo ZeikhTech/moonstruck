@@ -10,6 +10,8 @@ import ScreenSwiper from '../Components/ScreenSwiper';
 import ProfileScreen from './../Screens/ProfileScreen';
 import SettingsScreen from './../Screens/SettingScreen';
 import ProfilePhotoScreen from './../Screens/ProfilePhotoScreen';
+import Setting2Screen from '../Screens/Setting2Screen';
+import MatchScreen from '../Screens/FindMatchScreen';
 
 const Stack = createStackNavigator();
 
@@ -58,6 +60,16 @@ const AuthNavigator = () => (
     <Stack.Screen
       name="ProfilePic"
       component={ProfilePhotoScreen}
+      options={{headerShown: false}}
+    />
+    <Stack.Screen
+      name="Setting2"
+      component={Setting2Screen}
+      options={{headerShown: false}}
+    />
+    <Stack.Screen
+      name="SwipeCard"
+      component={MatchScreen}
       options={{headerShown: false}}
     />
   </Stack.Navigator>

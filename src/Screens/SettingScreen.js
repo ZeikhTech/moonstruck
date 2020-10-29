@@ -1,35 +1,40 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   Image,
   Text,
-  TextInput,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  Platform,
   ImageBackground,
   KeyboardAvoidingView,
 } from 'react-native';
-import {Slider, CheckBox} from 'react-native-elements';
 
+import {
+  Form,
+  FormZip,
+  FormGender,
+  FormAgeSlider,
+  FormRangeSlider,
+  FormCheckbox,
+  SubmitButton,
+} from '../Components/Forms';
+import AgeSlider from '../Components/AgeSlider';
 import Screen from '../Components/Screen';
 import Colors from '../Constants/Colors';
-import Button from '../Components/Button';
-import Routes from '../Navigation/routes';
 import Images from '../Constants/Images';
+import Routes from '../Navigation/routes';
 
 const {width, height} = Dimensions.get('screen');
 
 function SettingsScreen(props) {
-  const [value, setValue] = useState(500);
-  const [isMan, setIsMan] = useState(false);
-  const [isWoman, setIsWoman] = useState(false);
-  const [manChecked, setmanChecked] = useState(false);
-  const [womanChecked, setwomanChecked] = useState(false);
+  const handleFormSubmit = (value) => {
+    console.log('values', value);
 
-  const manIconSource = isMan ? Images.manON : Images.manOFF;
-  const womanIconSource = isWoman ? Images.womanON : Images.womanOFF;
+    props.navigation.navigate(Routes.PROFILE_PIC);
+  };
 
   return (
     <Screen>
@@ -41,8 +46,8 @@ function SettingsScreen(props) {
         <View style={styles.container}>
           <ImageBackground
             style={styles.bgImage}
-            resizeMode="stretch"
-            source={Images.BackgroundImage}>
+            resizeMode="cover"
+            source={Images.BluredBackground}>
             <ScrollView style={{height: '100%'}}>
               <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => props.navigation.goBack()}>
@@ -54,7 +59,6 @@ function SettingsScreen(props) {
                   resizeMode="contain"
                 />
               </View>
-
               <View style={styles.titleContainer}>
                 <Text style={styles.titleText}>SETTINGS</Text>
                 <Image
@@ -78,86 +82,56 @@ function SettingsScreen(props) {
                   <Text style={styles.womanColor}>WOMAN</Text>
                 </View>
               </View>
-              <View style={styles.iconContainer}>
-                <TouchableOpacity onPress={() => setIsMan(!isMan)}>
-                  <Image
-                    style={styles.manOff}
-                    resizeMode="contain"
-                    source={manIconSource}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setIsWoman(!isWoman)}>
-                  <Image
-                    style={styles.womanOff}
-                    resizeMode="contain"
-                    source={womanIconSource}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.zipcodeContainer}>
-                <Text style={styles.zipcode}>
-                  DESIRED{'\n'}ZIP CODE PLEASE:
-                </Text>
-                <TextInput style={styles.zipcodeInput} keyboardType="numeric" />
-              </View>
-              <View style={styles.rangeContainer}>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.rangeLabel}>RANGE PLEASE:</Text>
-                  <Text style={styles.rangeValue}>{`${value} MILES`}</Text>
+              <Form
+                initialValues={{
+                  isman: false,
+                  iswoman: false,
+                  zipcode: '',
+                  // age: [18, 0],
+                  range: 500,
+                  worldwide: false,
+                  lookman: false,
+                  lookwoman: false,
+                }}
+                onSubmit={handleFormSubmit}>
+                <View style={styles.iconContainer}>
+                  <FormGender name="isman" />
+                  <FormGender name="iswoman" />
                 </View>
-                <View
-                  style={{
-                    width: '90%',
-                    marginTop: 15,
-                    alignSelf: 'center',
-                  }}>
-                  <Slider
-                    value={value}
-                    onValueChange={setValue}
-                    step={5}
-                    maximumValue={1000}
-                    minimumValue={0}
-                    thumbStyle={{height: 35, width: 35, borderRadius: 25}}
-                    thumbTintColor={Colors.range}
-                    maximumTrackTintColor={Colors.white}
-                    minimumTrackTintColor={Colors.white}
-                  />
+                <View style={styles.zipcodeContainer}>
+                  <Text style={styles.zipcode}>
+                    DESIRED{'\n'}ZIP CODE PLEASE:
+                  </Text>
+                  <FormZip name="zipcode" keyboardType="numeric" />
                 </View>
-              </View>
-              <View style={styles.lookingContainer}>
-                <View style={styles.manLook}>
-                  <Text style={styles.manText}>LOOKING FOR A </Text>
-                  <Text style={styles.manColor}>MAN</Text>
-                  <View style={{left: 45}}>
-                    <CheckBox
-                      size={45}
-                      checked={manChecked}
-                      uncheckedColor={Colors.white}
-                      checkedColor={Colors.man}
-                      onPress={() => setmanChecked(!manChecked)}
-                    />
+                <View style={styles.rangeContainer}>
+                  <AgeSlider />
+                  <FormRangeSlider name="range" />
+                  <View style={styles.worldwideContainer}>
+                    <FormCheckbox name="worldwide" />
+                    <Text style={styles.worldwide}>SEARCH WORLDWIDE</Text>
                   </View>
                 </View>
-                <View style={styles.womanLook}>
-                  <Text style={styles.womanText}>LOOKING FOR A </Text>
-                  <Text style={styles.womanColor}>WOMAN</Text>
-                  <View style={{left: 10, bottom: 20}}>
-                    <CheckBox
-                      size={45}
-                      uncheckedColor={Colors.white}
-                      checked={womanChecked}
-                      checkedColor={Colors.secondary}
-                      onPress={() => setwomanChecked(!womanChecked)}
-                    />
+                <View style={styles.lookingContainer}>
+                  <View style={styles.manLook}>
+                    <Text style={styles.manText}>LOOKING FOR A </Text>
+                    <Text style={styles.manColor}>MAN</Text>
+                    <View style={{left: 45}}>
+                      <FormCheckbox name="lookman" />
+                    </View>
+                  </View>
+                  <View style={styles.womanLook}>
+                    <Text style={styles.womanText}>LOOKING FOR A </Text>
+                    <Text style={styles.womanColor}>WOMAN</Text>
+                    <View style={{left: 10, bottom: 20}}>
+                      <FormCheckbox name="lookwoman" />
+                    </View>
                   </View>
                 </View>
-              </View>
-              <View style={styles.button}>
-                <Button
-                  title="Next"
-                  onPress={() => props.navigation.navigate(Routes.PROFILE_PIC)}
-                />
-              </View>
+                <View style={styles.button}>
+                  <SubmitButton title="next" />
+                </View>
+              </Form>
             </ScrollView>
           </ImageBackground>
         </View>
@@ -249,14 +223,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  manOff: {
-    width: 100,
-    height: 100,
-  },
-  womanOff: {
-    width: 120,
-    height: 120,
-  },
   zipcodeContainer: {
     marginVertical: 10,
     alignItems: 'center',
@@ -269,36 +235,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginHorizontal: 20,
   },
-  zipcodeInput: {
-    padding: 10,
-    fontSize: 18,
-    width: '45%',
-    height: 40,
-    borderWidth: 2,
-    borderRadius: 10,
-    color: Colors.white,
-    borderColor: Colors.white,
-  },
   rangeContainer: {
-    marginVertical: 10,
+    marginVertical: 5,
   },
-  rangeLabel: {
+  worldwideContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 60,
+  },
+  worldwide: {
     fontSize: 18,
-    marginLeft: 20,
     fontWeight: 'bold',
     color: Colors.white,
-  },
-  rangeValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 30,
-    color: Colors.secondary,
   },
   lookingContainer: {
     height: 130,
     width: '90%',
     marginLeft: 20,
-    bottom: 10,
+    bottom: 15,
   },
   manLook: {
     alignItems: 'center',
@@ -308,7 +262,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button: {
-    bottom: 10,
+    bottom: 22,
   },
 });
 
