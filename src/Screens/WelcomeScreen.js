@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
-import Screen from '../Components/Screen';
-import Video from '../Components/BackgroundVideo';
-import Button from '../Components/Button';
+import Screen from '../Components/Common/Screen';
+import Video from '../Components/Common/BackgroundVideo';
+import Button from '../Components/Common/Button';
 import Colors from '../Constants/Colors';
 import Routes from '../Navigation/routes';
 import Images from '../Constants/Images';

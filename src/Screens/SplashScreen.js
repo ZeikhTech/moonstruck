@@ -3,7 +3,7 @@ import {View, Dimensions, StyleSheet, ImageBackground} from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 
-import Screen from '../Components/Screen';
+import Screen from '../Components/Common/Screen';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
 

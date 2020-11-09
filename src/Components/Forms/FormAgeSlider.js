@@ -1,7 +1,7 @@
 import React from 'react';
 import {useFormikContext} from 'formik';
 
-import AgeSlider from '../AgeSlider';
+import AgeSlider from '../Common/AgeSlider';
 
 function AppAgeSlider({name}) {
   const {setFieldValue, values} = useFormikContext();

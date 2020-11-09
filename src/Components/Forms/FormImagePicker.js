@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {useFormikContext} from 'formik';
 
 import ErrorMessage from './ErrorMessage';
-import ImageInputList from '../ImageInputList';
+import ImageInputList from '../Common/ImageInputList';
 
 function FormImagePicker({name}) {
   const {errors, setFieldValue, touched, values} = useFormikContext();

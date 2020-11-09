@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-import Colors from '../Constants/Colors';
+import Colors from '../../Constants/Colors';
 
 export default (props) => {
   const [age, setAge] = useState([18, 70]);

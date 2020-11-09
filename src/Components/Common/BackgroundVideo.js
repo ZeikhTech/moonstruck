@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Dimensions} from 'react-native';
 import Video from 'react-native-video';
 
-const videoSource = require('../assets/Backgrounds/Intro.m4v');
+const videoSource = require('../../assets/Backgrounds/Intro.m4v');
 
 const {height} = Dimensions.get('window');
 

@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
-import Colors from '../Constants/Colors';
-import Screen from '../Components/Screen';
-import Images from '../Constants/Images';
-
+import Screen from '../Components/Common/Screen';
 import {Form, FormField, SubmitButton} from '../Components/Forms';
+
+import Colors from '../Constants/Colors';
+import Images from '../Constants/Images';
 
 function ForgotScreen(props) {
   const handleSubmit = () => {};

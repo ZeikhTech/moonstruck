@@ -1,34 +1,38 @@
 import React from 'react';
 import {
   View,
-  StyleSheet,
   Image,
-  Alert,
   TouchableOpacity,
   ImageBackground,
+  StyleSheet,
+  Alert,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-import Video from 'react-native-video';
 
-import Images from '../Constants/Images';
+import Images from '../../Constants/Images';
 
-export default ({videoUri, onChange}) => {
-  const [videoSource, setVideoSource] = React.useState(null);
+export default (props) => {
+  const {imageUri, onChangeImage} = props;
 
-  const pickVideo = async () => {
+  const handlePress = () => {
+    if (!imageUri) selectImage();
+    // else onChangeImage(null);
+  };
+
+  const selectImage = async () => {
     try {
-      const video = await ImagePicker.openPicker({
-        mediaType: 'video',
+      const image = await ImagePicker.openPicker({
+        width: 720,
+        height: 720,
+        mediaType: 'photo',
       });
-
-      var filename = video.path.split('/').pop();
+      var filename = image.path.split('/').pop();
       const data = {
         name: filename,
-        uri: video.path,
-        type: video.mime,
+        uri: image.path,
+        type: image.mime,
       };
-      if (video) setVideoSource(data.uri);
-      // if (video) onChange(data.uri);
+      if (image) onChangeImage(data.uri);
     } catch (e) {
       if (e.code !== 'E_PICKER_CANCELLED') {
         console.log(e);
@@ -38,34 +42,32 @@ export default ({videoUri, onChange}) => {
       }
     }
   };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={pickVideo}>
+      <TouchableOpacity onPress={handlePress}>
         <View style={styles.plaroidContainer}>
           <ImageBackground
             resizeMode="cover"
             style={styles.polaroid}
             source={Images.Frame}>
             <View style={styles.CameraIconContainer}>
-              {videoSource ? null : (
+              {imageUri ? null : (
                 <Image
-                  style={styles.videoIcon}
-                  source={Images.VideoIcon}
+                  style={styles.CameraIcon}
+                  source={Images.CameraIcon}
                   resizeMode="center"
                 />
               )}
             </View>
           </ImageBackground>
         </View>
-        {videoSource && (
+        {imageUri && (
           <View style={styles.wrapper}>
-            <Video
-              source={{uri: videoSource}}
+            <Image
+              source={{uri: imageUri}}
               style={styles.selectedImage}
               resizeMode="cover"
-              muted={true}
-              rate={0.0}
-              playInBackground={true}
             />
           </View>
         )}
@@ -77,7 +79,7 @@ export default ({videoUri, onChange}) => {
 const styles = StyleSheet.create({
   container: {
     height: 200,
-    width: '67%',
+    width: '70%',
   },
   plaroidContainer: {
     alignItems: 'center',
@@ -88,9 +90,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  videoIcon: {
-    height: 90,
-    width: 90,
+  CameraIcon: {
+    height: 80,
+    width: 80,
   },
   wrapper: {
     bottom: 190,

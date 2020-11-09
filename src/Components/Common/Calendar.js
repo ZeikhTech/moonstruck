@@ -3,7 +3,7 @@ import {Text, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
-import Colors from '../Constants/Colors';
+import Colors from '../../Constants/Colors';
 
 const {width} = Dimensions.get('window');
 

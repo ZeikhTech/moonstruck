@@ -25,8 +25,8 @@ import {
   FormBirthday,
   SubmitButton,
 } from '../Components/Forms';
-import BackgroundVideo from '../Components/BackgroundVideo';
-import Screen from '../Components/Screen';
+import BackgroundVideo from '../Components/Common/BackgroundVideo';
+import Screen from '../Components/Common/Screen';
 import Routes from '../Navigation/routes';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';

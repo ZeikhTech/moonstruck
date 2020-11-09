@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
-import Screen from '../Components/Screen';
-import Button from '../Components/Button';
+import Screen from '../Components/Common/Screen';
+import Button from '../Components/Common/Button';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 

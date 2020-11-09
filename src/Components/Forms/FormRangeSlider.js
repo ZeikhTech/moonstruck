@@ -1,7 +1,7 @@
 import React from 'react';
 import {useFormikContext} from 'formik';
 
-import RangeSlider from '../RangeSlider';
+import RangeSlider from '../Common/RangeSlider';
 
 function AppFormRangeSlider({name}) {
   const {setFieldValue, values} = useFormikContext();

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import * as Yup from 'yup';
 
-import Screen from '../Components/Screen';
+import Screen from '../Components/Common/Screen';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
@@ -21,12 +21,12 @@ import {
   FormVideoPicker,
   SubmitButton,
 } from '../Components/Forms';
-import VideoInput from '../Components/VideoInput';
+import VideoInput from '../Components/Common/VideoInput';
 
 const {width, height} = Dimensions.get('window');
 
 const schema = Yup.object().shape({
-  images: Yup.array().min(5),
+  // images: Yup.array().min(5),
 });
 
 function ProfilePhotoScreen({navigation}) {
@@ -70,8 +70,8 @@ function ProfilePhotoScreen({navigation}) {
             onSubmit={handleSubmit}>
             <FormImagePicker name="images" />
             <View style={styles.videoContainer}>
-              {/* <FormVideoPicker name="video" /> */}
-              <VideoInput />
+              <FormVideoPicker name="video" />
+              {/* <VideoInput /> */}
             </View>
             <View style={styles.button}>
               <SubmitButton title="upload" />

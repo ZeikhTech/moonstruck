@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useFormikContext} from 'formik';
 
-import TextInput from '../TextInput';
+import TextInput from '../Common/TextInput';
 import ErrorMessage from './ErrorMessage';
 
 function AppFormField({name, width, label, ...otherProps}) {

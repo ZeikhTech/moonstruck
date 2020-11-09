@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {useFormikContext} from 'formik';
 
-import Radio from '../RadioButton';
+import Radio from '../Common/RadioButton';
 import ErrorMessage from './ErrorMessage';
 
 function AppFormRadio({name}) {

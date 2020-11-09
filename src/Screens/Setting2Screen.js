@@ -13,10 +13,10 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
-import Screen from '../Components/Screen';
+import Screen from '../Components/Common/Screen';
+import Button from '../Components/Common/Button';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
-import Button from '../Components/Button';
 import Routes from '../Navigation/routes';
 
 const {width, height} = Dimensions.get('window');

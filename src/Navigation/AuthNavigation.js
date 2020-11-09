@@ -6,7 +6,7 @@ import SplashScreen from '../Screens/SplashScreen';
 import ForgotScreen from '../Screens/ForgotScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
 import WelcomeScreen from '../Screens/WelcomeScreen';
-import ScreenSwiper from '../Components/ScreenSwiper';
+import ScreenSwiper from '../Components/Common/ScreenSwiper';
 import ProfileScreen from './../Screens/ProfileScreen';
 import SettingsScreen from './../Screens/SettingScreen';
 import ProfilePhotoScreen from './../Screens/ProfilePhotoScreen';

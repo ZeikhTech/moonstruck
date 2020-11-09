@@ -20,6 +20,7 @@ import CameraIcon from '../assets/Misc/camera.png';
 import VideoIcon from '../assets/Misc/videoIcon.png';
 import ChatIcon from '../assets/Misc/chat.png';
 import Shadow from '../assets/Misc/shadow.png';
+import BackButton from '../assets/Misc/back-button.png'
 
 export default {
   Logo,
@@ -43,4 +44,5 @@ export default {
   VideoIcon,
   ChatIcon,
   Shadow,
+  BackButton
 };

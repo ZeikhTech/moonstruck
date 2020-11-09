@@ -3,14 +3,13 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import {navigationRef} from './src/Navigation/rootNavigation';
 import AuthNavigator from './src/Navigation/AuthNavigation';
-import Findmatch from './src/Screens/FindMatchScreen';
-import Setting2 from './src/Screens/Setting2Screen';
+import OnBoarding3 from './src/Screens/OnBoardScreen3';
 
 export default function App() {
   return (
-    // <NavigationContainer ref={navigationRef}>
-    //   <AuthNavigator />
-    // </NavigationContainer>
-    <Findmatch />
+    <NavigationContainer ref={navigationRef}>
+      <AuthNavigator />
+    </NavigationContainer>
+    // <OnBoarding3 />
   );
 }

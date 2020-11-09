@@ -12,11 +12,11 @@ import {
 import Swiper from 'react-native-deck-swiper';
 import * as Progress from 'react-native-progress';
 
-import Routes from '../Navigation/routes';
+import Screen from '../Components/Common/Screen';
+import Button from '../Components/Common/Button';
 import Colors from '../Constants/Colors';
-import Screen from '../Components/Screen';
 import Images from '../Constants/Images';
-import Button from '../Components/Button';
+import Routes from '../Navigation/routes';
 import data from '../Services/data';
 
 const {width, height} = Dimensions.get('window');
@@ -77,9 +77,7 @@ function ProfileScreen({navigation}) {
               <Text style={styles.detailNumber}>{data[index].lifepath}</Text>
             </View>
             <View style={styles.progressContainer}>
-              <Text style={styles.percentage}>
-                {(data[index].lifepath * 10000) / 100}%
-              </Text>
+              <Text style={styles.percentage}>100%</Text>
               <Progress.Bar
                 style={styles.progress}
                 progress={1}
@@ -173,7 +171,7 @@ function ProfileScreen({navigation}) {
               ref={swiperRef}
               cards={data}
               cardIndex={index}
-              infinite
+              infinite={true}
               swipeBackCard={true}
               onSwiped={onSwiped}
               onSwipedAll={onSwipeAllCards}
@@ -182,8 +180,8 @@ function ProfileScreen({navigation}) {
               disableTopSwipe
               disableBottomSwipe
               animateCardOpacity
+              animateOverlayLabelsOpacity
               backgroundColor="transparent"
-              useViewOverflow={false}
               overlayLabels={{
                 left: {
                   title: 'NOPE',

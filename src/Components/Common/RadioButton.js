@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 
-import Colors from '../Constants/Colors';
+import Colors from '../../Constants/Colors';
 
 export default (props) => {
   const {onChange, value} = props;

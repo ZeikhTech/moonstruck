@@ -12,8 +12,8 @@ import {
 import * as Animatable from 'react-native-animatable';
 import * as Yup from 'yup';
 
-import BackgroundVideo from '../Components/BackgroundVideo';
-import Screen from '../Components/Screen';
+import BackgroundVideo from '../Components/Common/BackgroundVideo';
+import Screen from '../Components/Common/Screen';
 import Colors from '../Constants/Colors';
 import Routes from '../Navigation/routes';
 import Images from '../Constants/Images';

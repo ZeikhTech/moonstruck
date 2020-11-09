@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {useFormikContext} from 'formik';
 
-import Calendar from '../Calendar';
+import Calendar from '../Common/Calendar';
 import ErrorMessage from './ErrorMessage';
 
 function AppFormCalendar({name}) {

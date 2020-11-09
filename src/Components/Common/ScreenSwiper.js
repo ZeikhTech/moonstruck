@@ -2,11 +2,11 @@ import React from 'react';
 import {Image, StyleSheet, Dimensions} from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import OnBoardScreen1 from '../Screens/OnBoardScreen1';
-import OnBoardScreen2 from '../Screens/OnBoardScreen2';
-import OnBoardScreen3 from '../Screens/OnBoardScreen3';
-import Routes from '../Navigation/routes';
-import Images from '../Constants/Images';
+import OnBoardScreen1 from '../../Screens/OnBoardScreen1';
+import OnBoardScreen2 from '../../Screens/OnBoardScreen2';
+import OnBoardScreen3 from '../../Screens/OnBoardScreen3';
+import Routes from '../../Navigation/routes';
+import Images from '../../Constants/Images';
 
 const ScreenSwiper = ({navigation}) => {
   const onBackPress = () => {

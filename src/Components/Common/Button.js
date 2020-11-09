@@ -8,8 +8,8 @@ import {
   Image,
 } from 'react-native';
 
-import Colors from '../Constants/Colors';
-import Images from '../Constants/Images';
+import Colors from '../../Constants/Colors';
+import Images from '../../Constants/Images';
 
 const {width, height} = Dimensions.get('window');
 

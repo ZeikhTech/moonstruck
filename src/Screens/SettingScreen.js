@@ -16,13 +16,12 @@ import {
   Form,
   FormZip,
   FormGender,
-  FormAgeSlider,
   FormRangeSlider,
   FormCheckbox,
   SubmitButton,
 } from '../Components/Forms';
-import AgeSlider from '../Components/AgeSlider';
-import Screen from '../Components/Screen';
+import AgeSlider from '../Components/Common/AgeSlider';
+import Screen from '../Components/Common/Screen';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
