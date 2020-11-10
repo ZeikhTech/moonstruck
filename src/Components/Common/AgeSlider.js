@@ -1,22 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 import Colors from '../../Constants/Colors';
 
 export default (props) => {
-  const [age, setAge] = useState([18, 70]);
+  const {value = [], onChange} = props;
+
   return (
     <View>
       <View style={{flexDirection: 'row'}}>
         <Text style={styles.rangeLabel}>AGE RANGE:</Text>
-        <Text style={styles.rangeValue}>{`${age[0]} TO ${age[1]} `}</Text>
+        <Text style={styles.rangeValue}>{`${value[0]} TO ${value[1]} `}</Text>
       </View>
       <View style={styles.container}>
         <MultiSlider
-          values={[age[0], age[1]]}
+          values={value}
           sliderLength={300}
-          onValuesChange={(value) => setAge(value)}
+          onValuesChange={onChange}
           min={18}
           max={70}
           step={1}

@@ -43,7 +43,7 @@ function ProfilePhotoScreen({navigation}) {
           resizeMode="stretch"
           source={Images.BluredBackground}>
           <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={() => props.navigation.goBack()}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image style={styles.backIcon} source={Images.BackArrow} />
             </TouchableOpacity>
             <Image
@@ -70,8 +70,8 @@ function ProfilePhotoScreen({navigation}) {
             onSubmit={handleSubmit}>
             <FormImagePicker name="images" />
             <View style={styles.videoContainer}>
-              <FormVideoPicker name="video" />
-              {/* <VideoInput /> */}
+              {/* <FormVideoPicker name="video" /> */}
+              <VideoInput />
             </View>
             <View style={styles.button}>
               <SubmitButton title="upload" />

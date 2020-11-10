@@ -81,7 +81,7 @@ function RegisterScreen(props) {
   return (
     <Screen>
       <BackgroundVideo />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAvoidingView
           behavior="padding"
           enabled={Platform.OS === 'ios'}
@@ -142,30 +142,30 @@ function RegisterScreen(props) {
                 <FormField
                   autoCorrect={false}
                   name="fname"
-                  placeholder="Enter your first Name..."
+                  placeholder="Enter your first name"
                 />
                 <Text style={styles.label}>MIDDLE NAME :</Text>
                 <FormField
                   autoCorrect={false}
                   name="mname"
-                  placeholder="Enter your middle Name..."
+                  placeholder="Enter your middle name"
                 />
                 <Text style={styles.label}>LAST NAME :</Text>
                 <FormField
                   autoCorrect={false}
                   name="lname"
-                  placeholder="Enter your last Name..."
+                  placeholder="Enter your last name"
                 />
                 <Text style={styles.label}>USERNAME :</Text>
                 <FormField
                   autoCorrect={false}
                   name="uname"
-                  placeholder="Enter Username..."
+                  placeholder="Enter username"
                 />
                 <Text style={styles.label}>PASSWORD :</Text>
                 <FormField
                   name="password"
-                  placeholder="Enter your password..."
+                  placeholder="Enter your password"
                   textContentType="password"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -174,7 +174,7 @@ function RegisterScreen(props) {
                 <Text style={styles.label}>REPEAT PASSWORD :</Text>
                 <FormField
                   name="confirmPassword"
-                  placeholder="Confirm your password..."
+                  placeholder="Confirm your password"
                   textContentType="password"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -183,7 +183,7 @@ function RegisterScreen(props) {
                 <Text style={styles.label}>EMAIL :</Text>
                 <FormField
                   name="email"
-                  placeholder="Enter your email..."
+                  placeholder="Enter your email"
                   textContentType="emailAddress"
                   keyboardType="email-address"
                   autoCapitalize="none"
@@ -217,7 +217,7 @@ function RegisterScreen(props) {
                         style={styles.button}
                         onPress={() => setModalVisible(!isVisible)}>
                         <View style={{zIndex: 1, position: 'absolute'}}>
-                          <Text style={styles.textStyle1}>EDIT INFO</Text>
+                          <Text style={styles.editText}>EDIT INFO</Text>
                         </View>
                         <Image
                           style={styles.editButton}
@@ -229,7 +229,7 @@ function RegisterScreen(props) {
                         style={styles.button}
                         onPress={confirmButton}>
                         <View style={{zIndex: 1, position: 'absolute'}}>
-                          <Text style={styles.textStyle}>YES, I AM SURE</Text>
+                          <Text style={styles.confirmText}>YES, I AM SURE</Text>
                         </View>
                         <Image
                           style={styles.yesButton}
@@ -294,6 +294,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.dark,
+    opacity: 0.9,
   },
   modalView: {
     margin: 20,
@@ -310,13 +312,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 15,
   },
-  textStyle: {
+  confirmText: {
     fontSize: 18,
     color: Colors.white,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  textStyle1: {
+  editText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.black,
@@ -324,6 +326,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     color: Colors.white,
+    margin: 20,
     marginBottom: 20,
     fontSize: 18,
     textAlign: 'center',
@@ -331,7 +334,7 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 2,
+    margin: 3,
   },
   buttonContainer: {
     flexDirection: 'row',

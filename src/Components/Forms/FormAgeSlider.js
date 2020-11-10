@@ -5,10 +5,10 @@ import AgeSlider from '../Common/AgeSlider';
 
 function AppAgeSlider({name}) {
   const {setFieldValue, values} = useFormikContext();
-
+  const ageVal = values[name];
   return (
     <AgeSlider
-      value={(values[name[0]], values[name[1]])}
+      value={values[name]}
       onChange={(value) => setFieldValue(name, value)}
     />
   );

@@ -16,6 +16,7 @@ import {
   Form,
   FormZip,
   FormGender,
+  FormAgeSlider,
   FormRangeSlider,
   FormCheckbox,
   SubmitButton,
@@ -86,7 +87,7 @@ function SettingsScreen(props) {
                   isman: false,
                   iswoman: false,
                   zipcode: '',
-                  // age: [18, 0],
+                  age: [18, 70],
                   range: 500,
                   worldwide: false,
                   lookman: false,
@@ -104,7 +105,8 @@ function SettingsScreen(props) {
                   <FormZip name="zipcode" keyboardType="numeric" />
                 </View>
                 <View style={styles.rangeContainer}>
-                  <AgeSlider />
+                  {/* <AgeSlider /> */}
+                  <FormAgeSlider name="age" />
                   <FormRangeSlider name="range" />
                   <View style={styles.worldwideContainer}>
                     <FormCheckbox name="worldwide" />
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   subtitleText: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     color: Colors.light,
   },
@@ -240,7 +242,7 @@ const styles = StyleSheet.create({
   worldwideContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 60,
+    height: 50,
   },
   worldwide: {
     fontSize: 18,

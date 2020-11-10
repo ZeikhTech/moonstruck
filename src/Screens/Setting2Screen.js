@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
+  Platform,
   ImageBackground,
   TouchableOpacity,
   KeyboardAvoidingView,

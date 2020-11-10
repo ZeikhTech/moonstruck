@@ -40,7 +40,9 @@ function LoginScreen(props) {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
         <View style={styles.container}>
           <BackgroundVideo />
-          <ScrollView style={{height: '100%'}}>
+          <ScrollView
+            style={{height: '100%'}}
+            showsVerticalScrollIndicator={false}>
             <View style={styles.headerContainer}>
               <TouchableOpacity onPress={() => props.navigation.goBack()}>
                 <Animatable.Image
