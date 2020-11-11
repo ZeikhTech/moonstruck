@@ -65,13 +65,12 @@ function ProfilePhotoScreen({navigation}) {
             <Text style={styles.subLabel}>NOTE: 10 SEC MAX FOR THE VIDEO</Text>
           </View>
           <Form
-            initialValues={{images: [], video: ''}}
+            initialValues={{images: [], video: null}}
             validationSchema={schema}
             onSubmit={handleSubmit}>
             <FormImagePicker name="images" />
             <View style={styles.videoContainer}>
-              {/* <FormVideoPicker name="video" /> */}
-              <VideoInput />
+              <FormVideoPicker name="video" />
             </View>
             <View style={styles.button}>
               <SubmitButton title="upload" />
@@ -137,11 +136,10 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   videoContainer: {
-    flex: 1,
     alignItems: 'center',
   },
   button: {
-    marginTop: 10,
+    marginTop: 15,
     flex: 0.35,
   },
 });

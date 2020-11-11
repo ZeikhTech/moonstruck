@@ -12,7 +12,13 @@ import Video from 'react-native-video';
 
 import Images from '../../Constants/Images';
 
-export default ({videoUris, onChange}) => {
+export default (props) => {
+  const {videoUri, onVideoChange} = props;
+
+  const handlePress = () => {
+    if (!videoUri) pickVideo();
+  };
+
   const pickVideo = async () => {
     try {
       const video = await ImagePicker.openPicker({
@@ -25,7 +31,7 @@ export default ({videoUris, onChange}) => {
         uri: video.path,
         type: video.mime,
       };
-      if (video) onChange(data.uri);
+      if (video) onVideoChange(data.uri);
     } catch (e) {
       if (e.code !== 'E_PICKER_CANCELLED') {
         console.log(e);
@@ -38,14 +44,14 @@ export default ({videoUris, onChange}) => {
   };
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={pickVideo}>
+      <TouchableOpacity onPress={handlePress}>
         <View style={styles.plaroidContainer}>
           <ImageBackground
             resizeMode="cover"
             style={styles.polaroid}
             source={Images.Frame}>
             <View style={styles.CameraIconContainer}>
-              {videoUris ? null : (
+              {videoUri ? null : (
                 <Image
                   style={styles.videoIcon}
                   source={Images.VideoIcon}
@@ -55,10 +61,10 @@ export default ({videoUris, onChange}) => {
             </View>
           </ImageBackground>
         </View>
-        {videoUris && (
+        {videoUri && (
           <View style={styles.wrapper}>
             <Video
-              source={{uri: videoUris}}
+              source={{uri: videoUri}}
               style={styles.selectedImage}
               resizeMode="cover"
               muted={true}
@@ -91,13 +97,14 @@ const styles = StyleSheet.create({
     width: 90,
   },
   wrapper: {
-    bottom: 190,
+    alignItems: 'center',
+    bottom: 185,
     width: '100%',
     height: '55%',
   },
   selectedImage: {
-    width: '100%',
-    height: '100%',
+    width: '85%',
+    height: '86%',
   },
   polaroid: {
     width: '100%',

@@ -6,6 +6,7 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
@@ -16,7 +17,9 @@ import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 
 function ForgotScreen(props) {
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    Keyboard.dismiss();
+  };
 
   return (
     <Screen>

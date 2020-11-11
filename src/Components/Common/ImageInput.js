@@ -11,12 +11,9 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import Images from '../../Constants/Images';
 
-export default (props) => {
-  const {imageUri, onChangeImage} = props;
-
+export default ({imageUri, onChangeImage}) => {
   const handlePress = () => {
     if (!imageUri) selectImage();
-    // else onChangeImage(null);
   };
 
   const selectImage = async () => {
@@ -52,7 +49,7 @@ export default (props) => {
             style={styles.polaroid}
             source={Images.Frame}>
             <View style={styles.CameraIconContainer}>
-              {imageUri ? null : (
+              {!imageUri && (
                 <Image
                   style={styles.CameraIcon}
                   source={Images.CameraIcon}
@@ -95,13 +92,14 @@ const styles = StyleSheet.create({
     width: 80,
   },
   wrapper: {
-    bottom: 190,
+    alignItems: 'center',
+    bottom: 185,
     width: '100%',
     height: '55%',
   },
   selectedImage: {
-    width: '100%',
-    height: '100%',
+    width: '85%',
+    height: '86%',
   },
   polaroid: {
     width: '100%',

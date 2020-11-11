@@ -11,13 +11,15 @@ export default ({imageUris = [], onRemoveImage, onAddImage}) => {
     <View style={styles.container}>
       <ScrollView
         ref={scrollView}
-        onContentSizeChange={() => scrollView.current.scrollToEnd()}>
+        onContentSizeChange={() => scrollView.current.scrollToEnd()}
+        showsVerticalScrollIndicator={false}>
         <View style={{}}>
           {imageUris.map((uri, i) => (
             <View key={i} style={styles.image}>
-              <ImageInput imageUri={uri} />
+              <ImageInput imageUri={uri} onRemove={() => onRemoveImage(uri)} />
               <Icon
-                onPress={() => onRemoveImage(uri)}
+                key={i}
+                onPress={() => onRemoveImage(i)}
                 style={styles.closeIcon}
                 name="close"
                 color="white"
@@ -26,7 +28,7 @@ export default ({imageUris = [], onRemoveImage, onAddImage}) => {
             </View>
           ))}
         </View>
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', marginBottom: 5}}>
           {imageUris.length === 5 ? null : (
             <ImageInput onChangeImage={(uri) => onAddImage(uri)} />
           )}

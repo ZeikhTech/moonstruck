@@ -25,52 +25,52 @@ const AuthNavigator = () => (
     <Stack.Screen
       name="Welcome"
       component={WelcomeScreen}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
       name="Login"
       component={LoginScreen}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
       name="Register"
       component={RegisterScreen}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
       name="Forgot"
       component={ForgotScreen}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
       name="Swiper"
       component={ScreenSwiper}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
       name="Profile"
       component={ProfileScreen}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
       name="Settings"
       component={SettingsScreen}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
       name="ProfilePic"
       component={ProfilePhotoScreen}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
       name="Setting2"
       component={Setting2Screen}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
       name="SwipeCard"
       component={MatchScreen}
-      options={{headerShown: false}}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
   </Stack.Navigator>
 );
