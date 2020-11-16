@@ -28,7 +28,7 @@ export default ({imageUris = [], onRemoveImage, onAddImage}) => {
             </View>
           ))}
         </View>
-        <View style={{alignItems: 'center', marginBottom: 5}}>
+        <View style={{alignItems: 'center', marginBottom: -1}}>
           {imageUris.length === 5 ? null : (
             <ImageInput onChangeImage={(uri) => onAddImage(uri)} />
           )}
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   image: {
-    marginBottom: 19,
+    marginBottom: 10,
     alignItems: 'center',
   },
   closeIcon: {

@@ -1,16 +1,18 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {LogBox} from 'react-native';
+import {Provider} from 'react-redux';
 
-import {navigationRef} from './src/Navigation/rootNavigation';
-import AuthNavigator from './src/Navigation/AuthNavigation';
-import PhotoScreen from './src/Screens/Setting2Screen';
-console.disableYellowBox = true;
+import store from './src/Store/store';
+import MainStack from './src/Navigation/MainStack';
+import OfflineNotice from './src/Components/Common/OfflineNotice';
+
+LogBox.ignoreAllLogs();
 
 export default function App() {
   return (
-    <NavigationContainer ref={navigationRef}>
-      <AuthNavigator />
-    </NavigationContainer>
-    // <PhotoScreen />
+    <Provider store={store}>
+      <OfflineNotice />
+      <MainStack />
+    </Provider>
   );
 }

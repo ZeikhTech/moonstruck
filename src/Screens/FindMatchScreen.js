@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 5,
     width: '100%',
-    height: '40%',
+    height: '38%',
     borderWidth: 2,
     borderRadius: 15,
     borderColor: Colors.primary,
@@ -390,8 +390,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalView: {
-    height: 645,
-    top: 20,
+    height: 630,
+    top: 25,
     opacity: 0.85,
     margin: 15,
     backgroundColor: Colors.dark,
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 0,
+    bottom: -10,
   },
   button: {
     justifyContent: 'center',

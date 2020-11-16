@@ -1,15 +1,18 @@
 import React from 'react';
-import {View, SafeAreaView, StyleSheet} from 'react-native';
+import {View, ActivityIndicator, StyleSheet} from 'react-native';
 
 export default (props) => {
   return (
     <View style={styles.wrapper}>
-      <SafeAreaView style={styles.wrapper}>{props.children}</SafeAreaView>
+      <ActivityIndicator color="dodgerblue" size="large" {...props} />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

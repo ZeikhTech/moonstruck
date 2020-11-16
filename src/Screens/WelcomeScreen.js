@@ -25,7 +25,7 @@ function IntroScreen({navigation}) {
 
   const repetingInterval = setInterval(() => {
     if (changingText.current) {
-      changingText.current.fadeOut(3000).then(() => {
+      changingText.current.fadeOut(4000).then(() => {
         if (fadingText === 'NUMEROLOGY AND ASTROLOGY DATING') {
           setFadingText('THE SCIENCE OF ATTRACTION');
         } else {

@@ -6,17 +6,12 @@ import SplashScreen from '../Screens/SplashScreen';
 import ForgotScreen from '../Screens/ForgotScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
 import WelcomeScreen from '../Screens/WelcomeScreen';
-import ScreenSwiper from '../Components/Common/ScreenSwiper';
-import ProfileScreen from './../Screens/ProfileScreen';
-import SettingsScreen from './../Screens/SettingScreen';
-import ProfilePhotoScreen from './../Screens/ProfilePhotoScreen';
-import Setting2Screen from '../Screens/Setting2Screen';
-import MatchScreen from '../Screens/FindMatchScreen';
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
 
-const AuthNavigator = () => (
-  <Stack.Navigator initialRouteName="SplashScreen">
+const AuthNavigator = (Stack) => (
+  // <Stack.Navigator initialRouteName="SplashScreen">
+  <>
     <Stack.Screen
       name="SplashScreen"
       component={SplashScreen}
@@ -42,37 +37,8 @@ const AuthNavigator = () => (
       component={ForgotScreen}
       options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
-    <Stack.Screen
-      name="Swiper"
-      component={ScreenSwiper}
-      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
-    />
-    <Stack.Screen
-      name="Profile"
-      component={ProfileScreen}
-      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
-    />
-    <Stack.Screen
-      name="Settings"
-      component={SettingsScreen}
-      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
-    />
-    <Stack.Screen
-      name="ProfilePic"
-      component={ProfilePhotoScreen}
-      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
-    />
-    <Stack.Screen
-      name="Setting2"
-      component={Setting2Screen}
-      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
-    />
-    <Stack.Screen
-      name="SwipeCard"
-      component={MatchScreen}
-      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
-    />
-  </Stack.Navigator>
+  </>
+  // </Stack.Navigator>
 );
 
 export default AuthNavigator;

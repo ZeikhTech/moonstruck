@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
@@ -25,6 +26,7 @@ import {
   FormBirthday,
   SubmitButton,
 } from '../Components/Forms';
+import Loader from '../Components/Common/Loader';
 import BackgroundVideo from '../Components/Common/BackgroundVideo';
 import Screen from '../Components/Common/Screen';
 import Routes from '../Navigation/routes';
@@ -64,6 +66,8 @@ function RegisterScreen(props) {
   const [isVisible, setIsVisible] = useState(false);
   const [toolTip, setToolTip] = useState(false);
 
+  const {showLoader} = useSelector((state) => state.ui.signup);
+
   const handleSubmit = (values) => {
     console.log('values', values);
     setModalVisible(true);
@@ -81,170 +85,176 @@ function RegisterScreen(props) {
   return (
     <Screen>
       <BackgroundVideo />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <KeyboardAvoidingView
-          behavior="padding"
-          enabled={Platform.OS === 'ios'}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
-          <View style={styles.container}>
-            <View style={styles.headerContainer}>
-              <TouchableOpacity onPress={() => props.navigation.goBack()}>
+      {showLoader ? (
+        <Loader />
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <KeyboardAvoidingView
+            behavior="padding"
+            enabled={Platform.OS === 'ios'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
+            <View style={styles.container}>
+              <View style={styles.headerContainer}>
+                <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                  <Animatable.Image
+                    style={styles.backIcon}
+                    delay={3000}
+                    animation={'fadeIn'}
+                    resizeMode="contain"
+                    source={Images.BackArrow}
+                  />
+                </TouchableOpacity>
                 <Animatable.Image
-                  style={styles.backIcon}
-                  delay={3000}
-                  animation={'fadeIn'}
+                  delay={2000}
+                  animation={'zoomIn'}
+                  style={styles.logo}
+                  source={Images.Logo}
                   resizeMode="contain"
-                  source={Images.BackArrow}
                 />
-              </TouchableOpacity>
-              <Animatable.Image
-                delay={2000}
-                animation={'zoomIn'}
-                style={styles.logo}
-                source={Images.Logo}
-                resizeMode="contain"
-              />
-            </View>
-            <Animatable.View
-              style={{flex: 1}}
-              delay={2500}
-              animation={'fadeIn'}>
-              <Form
-                initialValues={initialValues}
-                onSubmit={handleSubmit}
-                validationSchema={validationSchema}>
-                <ErrorMessage error="" />
-                <View style={{flexDirection: 'row', flex: 1}}>
-                  <Text style={styles.label}>FIRST NAME :</Text>
-                  <View style={styles.tooltip}>
-                    <Tooltip
-                      isVisible={toolTip}
-                      content={
-                        <Text style={{color: Colors.white, fontSize: 16}}>
-                          Please enter your FULL NAME at birth, including middle
-                          name.
-                        </Text>
-                      }
-                      contentStyle={{backgroundColor: Colors.primary}}
-                      placement="left"
-                      onClose={() => setToolTip(false)}>
-                      <TouchableWithoutFeedback
-                        onPress={() => setToolTip(true)}>
-                        <Icon
-                          name="information-circle-outline"
-                          size={30}
-                          color={Colors.white}
-                        />
-                      </TouchableWithoutFeedback>
-                    </Tooltip>
-                  </View>
-                </View>
-                <FormField
-                  autoCorrect={false}
-                  name="fname"
-                  placeholder="Enter your first name"
-                />
-                <Text style={styles.label}>MIDDLE NAME :</Text>
-                <FormField
-                  autoCorrect={false}
-                  name="mname"
-                  placeholder="Enter your middle name"
-                />
-                <Text style={styles.label}>LAST NAME :</Text>
-                <FormField
-                  autoCorrect={false}
-                  name="lname"
-                  placeholder="Enter your last name"
-                />
-                <Text style={styles.label}>USERNAME :</Text>
-                <FormField
-                  autoCorrect={false}
-                  name="uname"
-                  placeholder="Enter username"
-                />
-                <Text style={styles.label}>PASSWORD :</Text>
-                <FormField
-                  name="password"
-                  placeholder="Enter your password"
-                  textContentType="password"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  secureTextEntry
-                />
-                <Text style={styles.label}>REPEAT PASSWORD :</Text>
-                <FormField
-                  name="confirmPassword"
-                  placeholder="Confirm your password"
-                  textContentType="password"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  secureTextEntry
-                />
-                <Text style={styles.label}>EMAIL :</Text>
-                <FormField
-                  name="email"
-                  placeholder="Enter your email"
-                  textContentType="emailAddress"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-                <View style={styles.genderContainer}>
-                  <Text style={styles.label}>GENDER :</Text>
-                  <FormRadio name="gender" />
-                </View>
-                <View style={styles.dateContainer}>
-                  <Text style={styles.label}>YOUR BIRTHDAY :</Text>
-                  <FormBirthday name="birthday" />
-                </View>
-                <SubmitButton title="Register" marginTop={25} />
-              </Form>
-            </Animatable.View>
-
-            {isVisible && (
-              <Modal
-                visible={isVisible}
-                animationType="slide"
-                transparent={true}>
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <Text style={styles.modalText}>
-                      Are you sure? Moonstruck only works if you enter the
-                      correct information.
-                    </Text>
-                    <View style={styles.buttonContainer}>
-                      <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => setModalVisible(!isVisible)}>
-                        <View style={{zIndex: 1, position: 'absolute'}}>
-                          <Text style={styles.editText}>EDIT INFO</Text>
-                        </View>
-                        <Image
-                          style={styles.editButton}
-                          resizeMode="contain"
-                          source={Images.EditButton}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.button}
-                        onPress={confirmButton}>
-                        <View style={{zIndex: 1, position: 'absolute'}}>
-                          <Text style={styles.confirmText}>YES, I AM SURE</Text>
-                        </View>
-                        <Image
-                          style={styles.yesButton}
-                          resizeMode="contain"
-                          source={Images.Button}
-                        />
-                      </TouchableOpacity>
+              </View>
+              <Animatable.View
+                style={{flex: 1}}
+                delay={2500}
+                animation={'fadeIn'}>
+                <Form
+                  initialValues={initialValues}
+                  onSubmit={handleSubmit}
+                  validationSchema={validationSchema}>
+                  <ErrorMessage error="" />
+                  <View style={{flexDirection: 'row', flex: 1}}>
+                    <Text style={styles.label}>FIRST NAME :</Text>
+                    <View style={styles.tooltip}>
+                      <Tooltip
+                        isVisible={toolTip}
+                        content={
+                          <Text style={{color: Colors.white, fontSize: 16}}>
+                            Please enter your FULL NAME at birth, including
+                            middle name.
+                          </Text>
+                        }
+                        contentStyle={{backgroundColor: Colors.primary}}
+                        placement="left"
+                        onClose={() => setToolTip(false)}>
+                        <TouchableWithoutFeedback
+                          onPress={() => setToolTip(true)}>
+                          <Icon
+                            name="information-circle-outline"
+                            size={30}
+                            color={Colors.white}
+                          />
+                        </TouchableWithoutFeedback>
+                      </Tooltip>
                     </View>
                   </View>
-                </View>
-              </Modal>
-            )}
-          </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+                  <FormField
+                    autoCorrect={false}
+                    name="fname"
+                    placeholder="Enter your first name"
+                  />
+                  <Text style={styles.label}>MIDDLE NAME :</Text>
+                  <FormField
+                    autoCorrect={false}
+                    name="mname"
+                    placeholder="Enter your middle name"
+                  />
+                  <Text style={styles.label}>LAST NAME :</Text>
+                  <FormField
+                    autoCorrect={false}
+                    name="lname"
+                    placeholder="Enter your last name"
+                  />
+                  <Text style={styles.label}>USERNAME :</Text>
+                  <FormField
+                    autoCorrect={false}
+                    name="uname"
+                    placeholder="Enter username"
+                  />
+                  <Text style={styles.label}>PASSWORD :</Text>
+                  <FormField
+                    name="password"
+                    placeholder="Enter your password"
+                    textContentType="password"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry
+                  />
+                  <Text style={styles.label}>REPEAT PASSWORD :</Text>
+                  <FormField
+                    name="confirmPassword"
+                    placeholder="Confirm your password"
+                    textContentType="password"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry
+                  />
+                  <Text style={styles.label}>EMAIL :</Text>
+                  <FormField
+                    name="email"
+                    placeholder="Enter your email"
+                    textContentType="emailAddress"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                  <View style={styles.genderContainer}>
+                    <Text style={styles.label}>GENDER :</Text>
+                    <FormRadio name="gender" />
+                  </View>
+                  <View style={styles.dateContainer}>
+                    <Text style={styles.label}>YOUR BIRTHDAY :</Text>
+                    <FormBirthday name="birthday" />
+                  </View>
+                  <SubmitButton title="Register" marginTop={25} />
+                </Form>
+              </Animatable.View>
+
+              {isVisible && (
+                <Modal
+                  visible={isVisible}
+                  animationType="slide"
+                  transparent={true}>
+                  <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                      <Text style={styles.modalText}>
+                        Are you sure? Moonstruck only works if you enter the
+                        correct information.
+                      </Text>
+                      <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                          style={styles.button}
+                          onPress={() => setModalVisible(!isVisible)}>
+                          <View style={{zIndex: 1, position: 'absolute'}}>
+                            <Text style={styles.editText}>EDIT INFO</Text>
+                          </View>
+                          <Image
+                            style={styles.editButton}
+                            resizeMode="contain"
+                            source={Images.EditButton}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.button}
+                          onPress={confirmButton}>
+                          <View style={{zIndex: 1, position: 'absolute'}}>
+                            <Text style={styles.confirmText}>
+                              YES, I AM SURE
+                            </Text>
+                          </View>
+                          <Image
+                            style={styles.yesButton}
+                            resizeMode="contain"
+                            source={Images.Button}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
+              )}
+            </View>
+          </KeyboardAvoidingView>
+        </ScrollView>
+      )}
     </Screen>
   );
 }

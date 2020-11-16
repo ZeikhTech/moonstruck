@@ -21,7 +21,6 @@ import {
   FormVideoPicker,
   SubmitButton,
 } from '../Components/Forms';
-import VideoInput from '../Components/Common/VideoInput';
 
 const {width, height} = Dimensions.get('window');
 
