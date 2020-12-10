@@ -26,12 +26,15 @@ import {
   FormBirthday,
   SubmitButton,
 } from '../Components/Forms';
+
+import Colors from '../Constants/Colors';
+import Images from '../Constants/Images';
+
 import Loader from '../Components/Common/Loader';
 import BackgroundVideo from '../Components/Common/BackgroundVideo';
 import Screen from '../Components/Common/Screen';
 import Routes from '../Navigation/routes';
-import Colors from '../Constants/Colors';
-import Images from '../Constants/Images';
+import storage from '../Services/storage';
 
 const {width, height} = Dimensions.get('window');
 
@@ -68,8 +71,10 @@ function RegisterScreen(props) {
 
   const {showLoader} = useSelector((state) => state.ui.signup);
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log('values', values);
+
+    await storage.store('user', values);
     setModalVisible(true);
   };
 
@@ -79,7 +84,7 @@ function RegisterScreen(props) {
 
   const confirmButton = () => {
     setModalVisible(false);
-    props.navigation.navigate(Routes.SWIPER);
+    props.navigation.navigate(Routes.ON_BOARDING);
   };
 
   return (

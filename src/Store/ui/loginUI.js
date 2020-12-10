@@ -13,3 +13,6 @@ const slice = createSlice({
     },
   },
 });
+
+export const {showLoginLoader} = slice.actions;
+export default slice.reducer;

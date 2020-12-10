@@ -158,7 +158,7 @@ function ProfileScreen({navigation}) {
               source={Images.Logo}
             />
             <TouchableOpacity
-              onPress={() => navigation.navigate(Routes.SETTING)}>
+              onPress={() => navigation.navigate(Routes.PROFILE_SETTING)}>
               <Image
                 resizeMode="contain"
                 style={styles.settingsIcon}
@@ -176,6 +176,7 @@ function ProfileScreen({navigation}) {
               onSwiped={onSwiped}
               onSwipedAll={onSwipeAllCards}
               showSecondCard={false}
+              onSwipedRight={(id) => navigation.navigate(Routes.CHAT, data[id])}
               renderCard={Card}
               disableTopSwipe
               disableBottomSwipe
@@ -324,9 +325,10 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     position: 'absolute',
-    top: -50,
+    top: -60,
     left: 0,
     right: 0,
+    bottom: 0,
   },
   card: {
     overflow: 'hidden',
@@ -391,7 +393,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     height: 630,
-    top: 25,
+    top: 15,
     opacity: 0.85,
     margin: 15,
     backgroundColor: Colors.dark,

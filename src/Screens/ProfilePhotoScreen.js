@@ -31,7 +31,7 @@ const schema = Yup.object().shape({
 function ProfilePhotoScreen({navigation}) {
   const handleSubmit = (values) => {
     console.log('Images----', values);
-    navigation.navigate(Routes.SEETING2);
+    navigation.navigate(Routes.BIO_SETTING);
   };
 
   return (

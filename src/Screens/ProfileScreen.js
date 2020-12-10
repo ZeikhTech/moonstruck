@@ -34,7 +34,7 @@ function ProfileScreen(props) {
               source={Images.Logo}
             />
             <TouchableOpacity
-              onPress={() => props.navigation.navigate(Routes.SETTING)}>
+              onPress={() => props.navigation.navigate(Routes.PROFILE_SETTING)}>
               <Animatable.Image
                 delay={900}
                 animation="rotate"

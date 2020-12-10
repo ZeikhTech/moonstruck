@@ -33,7 +33,7 @@ function SettingsScreen(props) {
   const handleFormSubmit = (value) => {
     console.log('values', value);
 
-    props.navigation.navigate(Routes.PROFILE_PIC);
+    props.navigation.navigate(Routes.UPLOAD_PIC);
   };
 
   return (
@@ -105,7 +105,6 @@ function SettingsScreen(props) {
                   <FormZip name="zipcode" keyboardType="numeric" />
                 </View>
                 <View style={styles.rangeContainer}>
-                  {/* <AgeSlider /> */}
                   <FormAgeSlider name="age" />
                   <FormRangeSlider name="range" />
                   <View style={styles.worldwideContainer}>

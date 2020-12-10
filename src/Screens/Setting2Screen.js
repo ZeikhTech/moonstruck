@@ -20,18 +20,23 @@ import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
 
+import storage from '../Services/storage';
+
 const {width, height} = Dimensions.get('window');
 
 function ProfilePhotoScreen(props) {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
-  const handleSubmit = () => {};
+  const handleLogout = async () => {
+    await storage.remove('user');
+    props.navigation.navigate(Routes.WELCOME);
+  };
 
   return (
     <Screen>
       <KeyboardAvoidingView
-        style={{flex: 1}}
+        style={{}}
         behavior="padding"
         enabled={Platform.OS === 'ios'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
@@ -92,12 +97,17 @@ function ProfilePhotoScreen(props) {
                 <View style={styles.button}>
                   <Button
                     title="let's get started"
-                    onPress={() => props.navigation.navigate(Routes.SWIPECARD)}
+                    onPress={() => props.navigation.navigate(Routes.FINDMATCH)}
                   />
                 </View>
                 <View style={styles.separatorLight2} />
                 <View style={styles.accountContainer}>
-                  <Button title="logout" white={true} color="red" />
+                  <Button
+                    title="logout"
+                    white={true}
+                    color="red"
+                    onPress={handleLogout}
+                  />
                   <View style={{marginLeft: 8}}>
                     <Button title="delete account" white={true} color="gray" />
                   </View>
@@ -113,10 +123,10 @@ function ProfilePhotoScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
   },
   bgImage: {
-    flex: 1,
+    // flex: 1,
   },
   headerContainer: {
     padding: 10,
@@ -150,7 +160,7 @@ const styles = StyleSheet.create({
   },
   settingContainer: {
     marginTop: 20,
-    height: height * 0.7,
+    height: height * 0.75,
     alignItems: 'center',
   },
   label: {
@@ -203,7 +213,8 @@ const styles = StyleSheet.create({
     top: 40,
   },
   accountContainer: {
-    top: 80,
+    position: 'absolute',
+    bottom: 0,
     flexDirection: 'row',
   },
 });

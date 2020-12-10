@@ -11,9 +11,6 @@ const slice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
-    resetToken: (state, action) => {
-      state = initialState;
-    },
   },
 });
 

@@ -7,16 +7,29 @@ import Screen from '../Components/Common/Screen';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
 
+import storage from '../Services/storage';
+
 function SplashScreen(props) {
   useEffect(() => {
-    setTimeout(navigateToNextScreen, 3000);
+    initializeApp();
   }, []);
 
-  const navigateToNextScreen = () => {
+  const initializeApp = async () => {
+    let nextScreen = Routes.WELCOME;
+    try {
+      const user = await storage.get('user');
+      if (user) nextScreen = Routes.BIO_SETTING;
+    } catch (error) {}
+    setTimeout(() => {
+      navigateToNextScreen(nextScreen);
+    }, 3000);
+  };
+
+  const navigateToNextScreen = (name) => {
     const {navigation} = props;
     const resetAction = CommonActions.reset({
       index: 1,
-      routes: [{name: Routes.WELCOME}],
+      routes: [{name}],
     });
 
     navigation.dispatch(resetAction);

@@ -7,6 +7,7 @@ import SettingsScreen from './../Screens/SettingScreen';
 import ProfilePhotoScreen from './../Screens/ProfilePhotoScreen';
 import Setting2Screen from '../Screens/Setting2Screen';
 import MatchScreen from '../Screens/FindMatchScreen';
+import ChatScreen from '../Screens/ChatScreen';
 
 // const Stack = createStackNavigator();
 
@@ -41,6 +42,11 @@ const AuthNavigator = (Stack) => (
     <Stack.Screen
       name="SwipeCard"
       component={MatchScreen}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
+    />
+    <Stack.Screen
+      name="Chat"
+      component={ChatScreen}
       options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
   </>

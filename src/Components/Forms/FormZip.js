@@ -12,7 +12,7 @@ function AppFormField({name, ...otherProps}) {
       style={styles.zipcodeInput}
       onBlur={() => setFieldTouched(name)}
       onChangeText={(text) => setFieldValue(name, text)}
-      value={values[name]}
+      value={+values[name]}
       {...otherProps}
     />
   );
