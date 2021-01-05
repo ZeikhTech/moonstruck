@@ -2,11 +2,13 @@ import React, {useEffect} from 'react';
 import {View, Dimensions, StyleSheet, ImageBackground} from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
+import {useDispatch} from 'react-redux';
 
 import Screen from '../Components/Common/Screen';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
-
+import {setToken} from '../Store/auth/authState';
+import {setUser} from '../Store/auth/user';
 import storage from '../Services/storage';
 
 function SplashScreen(props) {
@@ -14,15 +16,28 @@ function SplashScreen(props) {
     initializeApp();
   }, []);
 
+  const dispatch = useDispatch();
+
   const initializeApp = async () => {
     let nextScreen = Routes.WELCOME;
     try {
+      const xAuthToken = await storage.get('xAuthToken');
       const user = await storage.get('user');
-      if (user) nextScreen = Routes.BIO_SETTING;
-    } catch (error) {}
+      // console.log(user[0].email);
+      if (user && xAuthToken) {
+        // dispatch(setToken(xAuthToken));
+        // dispatch(setUser(user));
+
+        nextScreen = Routes.FINDMATCH;
+
+        if (!user[0].verified) nextScreen = Routes.VERIFY_EMAIL;
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
     setTimeout(() => {
       navigateToNextScreen(nextScreen);
-    }, 3000);
+    }, 2000);
   };
 
   const navigateToNextScreen = (name) => {
@@ -35,22 +50,20 @@ function SplashScreen(props) {
     navigation.dispatch(resetAction);
   };
   return (
-    <Screen>
-      <ImageBackground
-        resizeMode="stretch"
-        style={styles.bgImage}
-        source={Images.BackgroundImage}>
-        <View style={styles.container}>
-          <Animatable.Image
-            delay={500}
-            animation="fadeIn"
-            source={Images.Logo}
-            style={styles.logoImage}
-            resizeMode="contain"
-          />
-        </View>
-      </ImageBackground>
-    </Screen>
+    <ImageBackground
+      resizeMode="stretch"
+      style={styles.bgImage}
+      source={Images.BackgroundImage}>
+      <View style={styles.container}>
+        <Animatable.Image
+          delay={500}
+          animation="fadeIn"
+          source={Images.Logo}
+          style={styles.logoImage}
+          resizeMode="contain"
+        />
+      </View>
+    </ImageBackground>
   );
 }
 

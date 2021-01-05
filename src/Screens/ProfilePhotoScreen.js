@@ -29,55 +29,65 @@ const schema = Yup.object().shape({
 });
 
 function ProfilePhotoScreen({navigation}) {
-  const handleSubmit = (values) => {
-    console.log('Images----', values);
+  const handleSubmit = async (values) => {
+    console.log(values);
+    // const data = new FormData();
+    // data.append('video', values.video);
+    // values.images.forEach((image, index) => {
+    //   data.append('images', {
+    //     filename: 'image' + index,
+    //     type: 'image/jpeg',
+    //     uri: image,
+    //   });
+    // });
+
+    // console.log('images============', data);
+
     navigation.navigate(Routes.BIO_SETTING);
   };
 
   return (
-    <Screen>
-      <View style={styles.container}>
-        <ImageBackground
-          style={styles.bgImage}
-          resizeMode="stretch"
-          source={Images.BluredBackground}>
-          <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Image style={styles.backIcon} source={Images.BackArrow} />
-            </TouchableOpacity>
-            <Image
-              style={styles.logo}
-              source={Images.Logo}
-              resizeMode="contain"
-            />
+    <View style={styles.container}>
+      <ImageBackground
+        style={styles.bgImage}
+        resizeMode="stretch"
+        source={Images.BluredBackground}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image style={styles.backIcon} source={Images.BackArrow} />
+          </TouchableOpacity>
+          <Image
+            style={styles.logo}
+            source={Images.Logo}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>SETTINGS</Text>
+          <Image
+            style={styles.settingIcon}
+            resizeMode="center"
+            source={Images.SettingIcon}
+          />
+        </View>
+        <View style={styles.photoContainer}>
+          <Text style={styles.label}>ADD PROFILE / VIDEOS</Text>
+          <Text style={styles.subLabel}>NOTE: 10 SEC MAX FOR THE VIDEO</Text>
+        </View>
+        <Form
+          initialValues={{images: [], video: null}}
+          validationSchema={schema}
+          onSubmit={handleSubmit}>
+          <FormImagePicker name="images" />
+          <View style={styles.videoContainer}>
+            <FormVideoPicker name="video" />
           </View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>SETTINGS</Text>
-            <Image
-              style={styles.settingIcon}
-              resizeMode="center"
-              source={Images.SettingIcon}
-            />
+          <View style={styles.button}>
+            <SubmitButton title="upload" wp={250} hp={100} />
           </View>
-          <View style={styles.photoContainer}>
-            <Text style={styles.label}>ADD PROFILE / VIDEOS</Text>
-            <Text style={styles.subLabel}>NOTE: 10 SEC MAX FOR THE VIDEO</Text>
-          </View>
-          <Form
-            initialValues={{images: [], video: null}}
-            validationSchema={schema}
-            onSubmit={handleSubmit}>
-            <FormImagePicker name="images" />
-            <View style={styles.videoContainer}>
-              <FormVideoPicker name="video" />
-            </View>
-            <View style={styles.button}>
-              <SubmitButton title="upload" />
-            </View>
-          </Form>
-        </ImageBackground>
-      </View>
-    </Screen>
+        </Form>
+      </ImageBackground>
+    </View>
   );
 }
 
@@ -89,10 +99,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    padding: 10,
+    // padding: 10,
     marginLeft: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    // marginVertical: 10,
   },
   backIcon: {
     marginRight: 40,
@@ -111,7 +122,7 @@ const styles = StyleSheet.create({
   settingIcon: {
     marginLeft: 30,
     width: 40,
-    height: 40,
+    height: 30,
   },
 
   titleText: {
@@ -125,21 +136,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   label: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     color: Colors.white,
   },
   subLabel: {
-    marginTop: 5,
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.white,
   },
   videoContainer: {
     alignItems: 'center',
   },
   button: {
-    marginTop: 15,
-    flex: 0.35,
+    // backgroundColor: 'red',
+    bottom: 25,
   },
 });
 

@@ -20,50 +20,45 @@ const {width, height} = Dimensions.get('screen');
 
 function OnBoardScreen2(props) {
   return (
-    <Screen>
-      <View style={styles.container}>
-        <ImageBackground style={styles.bgImage} source={Images.BackgroundImage}>
-          <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={props.onBackPress}>
-              <Image style={styles.backIcon} source={Images.BackArrow} />
-            </TouchableOpacity>
-            <Image
-              style={styles.logo}
-              source={Images.Logo}
-              resizeMode="contain"
-            />
-          </View>
+    <View style={styles.container}>
+      <ImageBackground style={styles.bgImage} source={Images.BackgroundImage}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={props.onBackPress}>
+            <Image style={styles.backIcon} source={Images.BackArrow} />
+          </TouchableOpacity>
+          <Image
+            style={styles.logo}
+            source={Images.Logo}
+            resizeMode="contain"
+          />
+        </View>
 
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              resizeMode="contain"
-              source={Images.Onboarding2}
-            />
-          </View>
-          <View style={styles.textContainer}>
-            <Animatable.Text
-              style={styles.label}
-              delay={3500}
-              animation="fadeIn">
-              NUMEROLOGY TOOLS
-            </Animatable.Text>
-            <Animatable.View
-              style={styles.sloganContainer}
-              delay={4000}
-              animation="fadeIn">
-              <Text style={styles.slogan}>
-                Access numerology tools and personal reports by numerology
-                expert Michael Emilio
-              </Text>
-            </Animatable.View>
-          </View>
-          <View style={styles.button}>
-            <Button title="go to the tools" />
-          </View>
-        </ImageBackground>
-      </View>
-    </Screen>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            resizeMode="contain"
+            source={Images.Onboarding2}
+          />
+        </View>
+        <View style={styles.textContainer}>
+          <Animatable.Text style={styles.label} delay={3500} animation="fadeIn">
+            NUMEROLOGY TOOLS
+          </Animatable.Text>
+          <Animatable.View
+            style={styles.sloganContainer}
+            delay={4000}
+            animation="fadeIn">
+            <Text style={styles.slogan}>
+              Access numerology tools and personal reports by numerology expert
+              Michael Emilio
+            </Text>
+          </Animatable.View>
+        </View>
+        <View style={styles.button}>
+          <Button title="go to the tools" />
+        </View>
+      </ImageBackground>
+    </View>
   );
 }
 
@@ -79,6 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical: 20,
   },
   backIcon: {
     marginRight: 20,

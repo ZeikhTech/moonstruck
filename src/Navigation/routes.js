@@ -1,8 +1,12 @@
 export default Object.freeze({
   WELCOME: 'Welcome',
   LOGIN: 'Login',
+  VERIFY_EMAIL: 'VerifyEmail',
+  VERIFY_PASS: 'VerifyPass',
+  NEW_PASS: 'NewPass',
   REGISTER: 'Register',
   FORGOT: 'Forgot',
+  DELETE_ACCOUNT: 'remove',
   ON_BOARDING: 'Swiper',
   PROFILE: 'Profile',
   PROFILE_SETTING: 'Settings',

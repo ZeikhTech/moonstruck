@@ -6,17 +6,20 @@ import {
   Modal,
   Platform,
   ScrollView,
+  Alert,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch, connect} from 'react-redux';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 import * as Yup from 'yup';
+
+import store from '../Store/store';
 
 import {
   ErrorMessage,
@@ -29,62 +32,68 @@ import {
 
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
-
 import Loader from '../Components/Common/Loader';
 import BackgroundVideo from '../Components/Common/BackgroundVideo';
 import Screen from '../Components/Common/Screen';
+import Button from '../Components/Common/Button';
 import Routes from '../Navigation/routes';
-import storage from '../Services/storage';
+import {signup} from '../Store/api/auth';
 
 const {width, height} = Dimensions.get('window');
 
 const validationSchema = Yup.object().shape({
-  fname: Yup.string().required().label('*First Name'),
-  lname: Yup.string().required().label('*Last Name'),
-  uname: Yup.string().required().label('*Username'),
+  first_name: Yup.string().required().label('*First Name'),
+  last_name: Yup.string().required().label('*Last Name'),
+  uName: Yup.string().required().label('*Username'),
   email: Yup.string().required().email().label('*Email'),
-  password: Yup.string().required().min(4).label('*Password'),
-  confirmPassword: Yup.string()
+  password: Yup.string().required().min(6).label('*Password'),
+  passconf: Yup.string()
     .oneOf([Yup.ref('password'), null], '*Password must be match')
     .required()
-    .min(4)
+    .min(6)
     .label('*Confirm Password'),
   gender: Yup.string().required().label('*Gender'),
-  birthday: Yup.string().required().label('*Birth date'),
+  birth_date: Yup.string().label('*Birth date'),
 });
 
 const initialValues = {
-  fname: '',
-  mname: '',
-  lname: '',
-  uname: '',
-  password: '',
-  confirmPassword: '',
-  email: '',
-  gender: '',
-  birthday: '',
+  first_name: 'test',
+  middle_name: 'test',
+  last_name: 'test',
+  uName: 'test',
+  password: '123456',
+  passconf: '123456',
+  email: 'test@gmail.com',
+  gender: 'Male',
+  birth_date: '',
 };
+
+import axios from 'axios';
 
 function RegisterScreen(props) {
   const [isVisible, setIsVisible] = useState(false);
+  const [error, setError] = useState();
   const [toolTip, setToolTip] = useState(false);
 
   const {showLoader} = useSelector((state) => state.ui.signup);
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (values) => {
-    console.log('values', values);
-
-    await storage.store('user', values);
-    setModalVisible(true);
-  };
-
-  const setModalVisible = (visible) => {
-    setIsVisible(visible);
-  };
-
-  const confirmButton = () => {
-    setModalVisible(false);
-    props.navigation.navigate(Routes.ON_BOARDING);
+  const confirmButton = async (values) => {
+    dispatch(
+      signup({
+        body: values,
+        onSuccess: (res) => {
+          if (res.data.error) {
+            setIsVisible(false);
+            setError(res.data.error);
+          } else {
+            setError('');
+            setIsVisible(false);
+            props.navigation.navigate(Routes.VERIFY_EMAIL);
+          }
+        },
+      }),
+    );
   };
 
   return (
@@ -121,9 +130,10 @@ function RegisterScreen(props) {
                 style={{flex: 1}}
                 delay={2500}
                 animation={'fadeIn'}>
+                {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
                 <Form
                   initialValues={initialValues}
-                  onSubmit={handleSubmit}
+                  onSubmit={confirmButton}
                   validationSchema={validationSchema}>
                   <ErrorMessage error="" />
                   <View style={{flexDirection: 'row', flex: 1}}>
@@ -153,25 +163,25 @@ function RegisterScreen(props) {
                   </View>
                   <FormField
                     autoCorrect={false}
-                    name="fname"
+                    name="first_name"
                     placeholder="Enter your first name"
                   />
                   <Text style={styles.label}>MIDDLE NAME :</Text>
                   <FormField
                     autoCorrect={false}
-                    name="mname"
+                    name="middle_name"
                     placeholder="Enter your middle name"
                   />
                   <Text style={styles.label}>LAST NAME :</Text>
                   <FormField
                     autoCorrect={false}
-                    name="lname"
+                    name="last_name"
                     placeholder="Enter your last name"
                   />
                   <Text style={styles.label}>USERNAME :</Text>
                   <FormField
                     autoCorrect={false}
-                    name="uname"
+                    name="uName"
                     placeholder="Enter username"
                   />
                   <Text style={styles.label}>PASSWORD :</Text>
@@ -179,17 +189,13 @@ function RegisterScreen(props) {
                     name="password"
                     placeholder="Enter your password"
                     textContentType="password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
                     secureTextEntry
                   />
                   <Text style={styles.label}>REPEAT PASSWORD :</Text>
                   <FormField
-                    name="confirmPassword"
+                    name="passconf"
                     placeholder="Confirm your password"
                     textContentType="password"
-                    autoCapitalize="none"
-                    autoCorrect={false}
                     secureTextEntry
                   />
                   <Text style={styles.label}>EMAIL :</Text>
@@ -201,61 +207,54 @@ function RegisterScreen(props) {
                     autoCapitalize="none"
                     autoCorrect={false}
                   />
+
                   <View style={styles.genderContainer}>
                     <Text style={styles.label}>GENDER :</Text>
                     <FormRadio name="gender" />
                   </View>
                   <View style={styles.dateContainer}>
                     <Text style={styles.label}>YOUR BIRTHDAY :</Text>
-                    <FormBirthday name="birthday" />
+                    <FormBirthday name="birth_date" />
                   </View>
-                  <SubmitButton title="Register" marginTop={25} />
+                  <View style={{marginVertical: 10}}>
+                    <Button
+                      title="Register"
+                      onPress={() => setIsVisible(true)}
+                    />
+                  </View>
+
+                  {isVisible && (
+                    <Modal
+                      visible={isVisible}
+                      animationType="slide"
+                      transparent={true}>
+                      <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                          <Text style={styles.modalText}>
+                            Are you sure? Moonstruck only works if you enter the
+                            correct information.
+                          </Text>
+                          <View style={styles.buttonContainer}>
+                            <TouchableOpacity
+                              style={styles.button}
+                              onPress={() => setIsVisible(!isVisible)}>
+                              <View style={{zIndex: 1, position: 'absolute'}}>
+                                <Text style={styles.editText}>EDIT INFO</Text>
+                              </View>
+                              <Image
+                                style={styles.editButton}
+                                resizeMode="contain"
+                                source={Images.EditButton}
+                              />
+                            </TouchableOpacity>
+                            <SubmitButton title="YES, I AM SURE" size={true} />
+                          </View>
+                        </View>
+                      </View>
+                    </Modal>
+                  )}
                 </Form>
               </Animatable.View>
-
-              {isVisible && (
-                <Modal
-                  visible={isVisible}
-                  animationType="slide"
-                  transparent={true}>
-                  <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                      <Text style={styles.modalText}>
-                        Are you sure? Moonstruck only works if you enter the
-                        correct information.
-                      </Text>
-                      <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                          style={styles.button}
-                          onPress={() => setModalVisible(!isVisible)}>
-                          <View style={{zIndex: 1, position: 'absolute'}}>
-                            <Text style={styles.editText}>EDIT INFO</Text>
-                          </View>
-                          <Image
-                            style={styles.editButton}
-                            resizeMode="contain"
-                            source={Images.EditButton}
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.button}
-                          onPress={confirmButton}>
-                          <View style={{zIndex: 1, position: 'absolute'}}>
-                            <Text style={styles.confirmText}>
-                              YES, I AM SURE
-                            </Text>
-                          </View>
-                          <Image
-                            style={styles.yesButton}
-                            resizeMode="contain"
-                            source={Images.Button}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
-                </Modal>
-              )}
             </View>
           </KeyboardAvoidingView>
         </ScrollView>
@@ -263,6 +262,8 @@ function RegisterScreen(props) {
     </Screen>
   );
 }
+
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -352,6 +353,7 @@ const styles = StyleSheet.create({
     margin: 3,
   },
   buttonContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
   },
   editButton: {
@@ -363,5 +365,3 @@ const styles = StyleSheet.create({
     height: 50,
   },
 });
-
-export default RegisterScreen;

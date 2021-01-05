@@ -9,6 +9,10 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Video from 'react-native-video';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 import Images from '../../Constants/Images';
 
@@ -103,12 +107,12 @@ const styles = StyleSheet.create({
     height: '55%',
   },
   selectedImage: {
-    width: '85%',
-    height: '86%',
+    width: '95%',
+    height: '87%',
   },
   polaroid: {
-    width: '100%',
-    height: 200,
+    width: wp('65%'),
+    height: hp('29%'),
     zIndex: 1,
   },
 });

@@ -1,13 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  data: {
-    _id: '',
-    name: '',
-    username: '',
-    gender: '',
-    image: '',
-  },
+  data: {},
   loading: false,
   cachedAt: null,
 };
@@ -26,8 +20,11 @@ const slice = createSlice({
       state.data = action.payload;
       state.cachedAt = Date.now();
     },
+    resetUser: (state, action) => {
+      state = initialState;
+    },
   },
 });
 
-export const {setUser} = slice.actions;
+export const {loadingUser, setUser, updateUser, resetUser} = slice.actions;
 export default slice.reducer;

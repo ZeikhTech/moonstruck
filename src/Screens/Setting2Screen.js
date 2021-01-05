@@ -13,111 +13,131 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
+import {Form, FormField, FormSwitch, SubmitButton} from '../Components/Forms';
 import Screen from '../Components/Common/Screen';
 import Button from '../Components/Common/Button';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
 
+import {setBio} from '../Store/api/profile';
+import {logout} from '../Store/api/auth';
+
 import storage from '../Services/storage';
 
 const {width, height} = Dimensions.get('window');
 
 function ProfilePhotoScreen(props) {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const profile = useSelector((state) => state.auth.user.data);
+  // console.log('profile===============', profile);
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (values) => {
+    console.log(values);
+    dispatch(
+      setBio({
+        body: values,
+        onSuccess: (res) => {
+          // console.log(res.data.user);
+          props.navigation.navigate(Routes.FINDMATCH);
+        },
+      }),
+    );
+  };
 
   const handleLogout = async () => {
-    await storage.remove('user');
-    props.navigation.navigate(Routes.WELCOME);
+    dispatch(
+      logout({
+        onSuccess: (res) => {
+          console.log(res.data);
+        },
+      }),
+    );
   };
 
   return (
-    <Screen>
-      <KeyboardAvoidingView
-        style={{}}
-        behavior="padding"
-        enabled={Platform.OS === 'ios'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
-        <View style={styles.container}>
-          <ImageBackground
-            style={styles.bgImage}
-            resizeMode="stretch"
-            source={Images.BluredBackground}>
-            <ScrollView style={{height: '100%'}}>
-              <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={() => props.navigation.goBack()}>
-                  <Image style={styles.backIcon} source={Images.BackArrow} />
-                </TouchableOpacity>
-                <Image
-                  style={styles.logo}
-                  source={Images.Logo}
-                  resizeMode="contain"
-                />
-              </View>
-              <View style={styles.titleContainer}>
-                <Text style={styles.titleText}>SETTINGS</Text>
-                <Image
-                  style={styles.settingIcon}
-                  resizeMode="center"
-                  source={Images.SettingIcon}
-                />
-              </View>
-              <View style={styles.settingContainer}>
-                <Text style={styles.label}>A LITTLE BLURB ?</Text>
-                <View style={styles.textAreaContainer}>
-                  <TextInput
-                    style={styles.textInput}
-                    multiline={true}
-                    numberOfLines={10}
-                    placeholderTextColor={Colors.light}
-                    placeholder="Tell us about yourself and what you are looking for..."
-                  />
-                </View>
+    <KeyboardAvoidingView
+      style={{}}
+      behavior="padding"
+      enabled={Platform.OS === 'ios'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
+      <View style={styles.container}>
+        <ImageBackground
+          style={styles.bgImage}
+          resizeMode="stretch"
+          source={Images.BluredBackground}>
+          <ScrollView style={{height: '100%'}}>
+            <View style={styles.headerContainer}>
+              <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                <Image style={styles.backIcon} source={Images.BackArrow} />
+              </TouchableOpacity>
+              <Image
+                style={styles.logo}
+                source={Images.Logo}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.titleText}>SETTINGS</Text>
+              <Image
+                style={styles.settingIcon}
+                resizeMode="center"
+                source={Images.SettingIcon}
+              />
+            </View>
+            <View style={styles.settingContainer}>
+              <Text style={styles.label}>A LITTLE BLURB ?</Text>
+
+              <Form
+                initialValues={{
+                  blurb: '',
+                  push_notification: false,
+                }}
+                onSubmit={handleSubmit}>
+                <FormField name="blurb" autoCorrect={false} blurb={true} />
+
                 <View style={styles.separatorLight} />
                 <View style={styles.notificationContainer}>
-                  <Text style={styles.notificationText}>
-                    PUSH NOTIFICATIONS
-                  </Text>
+                  <View>
+                    <Text style={styles.notificationText}>
+                      PUSH NOTIFICATIONS
+                    </Text>
+                  </View>
                   <View style={styles.switchContainer}>
-                    <Switch
-                      value={isEnabled}
-                      thumbColor={Colors.white}
-                      ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleSwitch}
-                      trackColor={{
-                        false: Colors.white,
-                        true: Colors.toggleSwitch,
-                      }}
-                    />
+                    <FormSwitch name="push_notification" />
                   </View>
                 </View>
                 <View style={styles.separatorLight} />
                 <View style={styles.button}>
-                  <Button
-                    title="let's get started"
-                    onPress={() => props.navigation.navigate(Routes.FINDMATCH)}
-                  />
+                  <SubmitButton title="let's get started" />
                 </View>
-                <View style={styles.separatorLight2} />
-                <View style={styles.accountContainer}>
+              </Form>
+              <View style={styles.separatorLight2} />
+              <View style={styles.accountContainer}>
+                <Button
+                  title="logout"
+                  white={true}
+                  color="red"
+                  onPress={handleLogout}
+                />
+                <View style={{marginLeft: 8}}>
                   <Button
-                    title="logout"
+                    title="delete account"
                     white={true}
-                    color="red"
-                    onPress={handleLogout}
+                    color="gray"
+                    onPress={() =>
+                      props.navigation.navigate(Routes.DELETE_ACCOUNT)
+                    }
                   />
-                  <View style={{marginLeft: 8}}>
-                    <Button title="delete account" white={true} color="gray" />
-                  </View>
                 </View>
               </View>
-            </ScrollView>
-          </ImageBackground>
-        </View>
-      </KeyboardAvoidingView>
-    </Screen>
+            </View>
+          </ScrollView>
+        </ImageBackground>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -129,10 +149,11 @@ const styles = StyleSheet.create({
     // flex: 1,
   },
   headerContainer: {
-    padding: 10,
+    padding: 5,
     marginLeft: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    // marginVertical: 10,
   },
   backIcon: {
     marginRight: 40,
@@ -159,8 +180,9 @@ const styles = StyleSheet.create({
     color: Colors.text,
   },
   settingContainer: {
-    marginTop: 20,
-    height: height * 0.75,
+    marginVertical: 10,
+    // marginTop: 20,
+    height: height,
     alignItems: 'center',
   },
   label: {
@@ -168,53 +190,42 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.white,
   },
-  textAreaContainer: {
-    width: '80%',
-    marginTop: 10,
-    borderWidth: 2,
-    borderColor: Colors.secondary,
-  },
-  textInput: {
-    padding: 10,
-    height: 200,
-    fontSize: 20,
-    fontStyle: 'italic',
-    color: Colors.white,
-    justifyContent: 'flex-start',
-    textAlignVertical: 'top',
-  },
+
   separatorLight: {
     height: 0.5,
-    width: '75%',
-    marginTop: 20,
+    width: '80%',
+    // marginTop: 15,
     backgroundColor: Colors.light,
+    // marginVertical: 10,
   },
   notificationContainer: {
-    top: 10,
-    right: 20,
+    // flex: 1,
+    width: '100%',
     flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    justifyContent: 'space-evenly',
+    alignSelf: 'center',
   },
   notificationText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.white,
   },
-  switchContainer: {
-    left: 40,
-  },
+  switchContainer: {},
   separatorLight2: {
-    top: 55,
+    top: 40,
     height: 0.5,
-    width: '75%',
-    marginTop: 20,
+    width: '80%',
+    // marginTop: 20,
     backgroundColor: Colors.light,
   },
   button: {
-    top: 40,
+    top: 20,
   },
   accountContainer: {
-    position: 'absolute',
-    bottom: 0,
+    // position: 'absolute',
+    top: 50,
     flexDirection: 'row',
   },
 });

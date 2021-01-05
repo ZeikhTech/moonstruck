@@ -42,10 +42,13 @@ const {height, width} = Dimensions.get('screen');
 const styles = StyleSheet.create({
   dotStyle: {
     marginBottom: 80,
+    flex: 1,
+    justifyContent: 'center',
   },
   dots: {
-    height: height * 0.02,
-    width: width * 0.07,
+    marginHorizontal: 2,
+    height: height * 0.045,
+    width: width * 0.08,
   },
 });
 

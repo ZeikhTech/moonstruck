@@ -20,7 +20,8 @@ export default (props) => {
 
 const styles = StyleSheet.create({
   video: {
-    height: height,
+    flex: 1,
+    // height: height,
     position: 'absolute',
     top: 0,
     left: 0,

@@ -11,8 +11,11 @@ const slice = createSlice({
     showLoginLoader: (state, action) => {
       state.showLoader = action.payload;
     },
+    showResetLoader: (state, action) => {
+      state.showLoader = action.payload;
+    },
   },
 });
 
-export const {showLoginLoader} = slice.actions;
+export const {showLoginLoader, showResetLoader} = slice.actions;
 export default slice.reducer;

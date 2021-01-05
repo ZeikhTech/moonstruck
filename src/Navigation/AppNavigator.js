@@ -8,6 +8,7 @@ import ProfilePhotoScreen from './../Screens/ProfilePhotoScreen';
 import Setting2Screen from '../Screens/Setting2Screen';
 import MatchScreen from '../Screens/FindMatchScreen';
 import ChatScreen from '../Screens/ChatScreen';
+import DeleteAccountScreen from '../Screens/DeleteAccountScreen';
 
 // const Stack = createStackNavigator();
 
@@ -47,6 +48,11 @@ const AuthNavigator = (Stack) => (
     <Stack.Screen
       name="Chat"
       component={ChatScreen}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
+    />
+    <Stack.Screen
+      name="remove"
+      component={DeleteAccountScreen}
       options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
   </>

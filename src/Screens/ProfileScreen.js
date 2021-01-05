@@ -15,89 +15,90 @@ import Screen from '../Components/Common/Screen';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
 
+import storage from '../Services/storage';
+
+import store from '../Store/store';
+
 const {width, height} = Dimensions.get('window');
 
 function ProfileScreen(props) {
+  const data = store.getState();
+  const name = data.auth.user.data[0].first_name;
   return (
-    <Screen>
-      <View style={styles.container}>
-        <ImageBackground
-          style={styles.bgImage}
-          resizeMode="cover"
-          source={Images.BluredBackground}>
-          <View style={styles.header}>
+    <View style={styles.container}>
+      <ImageBackground
+        style={styles.bgImage}
+        resizeMode="cover"
+        source={Images.BluredBackground}>
+        <View style={styles.header}>
+          <Animatable.Image
+            delay={700}
+            animation="bounceInLeft"
+            style={styles.logo}
+            resizeMode="contain"
+            source={Images.Logo}
+          />
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate(Routes.PROFILE_SETTING)}>
             <Animatable.Image
-              delay={700}
-              animation="bounceInLeft"
-              style={styles.logo}
+              delay={900}
+              animation="rotate"
               resizeMode="contain"
-              source={Images.Logo}
+              style={styles.settingsIcon}
+              source={Images.SettingIcon}
             />
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate(Routes.PROFILE_SETTING)}>
-              <Animatable.Image
-                delay={900}
-                animation="rotate"
-                resizeMode="contain"
-                style={styles.settingsIcon}
-                source={Images.SettingIcon}
-              />
-            </TouchableOpacity>
-          </View>
-          <Animatable.View
-            delay={1500}
+          </TouchableOpacity>
+        </View>
+        <Animatable.View
+          delay={1500}
+          animation="fadeIn"
+          style={styles.titleContainer}>
+          <Text style={styles.title}>WELCOME.</Text>
+          <Text style={styles.name}>{name.toUpperCase()}</Text>
+        </Animatable.View>
+        <Animatable.View style={styles.lifeContainer}>
+          <Animatable.Text
+            delay={2000}
             animation="fadeIn"
-            style={styles.titleContainer}>
-            <Text style={styles.title}>WELCOME.</Text>
-            <Text style={styles.name}>DAVE</Text>
-          </Animatable.View>
-          <Animatable.View style={styles.lifeContainer}>
+            style={styles.lifeNumber}>
+            Your life path number is a
+          </Animatable.Text>
+          <Animatable.Text
+            delay={2200}
+            animation="flipInX"
+            style={styles.number}>
+            2
+          </Animatable.Text>
+        </Animatable.View>
+        <Animatable.View delay={2500} animation="fadeIn" style={styles.box}>
+          <Animatable.Text
+            delay={2800}
+            animation="fadeIn"
+            style={styles.boxTitle}>
+            THE HEALER
+          </Animatable.Text>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             <Animatable.Text
-              delay={2000}
-              animation="fadeIn"
-              style={styles.lifeNumber}>
-              Your life path number is a
+              delay={3000}
+              animation="fadeInLeft"
+              style={styles.boxBody}>
+              FRIENDLY AND GENUINE {'\n'}INTUITIVE AND {'\n'}EMPATHETIC{'\n'}
+              DIPLOMATIC AND LOVING {'\n'}SUPPORTIVE AND FLEXIBLE {'\n'}
+              EMOTIONALLY ENGAGING {'\n'}TENDENCY TO BE {'\n'}INDECISIVE AND TOO
+              NICE
             </Animatable.Text>
-            <Animatable.Text
-              delay={2200}
-              animation="flipInX"
-              style={styles.number}>
-              2
-            </Animatable.Text>
-          </Animatable.View>
-          <Animatable.View delay={2500} animation="fadeIn" style={styles.box}>
-            <Animatable.Text
-              delay={2800}
-              animation="fadeIn"
-              style={styles.boxTitle}>
-              THE HEALER
-            </Animatable.Text>
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Animatable.Text
-                delay={3000}
-                animation="fadeInLeft"
-                style={styles.boxBody}>
-                FRIENDLY AND GENUINE {'\n'}INTUITIVE AND {'\n'}EMPATHETIC{'\n'}
-                DIPLOMATIC AND LOVING {'\n'}SUPPORTIVE AND FLEXIBLE {'\n'}
-                EMOTIONALLY ENGAGING {'\n'}TENDENCY TO BE {'\n'}INDECISIVE AND
-                TOO NICE
-              </Animatable.Text>
-            </View>
-          </Animatable.View>
-          <Animatable.View
-            delay={3300}
-            animation="zoomIn"
-            style={styles.button}>
-            <Button title="continue" />
-          </Animatable.View>
-        </ImageBackground>
-      </View>
-    </Screen>
+          </View>
+        </Animatable.View>
+        <Animatable.View delay={3300} animation="zoomIn" style={styles.button}>
+          <Button title="continue" />
+        </Animatable.View>
+      </ImageBackground>
+    </View>
   );
 }
 

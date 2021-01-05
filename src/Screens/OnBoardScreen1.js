@@ -34,51 +34,48 @@ function OnBoardingScreen1(props) {
   }, []);
 
   return (
-    <Screen>
-      <View style={styles.container}>
-        <Video
-          style={styles.video}
-          source={videoSource}
-          resizeMode="cover"
-          paused={pause}
-          audioOnly={true}
-        />
-        <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={props.onBackPress}>
-            <Image style={styles.backIcon} source={Images.BackArrow} />
-          </TouchableOpacity>
-          <Image
-            style={styles.logo}
-            source={Images.Logo}
-            resizeMode="contain"
-          />
-        </View>
-        <View style={styles.textContainer}>
-          <Animatable.Text style={styles.label} delay={3500} animation="fadeIn">
-            NUMEROLOGY DATING
-          </Animatable.Text>
-          <Animatable.View
-            style={styles.sloganContainer}
-            delay={4000}
-            animation="fadeIn">
-            <Text style={styles.slogan}>
-              Use numerology and astrology to find others you vibe with...
-            </Text>
-          </Animatable.View>
-        </View>
-        <View style={styles.button}>
-          <Button title="Start Dating now" onPress={props.onStart} />
-        </View>
+    <View style={styles.container}>
+      <Video
+        style={styles.video}
+        source={videoSource}
+        resizeMode="cover"
+        paused={pause}
+        audioOnly={true}
+      />
+      {/* <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={props.onBackPress}>
+          <Image style={styles.backIcon} source={Images.BackArrow} />
+        </TouchableOpacity>
+        <Image style={styles.logo} source={Images.Logo} resizeMode="contain" />
+      </View> */}
+      <View style={styles.textContainer}>
+        <Animatable.Text style={styles.label} delay={3500} animation="fadeIn">
+          NUMEROLOGY DATING
+        </Animatable.Text>
+        <Animatable.View
+          style={styles.sloganContainer}
+          delay={4000}
+          animation="fadeIn">
+          <Text style={styles.slogan}>
+            Use numerology and astrology to find others you vibe with...
+          </Text>
+        </Animatable.View>
       </View>
-    </Screen>
+      <View style={styles.button}>
+        <Button title="Start Dating now" onPress={props.onStart} />
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // marginVertical: 10,
+    // padding: 20,
   },
   video: {
+    // flex: 1,
     height,
     position: 'absolute',
     top: 0,
@@ -87,10 +84,11 @@ const styles = StyleSheet.create({
     right: 0,
   },
   headerContainer: {
-    bottom: 5,
+    // bottom: 5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical: 10,
   },
   backIcon: {
     marginRight: 20,
@@ -105,8 +103,9 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    top: 65,
-    marginTop: 'auto',
+    // position: 'relative',
+    top: 85,
+    // marginTop: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
   },

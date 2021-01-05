@@ -11,6 +11,10 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import * as Progress from 'react-native-progress';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 import Screen from '../Components/Common/Screen';
 import Button from '../Components/Common/Button';
@@ -71,68 +75,77 @@ function ProfileScreen({navigation}) {
           </ImageBackground>
         </View>
         <View style={styles.detailContainer}>
-          <View style={styles.details}>
-            <View style={styles.textContainer}>
-              <Text style={styles.detailText}>LIFEPATH: </Text>
-              <Text style={styles.detailNumber}>{data[index].lifepath}</Text>
+          <View style={{height: hp('100%')}}>
+            <View style={styles.details}>
+              <View style={styles.textContainer}>
+                <Text style={styles.detailText}>LIFEPATH: </Text>
+                <Text style={styles.detailNumber}>{data[index].lifepath}</Text>
+              </View>
+              <View style={styles.progressContainer}>
+                <Text style={styles.percentage}>100%</Text>
+                <Progress.Bar
+                  style={styles.progress}
+                  progress={1}
+                  borderColor={Colors.white}
+                  color={Colors.secondary}
+                />
+              </View>
             </View>
-            <View style={styles.progressContainer}>
-              <Text style={styles.percentage}>100%</Text>
-              <Progress.Bar
-                style={styles.progress}
-                progress={1}
-                borderColor={Colors.white}
-                color={Colors.secondary}
+            <View style={styles.details}>
+              <View style={styles.textContainer}>
+                <Text style={styles.detailText}>DESTINY: </Text>
+                <Text style={styles.detailNumber}>{data[index].destiny}</Text>
+              </View>
+              <View style={styles.progressContainer}>
+                <Text style={styles.percentage}>30%</Text>
+                <Progress.Bar
+                  style={styles.progress}
+                  progress={0.5}
+                  borderColor={Colors.white}
+                  color={Colors.secondary}
+                />
+              </View>
+            </View>
+            <View style={styles.details}>
+              <View style={styles.textContainer}>
+                <Text style={styles.detailText}>PERSONALITY: </Text>
+                <Text style={styles.detailNumber}>
+                  {data[index].personality}
+                </Text>
+              </View>
+              <View style={styles.progressContainer}>
+                <Text style={styles.percentage}>20%</Text>
+                <Progress.Bar
+                  style={styles.progress}
+                  progress={0.3}
+                  borderColor={Colors.white}
+                  color={Colors.secondary}
+                />
+              </View>
+            </View>
+            <View style={styles.details}>
+              <View style={styles.textContainer}>
+                <Text style={styles.detailText}>HEART'S DESIRE: </Text>
+                <Text style={styles.detailNumber}>{data[index].desire}</Text>
+              </View>
+              <View style={styles.progressContainer}>
+                <Text style={styles.percentage}>80%</Text>
+                <Progress.Bar
+                  style={styles.progress}
+                  progress={0.8}
+                  borderColor={Colors.white}
+                  color={Colors.secondary}
+                />
+              </View>
+            </View>
+            <View style={styles.btnCover}>
+              <Button
+                title="more about me"
+                onPress={handlePress}
+                hp={hp('8%')}
+                wp={wp('70%')}
               />
             </View>
-          </View>
-          <View style={styles.details}>
-            <View style={styles.textContainer}>
-              <Text style={styles.detailText}>DESTINY: </Text>
-              <Text style={styles.detailNumber}>{data[index].destiny}</Text>
-            </View>
-            <View style={styles.progressContainer}>
-              <Text style={styles.percentage}>30%</Text>
-              <Progress.Bar
-                style={styles.progress}
-                progress={0.5}
-                borderColor={Colors.white}
-                color={Colors.secondary}
-              />
-            </View>
-          </View>
-          <View style={styles.details}>
-            <View style={styles.textContainer}>
-              <Text style={styles.detailText}>PERSONALITY: </Text>
-              <Text style={styles.detailNumber}>{data[index].personality}</Text>
-            </View>
-            <View style={styles.progressContainer}>
-              <Text style={styles.percentage}>20%</Text>
-              <Progress.Bar
-                style={styles.progress}
-                progress={0.3}
-                borderColor={Colors.white}
-                color={Colors.secondary}
-              />
-            </View>
-          </View>
-          <View style={styles.details}>
-            <View style={styles.textContainer}>
-              <Text style={styles.detailText}>HEART'S DESIRE: </Text>
-              <Text style={styles.detailNumber}>{data[index].desire}</Text>
-            </View>
-            <View style={styles.progressContainer}>
-              <Text style={styles.percentage}>80%</Text>
-              <Progress.Bar
-                style={styles.progress}
-                progress={0.8}
-                borderColor={Colors.white}
-                color={Colors.secondary}
-              />
-            </View>
-          </View>
-          <View style={styles.btnCover}>
-            <Button title="more about me" onPress={handlePress} />
           </View>
         </View>
       </View>
@@ -140,7 +153,7 @@ function ProfileScreen({navigation}) {
   };
 
   return (
-    <Screen>
+    <>
       <View style={styles.container}>
         <ImageBackground
           style={styles.bgImage}
@@ -158,7 +171,7 @@ function ProfileScreen({navigation}) {
               source={Images.Logo}
             />
             <TouchableOpacity
-              onPress={() => navigation.navigate(Routes.PROFILE_SETTING)}>
+              onPress={() => navigation.navigate(Routes.BIO_SETTING)}>
               <Image
                 resizeMode="contain"
                 style={styles.settingsIcon}
@@ -176,7 +189,9 @@ function ProfileScreen({navigation}) {
               onSwiped={onSwiped}
               onSwipedAll={onSwipeAllCards}
               showSecondCard={false}
-              onSwipedRight={(id) => navigation.navigate(Routes.CHAT, data[id])}
+              onSwipedRight={(userInfo) =>
+                navigation.navigate(Routes.CHAT, {user: userInfo})
+              }
               renderCard={Card}
               disableTopSwipe
               disableBottomSwipe
@@ -258,7 +273,7 @@ function ProfileScreen({navigation}) {
           </Modal>
         )}
       </View>
-    </Screen>
+    </>
   );
 }
 
@@ -273,6 +288,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
+    // marginVertical: 10,
   },
   chatIcon: {
     width: width * 0.08,
@@ -298,10 +314,11 @@ const styles = StyleSheet.create({
   },
   swiperContainer: {
     flex: 1,
+    // position: 'absolute',
   },
   cardImage: {
-    width: '100%',
-    height: 380,
+    width: wp('90%'),
+    height: hp('50%'),
     zIndex: 1,
   },
   shadowContainer: {
@@ -324,11 +341,12 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   cardContainer: {
+    // flex: 1,
     position: 'absolute',
     top: -60,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    // left: 0,
+    // right: 0,
+    // bottom: 0,
   },
   card: {
     overflow: 'hidden',
@@ -344,21 +362,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 10,
     paddingTop: 5,
-    width: '100%',
-    height: '38%',
+    width: wp('90%'),
+    height: hp('33%'),
     borderWidth: 2,
     borderRadius: 15,
     borderColor: Colors.primary,
   },
   detailText: {
-    fontSize: 16,
+    fontSize: 14,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     color: Colors.white,
   },
   detailNumber: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: 'bold',
     color: Colors.primary,
   },
@@ -380,25 +398,23 @@ const styles = StyleSheet.create({
     width: 120,
   },
   percentage: {
-    fontSize: 14,
+    fontSize: 12,
     color: Colors.white,
   },
-  btnCover: {
-    marginTop: 10,
-  },
+  btnCover: {},
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalView: {
-    height: 630,
-    top: 15,
-    opacity: 0.85,
-    margin: 15,
+    height: hp('85%'),
+    top: 20,
+    opacity: 0.9,
+    marginHorizontal: 10,
     backgroundColor: Colors.dark,
     borderRadius: 25,
-    padding: 60,
+    padding: 20,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -436,7 +452,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   editButton: {
-    width: width * 0.75,
+    width: width * 0.8,
     height: 100,
   },
 });

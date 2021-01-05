@@ -16,7 +16,7 @@ function AppFormCalendar({name}) {
       size={40}
       checked={values[name]}
       uncheckedColor={Colors.white}
-      checkedColor={name === 'lookwoman' ? Colors.secondary : Colors.range}
+      checkedColor={name === 'woman' ? Colors.secondary : Colors.range}
       onPress={handlePress}
     />
   );

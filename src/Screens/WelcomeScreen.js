@@ -43,78 +43,73 @@ function IntroScreen({navigation}) {
   }, []);
   return (
     <Screen>
-      <View style={styles.container}>
-        <Video />
-        <Animatable.Image
-          style={styles.logo}
-          source={Images.Logo}
-          animation={'zoomIn'}
-          delay={2000}
-          resizeMode="contain"
+      {/* <View style={styles.container}> */}
+      <Video />
+      <Animatable.Image
+        style={styles.logo}
+        source={Images.Logo}
+        animation={'zoomIn'}
+        delay={2000}
+        resizeMode="contain"
+      />
+      <Animatable.View
+        style={styles.sloganContainer}
+        delay={3000}
+        animation="fadeIn"
+        ref={changingText}>
+        <Text style={styles.slogan}>{fadingText}</Text>
+      </Animatable.View>
+      <Animatable.View
+        style={styles.separator}
+        delay={2000}
+        animation="fadeIn"
+      />
+      <Animatable.View
+        style={styles.signInButton}
+        delay={3000}
+        animation="fadeIn">
+        <Button
+          title="Sign In"
+          textColor={Colors.primary}
+          onPress={() => navigation.navigate(Routes.LOGIN)}
         />
-        <Animatable.View
-          style={styles.sloganContainer}
-          delay={3000}
-          animation="fadeIn"
-          ref={changingText}>
-          <Text style={styles.slogan}>{fadingText}</Text>
-        </Animatable.View>
-        <Animatable.View
-          style={styles.separator}
-          delay={2000}
-          animation="fadeIn"
-        />
-        <Animatable.View
-          style={styles.signInButton}
-          delay={3000}
-          animation="fadeIn">
-          <Button
-            title="Sign In"
-            textColor={Colors.primary}
-            onPress={() => navigation.navigate(Routes.LOGIN)}
-          />
-        </Animatable.View>
-        <Animatable.View
-          style={styles.notRegisterContainer}
-          delay={3500}
-          animation="fadeIn">
-          <TouchableOpacity
-            onPress={() => navigation.navigate(Routes.REGISTER)}>
-            <Text style={styles.notRegister}>NOT REGISTERED?</Text>
-          </TouchableOpacity>
-        </Animatable.View>
-        <Animatable.View
-          style={styles.registerButton}
-          delay={4000}
-          animation="fadeIn">
-          <TouchableOpacity
-            onPress={() => navigation.navigate(Routes.REGISTER)}>
-            <Text style={styles.join}>JOIN US</Text>
-          </TouchableOpacity>
-        </Animatable.View>
-        <Animatable.View
-          style={styles.separator2}
-          delay={3000}
-          animation="fadeIn"
-        />
-        <Animatable.View
-          style={styles.termsContainer}
-          delay={4000}
-          animation="fadeIn"
-          easing="ease-in">
-          <TouchableOpacity>
-            <Text style={styles.terms}>TERMS & CONDITIONS</Text>
-          </TouchableOpacity>
-        </Animatable.View>
-      </View>
+      </Animatable.View>
+      <Animatable.View
+        style={styles.notRegisterContainer}
+        delay={3500}
+        animation="fadeIn">
+        <TouchableOpacity onPress={() => navigation.navigate(Routes.REGISTER)}>
+          <Text style={styles.notRegister}>NOT REGISTERED?</Text>
+        </TouchableOpacity>
+      </Animatable.View>
+      <Animatable.View
+        style={styles.registerButton}
+        delay={4000}
+        animation="fadeIn">
+        <TouchableOpacity onPress={() => navigation.navigate(Routes.REGISTER)}>
+          <Text style={styles.join}>JOIN US</Text>
+        </TouchableOpacity>
+      </Animatable.View>
+      <Animatable.View
+        style={styles.separator2}
+        delay={3000}
+        animation="fadeIn"
+      />
+      <Animatable.View
+        style={styles.termsContainer}
+        delay={4000}
+        animation="fadeIn"
+        easing="ease-in">
+        <TouchableOpacity>
+          <Text style={styles.terms}>TERMS & CONDITIONS</Text>
+        </TouchableOpacity>
+      </Animatable.View>
+      {/* </View> */}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   logo: {
     height: 100,
     width: '90%',

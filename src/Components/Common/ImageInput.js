@@ -8,6 +8,10 @@ import {
   Alert,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 import Images from '../../Constants/Images';
 
@@ -22,6 +26,7 @@ export default ({imageUri, onChangeImage}) => {
         width: 720,
         height: 720,
         mediaType: 'photo',
+        cropping: false,
       });
       var filename = image.path.split('/').pop();
       const data = {
@@ -81,6 +86,7 @@ const styles = StyleSheet.create({
   plaroidContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 1,
   },
   CameraIconContainer: {
     flex: 0.85,
@@ -93,17 +99,17 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     alignItems: 'center',
-    bottom: 185,
+    bottom: 190,
     width: '100%',
     height: '55%',
   },
   selectedImage: {
-    width: '85%',
-    height: '86%',
+    width: '95%',
+    height: '100%',
   },
   polaroid: {
-    width: '100%',
-    height: 200,
+    width: wp('65%'),
+    height: hp('29%'),
     zIndex: 1,
   },
 });

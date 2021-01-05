@@ -14,9 +14,9 @@ function AppFormCalendar({name}) {
     <View>
       <TouchableOpacity onPress={() => setFieldValue(name, !values[name])}>
         <Image
-          style={name === 'isman' ? styles.manOff : styles.womanOff}
+          style={name === 'is_man' ? styles.manOff : styles.womanOff}
           resizeMode="contain"
-          source={name === 'isman' ? manIconSource : womanIconSource}
+          source={name === 'is_man' ? manIconSource : womanIconSource}
         />
       </TouchableOpacity>
     </View>

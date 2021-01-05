@@ -10,6 +10,7 @@ export default ({imageUris = [], onRemoveImage, onAddImage}) => {
   return (
     <View style={styles.container}>
       <ScrollView
+        style={{height: '32%'}}
         ref={scrollView}
         onContentSizeChange={() => scrollView.current.scrollToEnd()}
         showsVerticalScrollIndicator={false}>
@@ -28,7 +29,7 @@ export default ({imageUris = [], onRemoveImage, onAddImage}) => {
             </View>
           ))}
         </View>
-        <View style={{alignItems: 'center', marginBottom: -1}}>
+        <View style={{alignItems: 'center'}}>
           {imageUris.length === 5 ? null : (
             <ImageInput onChangeImage={(uri) => onAddImage(uri)} />
           )}
@@ -40,7 +41,7 @@ export default ({imageUris = [], onRemoveImage, onAddImage}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex:s 1,
     margin: 10,
     marginTop: 25,
   },

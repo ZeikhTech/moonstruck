@@ -67,7 +67,9 @@ function OnBoardScreen3(props) {
         <Modal visible={isVisible} animationType="fade" transparent={true}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+              <ScrollView
+                style={{height: '90%'}}
+                showsVerticalScrollIndicator={false}>
                 <Text style={styles.modalText}>
                   Numerology is any belief in the divine or mystical
                   relationship between a number and one or more coinciding
@@ -122,6 +124,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 15,
   },
   backIcon: {
     marginRight: 20,
@@ -183,8 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.dark,
   },
   modalView: {
-    height: 645,
-    padding: 30,
+    padding: 26,
     alignItems: 'center',
   },
   modalText: {

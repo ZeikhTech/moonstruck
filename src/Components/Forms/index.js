@@ -5,6 +5,7 @@ export {default as FormRangeSlider} from './FormRangeSlider';
 export {default as FormField} from './FormField';
 export {default as FormRadio} from './FormRadio';
 export {default as FormCheckbox} from './FormCheckbox';
+export {default as FormSwitch} from './FormSwitch';
 export {default as FormGender} from './FormGender';
 export {default as FormBirthday} from './FormBirthday';
 export {default as ErrorMessage} from './ErrorMessage';

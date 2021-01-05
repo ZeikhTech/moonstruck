@@ -14,7 +14,7 @@ import Images from '../../Constants/Images';
 const {width, height} = Dimensions.get('window');
 
 export default (props) => {
-  const {title, onPress, white = false, color} = props;
+  const {title, onPress, white = false, color, size = false, hp, wp} = props;
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <View style={styles.view}>
@@ -25,7 +25,11 @@ export default (props) => {
       </View>
       <Image
         resizeMode="contain"
-        style={[styles.bgImage, white ? {width: width * 0.45} : null]}
+        style={[
+          hp && wp ? {width: wp, height: hp} : styles.bgImage,
+          white || size ? {width: width * 0.45} : null,
+          ,
+        ]}
         source={white ? Images.EditButton : Images.Button}
       />
     </TouchableOpacity>
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: Colors.white,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     textTransform: 'uppercase',
   },

@@ -11,6 +11,7 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {
   Form,
@@ -21,124 +22,137 @@ import {
   FormCheckbox,
   SubmitButton,
 } from '../Components/Forms';
-import AgeSlider from '../Components/Common/AgeSlider';
 import Screen from '../Components/Common/Screen';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
+import {setSettings} from '../Store/api/profile';
 
 const {width, height} = Dimensions.get('screen');
 
-function SettingsScreen(props) {
-  const handleFormSubmit = (value) => {
-    console.log('values', value);
+import store from '../Store/store';
 
-    props.navigation.navigate(Routes.UPLOAD_PIC);
+function SettingsScreen(props) {
+  const profile = useSelector((state) => state.auth.user.data);
+  // console.log(profile);
+  const dispatch = useDispatch();
+
+  const handleFormSubmit = async (values) => {
+    dispatch(
+      setSettings({
+        body: values,
+        onSuccess: (res) => {
+          if (res.data.status_code === 300) {
+            props.navigation.navigate(Routes.UPLOAD_PIC);
+          }
+        },
+      }),
+    );
   };
 
   return (
-    <Screen>
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior="padding"
-        enabled={Platform.OS === 'ios'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
-        <View style={styles.container}>
-          <ImageBackground
-            style={styles.bgImage}
-            resizeMode="cover"
-            source={Images.BluredBackground}>
-            <ScrollView style={{height: '100%'}}>
-              <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={() => props.navigation.goBack()}>
-                  <Image style={styles.backIcon} source={Images.BackArrow} />
-                </TouchableOpacity>
-                <Image
-                  style={styles.logo}
-                  source={Images.Logo}
-                  resizeMode="contain"
-                />
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior="padding"
+      enabled={Platform.OS === 'ios'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
+      <View style={styles.container}>
+        <ImageBackground
+          style={styles.bgImage}
+          resizeMode="cover"
+          source={Images.BluredBackground}>
+          <ScrollView style={{height: '100%'}}>
+            <View style={styles.headerContainer}>
+              <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                <Image style={styles.backIcon} source={Images.BackArrow} />
+              </TouchableOpacity>
+              <Image
+                style={styles.logo}
+                source={Images.Logo}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.titleText}>SETTINGS</Text>
+              <Image
+                style={styles.settingIcon}
+                resizeMode="center"
+                source={Images.SettingIcon}
+              />
+            </View>
+            <View style={styles.subtitleContainer}>
+              <Text style={styles.subtitleText}>
+                (PLEASE CHECK {'\n'}THE APPROPRIATE OPTIONS)
+              </Text>
+            </View>
+            <View style={styles.human}>
+              <View style={styles.manContainer}>
+                <Text style={styles.manText}>I AM A </Text>
+                <Text style={styles.manColor}>MAN</Text>
               </View>
-              <View style={styles.titleContainer}>
-                <Text style={styles.titleText}>SETTINGS</Text>
-                <Image
-                  style={styles.settingIcon}
-                  resizeMode="center"
-                  source={Images.SettingIcon}
-                />
+              <View style={styles.womanContainer}>
+                <Text style={styles.womanText}>I AM A </Text>
+                <Text style={styles.womanColor}>WOMAN</Text>
               </View>
-              <View style={styles.subtitleContainer}>
-                <Text style={styles.subtitleText}>
-                  (PLEASE CHECK {'\n'}THE APPROPRIATE OPTIONS)
+            </View>
+            <Form
+              initialValues={{
+                is_man: false,
+                is_woman: false,
+                zip_code: '',
+                age: [18, 70],
+                distance_range: 500,
+                search_worldwide: false,
+                man: false,
+                woman: false,
+              }}
+              onSubmit={handleFormSubmit}>
+              <View style={styles.iconContainer}>
+                <FormGender name="is_man" />
+                <FormGender name="is_woman" />
+              </View>
+              <View style={styles.zipcodeContainer}>
+                <Text style={styles.zipcode}>
+                  DESIRED{'\n'}ZIP CODE PLEASE:
                 </Text>
+                <FormZip name="zip_code" keyboardType="numeric" />
               </View>
-              <View style={styles.human}>
-                <View style={styles.manContainer}>
-                  <Text style={styles.manText}>I AM A </Text>
+              <View style={styles.rangeContainer}>
+                <FormAgeSlider name="age" />
+                <FormRangeSlider name="distance_range" />
+                <View style={styles.worldwideContainer}>
+                  <FormCheckbox name="search_worldwide" />
+                  <Text style={styles.worldwide}>SEARCH WORLDWIDE</Text>
+                </View>
+              </View>
+              <View style={styles.lookingContainer}>
+                <View style={styles.manLook}>
+                  <Text style={styles.manText}>LOOKING FOR A </Text>
                   <Text style={styles.manColor}>MAN</Text>
+                  <View style={{left: 45}}>
+                    <FormCheckbox name="man" />
+                  </View>
                 </View>
-                <View style={styles.womanContainer}>
-                  <Text style={styles.womanText}>I AM A </Text>
+                <View style={styles.womanLook}>
+                  <Text style={styles.womanText}>LOOKING FOR A </Text>
                   <Text style={styles.womanColor}>WOMAN</Text>
+                  <View style={{left: 10, bottom: 20}}>
+                    <FormCheckbox name="woman" />
+                  </View>
                 </View>
               </View>
-              <Form
-                initialValues={{
-                  isman: false,
-                  iswoman: false,
-                  zipcode: '',
-                  age: [18, 70],
-                  range: 500,
-                  worldwide: false,
-                  lookman: false,
-                  lookwoman: false,
-                }}
-                onSubmit={handleFormSubmit}>
-                <View style={styles.iconContainer}>
-                  <FormGender name="isman" />
-                  <FormGender name="iswoman" />
-                </View>
-                <View style={styles.zipcodeContainer}>
-                  <Text style={styles.zipcode}>
-                    DESIRED{'\n'}ZIP CODE PLEASE:
-                  </Text>
-                  <FormZip name="zipcode" keyboardType="numeric" />
-                </View>
-                <View style={styles.rangeContainer}>
-                  <FormAgeSlider name="age" />
-                  <FormRangeSlider name="range" />
-                  <View style={styles.worldwideContainer}>
-                    <FormCheckbox name="worldwide" />
-                    <Text style={styles.worldwide}>SEARCH WORLDWIDE</Text>
-                  </View>
-                </View>
-                <View style={styles.lookingContainer}>
-                  <View style={styles.manLook}>
-                    <Text style={styles.manText}>LOOKING FOR A </Text>
-                    <Text style={styles.manColor}>MAN</Text>
-                    <View style={{left: 45}}>
-                      <FormCheckbox name="lookman" />
-                    </View>
-                  </View>
-                  <View style={styles.womanLook}>
-                    <Text style={styles.womanText}>LOOKING FOR A </Text>
-                    <Text style={styles.womanColor}>WOMAN</Text>
-                    <View style={{left: 10, bottom: 20}}>
-                      <FormCheckbox name="lookwoman" />
-                    </View>
-                  </View>
-                </View>
-                <View style={styles.button}>
-                  <SubmitButton title="next" />
-                </View>
-              </Form>
-            </ScrollView>
-          </ImageBackground>
-        </View>
-      </KeyboardAvoidingView>
-    </Screen>
+              <View style={styles.button}>
+                <SubmitButton title="next" />
+              </View>
+            </Form>
+          </ScrollView>
+        </ImageBackground>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
+
+export default SettingsScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -152,6 +166,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    marginVertical: 20,
   },
   backIcon: {
     marginRight: 40,
@@ -236,12 +251,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   rangeContainer: {
-    marginVertical: 5,
+    // marginVertical: 5,
   },
   worldwideContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 50,
   },
   worldwide: {
     fontSize: 18,
@@ -265,5 +279,3 @@ const styles = StyleSheet.create({
     bottom: 22,
   },
 });
-
-export default SettingsScreen;
