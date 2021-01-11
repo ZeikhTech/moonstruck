@@ -79,21 +79,23 @@ function RegisterScreen(props) {
   const dispatch = useDispatch();
 
   const confirmButton = async (values) => {
-    dispatch(
-      signup({
-        body: values,
-        onSuccess: (res) => {
-          if (res.data.error) {
-            setIsVisible(false);
-            setError(res.data.error);
-          } else {
-            setError('');
-            setIsVisible(false);
-            props.navigation.navigate(Routes.VERIFY_EMAIL);
-          }
-        },
-      }),
-    );
+    // dispatch(
+    //   signup({
+    //     body: values,
+    //     onSuccess: (res) => {
+    //       if (res.data.error) {
+    //         setIsVisible(false);
+    //         setError(res.data.error);
+    //       } else {
+    //         setError('');
+    //         setIsVisible(false);
+    //         props.navigation.navigate(Routes.VERIFY_EMAIL);
+    //       }
+    //     },
+    //   }),
+    // );
+    setIsVisible(false);
+    props.navigation.navigate(Routes.VERIFY_EMAIL);
   };
 
   return (

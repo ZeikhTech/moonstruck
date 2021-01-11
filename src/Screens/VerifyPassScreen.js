@@ -28,24 +28,25 @@ function VerifyPassScreen(props) {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    const data = new FormData();
-    data.append('email', email);
-    data.append('code', values.code);
+    // const data = new FormData();
+    // data.append('email', email);
+    // data.append('code', values.code);
 
-    dispatch(
-      verifyPassCode({
-        body: data,
-        onSuccess: (res) => {
-          if (res.data.error) {
-            setError(res.data.error);
-            return;
-          } else if (res.data === true) {
-            setError('');
-            props.navigation.navigate(Routes.NEW_PASS, {email: email});
-          }
-        },
-      }),
-    );
+    // dispatch(
+    //   verifyPassCode({
+    //     body: data,
+    //     onSuccess: (res) => {
+    //       if (res.data.error) {
+    //         setError(res.data.error);
+    //         return;
+    //       } else if (res.data === true) {
+    //         setError('');
+    //         props.navigation.navigate(Routes.NEW_PASS, {email: email});
+    //       }
+    //     },
+    //   }),
+    // );
+    props.navigation.navigate(Routes.NEW_PASS);
   };
   return (
     <View style={styles.container}>

@@ -38,16 +38,19 @@ function SettingsScreen(props) {
   const dispatch = useDispatch();
 
   const handleFormSubmit = async (values) => {
-    dispatch(
-      setSettings({
-        body: values,
-        onSuccess: (res) => {
-          if (res.data.status_code === 300) {
-            props.navigation.navigate(Routes.UPLOAD_PIC);
-          }
-        },
-      }),
-    );
+    // dispatch(
+    //   setSettings({
+    //     body: values,
+    //     onSuccess: (res) => {
+    //       const _id = res.data.user[0].id;
+    //       // console.log('userid=-===', _id);
+    //       if (res.data.status_code === 300) {
+    //         props.navigation.navigate(Routes.UPLOAD_PIC, {userId: _id});
+    //       }
+    //     },
+    //   }),
+    // );
+    props.navigation.navigate(Routes.UPLOAD_PIC);
   };
 
   return (

@@ -27,12 +27,13 @@ export default ({imageUri, onChangeImage}) => {
         height: 720,
         mediaType: 'photo',
         cropping: false,
+        includeBase64: true,
       });
       var filename = image.path.split('/').pop();
       const data = {
-        name: filename,
-        uri: image.path,
-        type: image.mime,
+        // name: filename,
+        uri: image.data,
+        // type: image.mime,
       };
       if (image) onChangeImage(data.uri);
     } catch (e) {
@@ -67,7 +68,7 @@ export default ({imageUri, onChangeImage}) => {
         {imageUri && (
           <View style={styles.wrapper}>
             <Image
-              source={{uri: imageUri}}
+              source={{uri: `data:image/jpeg;base64,${imageUri}`}}
               style={styles.selectedImage}
               resizeMode="cover"
             />
@@ -80,8 +81,8 @@ export default ({imageUri, onChangeImage}) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 200,
-    width: '70%',
+    height: hp('30%'),
+    // width: '70%',
   },
   plaroidContainer: {
     alignItems: 'center',
@@ -100,12 +101,12 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     bottom: 190,
-    width: '100%',
-    height: '55%',
+    width: wp('65%'),
+    height: hp('10%'),
   },
   selectedImage: {
-    width: '95%',
-    height: '100%',
+    width: wp('63%'),
+    height: hp('26%'),
   },
   polaroid: {
     width: wp('65%'),

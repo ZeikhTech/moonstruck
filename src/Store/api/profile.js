@@ -71,6 +71,16 @@ export const setBio = ({body, onSuccess, onError}) => {
 export const setProfilePicture = ({body, onSuccess, onError}) => {
   return async (dispatch, getState) => {
     try {
-    } catch (err) {}
+      dispatch(showProfileLoader(true));
+
+      const res = await http.post(url + '/userfiles', body);
+
+      if (onSuccess) onSuccess(res);
+    } catch (err) {
+      if (onError) onError(err);
+      console.log('error=============', err);
+    } finally {
+      dispatch(showProfileLoader(false));
+    }
   };
 };

@@ -39,19 +39,20 @@ function LoginScreen(props) {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    dispatch(
-      login({
-        body: values,
-        onSuccess: (res) => {
-          if (res.data.error) {
-            setError(res.data.error);
-          } else {
-            setError('');
-            props.navigation.navigate(Routes.ON_BOARDING);
-          }
-        },
-      }),
-    );
+    // dispatch(
+    //   login({
+    //     body: values,
+    //     onSuccess: (res) => {
+    //       if (res.data.error) {
+    //         setError(res.data.error);
+    //       } else {
+    //         setError('');
+    //         props.navigation.navigate(Routes.ON_BOARDING);
+    //       }
+    //     },
+    //   }),
+    // );
+    props.navigation.navigate(Routes.ON_BOARDING);
   };
 
   return (

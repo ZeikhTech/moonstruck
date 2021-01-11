@@ -20,19 +20,20 @@ function VerifyEmailScreen(props) {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    dispatch(
-      verifyEmail({
-        body: values,
-        onSuccess: (res) => {
-          if (res.data.error) {
-            setError(res.data.error);
-          } else {
-            setError('');
-            props.navigation.navigate(Routes.LOGIN);
-          }
-        },
-      }),
-    );
+    // dispatch(
+    //   verifyEmail({
+    //     body: values,
+    //     onSuccess: (res) => {
+    //       if (res.data.error) {
+    //         setError(res.data.error);
+    //       } else {
+    //         setError('');
+    //         props.navigation.navigate(Routes.LOGIN);
+    //       }
+    //     },
+    //   }),
+    // );
+    props.navigation.navigate(Routes.LOGIN);
   };
   return (
     <View style={styles.container}>

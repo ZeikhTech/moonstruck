@@ -30,31 +30,35 @@ import storage from '../Services/storage';
 const {width, height} = Dimensions.get('window');
 
 function ProfilePhotoScreen(props) {
+  // const userId = props.route.params;
+  // console.log('userid======================', userId);
   const profile = useSelector((state) => state.auth.user.data);
   // console.log('profile===============', profile);
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
     console.log(values);
-    dispatch(
-      setBio({
-        body: values,
-        onSuccess: (res) => {
-          // console.log(res.data.user);
-          props.navigation.navigate(Routes.FINDMATCH);
-        },
-      }),
-    );
+    // dispatch(
+    //   setBio({
+    //     body: values,
+    //     onSuccess: (res) => {
+    //       // console.log(res.data.user);
+    //       props.navigation.navigate(Routes.FINDMATCH);
+    //     },
+    //   }),
+    // );
+    props.navigation.navigate(Routes.FINDMATCH);
   };
 
   const handleLogout = async () => {
-    dispatch(
-      logout({
-        onSuccess: (res) => {
-          console.log(res.data);
-        },
-      }),
-    );
+    // dispatch(
+    //   logout({
+    //     onSuccess: (res) => {
+    //       console.log(res.data);
+    //     },
+    //   }),
+    // );
+    props.navigation.navigate(Routes.WELCOME);
   };
 
   return (

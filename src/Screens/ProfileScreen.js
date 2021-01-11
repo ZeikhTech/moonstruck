@@ -22,8 +22,8 @@ import store from '../Store/store';
 const {width, height} = Dimensions.get('window');
 
 function ProfileScreen(props) {
-  const data = store.getState();
-  const name = data.auth.user.data[0].first_name;
+  // const data = store.getState();
+  // const name = data.auth.user.data[0].first_name;
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -54,7 +54,10 @@ function ProfileScreen(props) {
           animation="fadeIn"
           style={styles.titleContainer}>
           <Text style={styles.title}>WELCOME.</Text>
-          <Text style={styles.name}>{name.toUpperCase()}</Text>
+          <Text style={styles.name}>
+            {/* {name.toUpperCase()} */}
+            DAVE
+          </Text>
         </Animatable.View>
         <Animatable.View style={styles.lifeContainer}>
           <Animatable.Text

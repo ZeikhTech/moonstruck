@@ -25,21 +25,22 @@ function ForgotScreen(props) {
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    dispatch(
-      forgetPassword({
-        body: values,
-        onSuccess: (res) => {
-          // console.log('response========================', res.data);
-          // if (res.data.error) {
-          //   setError(res.data.error);
-          // } else {
-          //   setError('');
-          //   props.navigation.navigate(Routes.VERIFY_PASS);
-          // }
-        },
-      }),
-    );
-    props.navigation.navigate(Routes.VERIFY_PASS, {email: values.email});
+    // dispatch(
+    //   forgetPassword({
+    //     body: values,
+    //     onSuccess: (res) => {
+    //       // console.log('response========================', res.data);
+    //       // if (res.data.error) {
+    //       //   setError(res.data.error);
+    //       // } else {
+    //       //   setError('');
+    //       //   props.navigation.navigate(Routes.VERIFY_PASS);
+    //       // }
+    //     },
+    //   }),
+    // );
+    // props.navigation.navigate(Routes.VERIFY_PASS, {email: values.email});
+    props.navigation.navigate(Routes.VERIFY_PASS);
   };
 
   return (

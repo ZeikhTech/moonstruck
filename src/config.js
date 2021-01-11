@@ -1,2 +1,2 @@
-export const baseUrl = 'http://192.168.10.34/';
+export const baseUrl = 'http://192.168.8.107/';
 export const apiPath = baseUrl + 'moonstruck';

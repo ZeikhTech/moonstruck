@@ -189,9 +189,7 @@ function ProfileScreen({navigation}) {
               onSwiped={onSwiped}
               onSwipedAll={onSwipeAllCards}
               showSecondCard={false}
-              onSwipedRight={(userInfo) =>
-                navigation.navigate(Routes.CHAT, {user: userInfo})
-              }
+              onSwipedRight={(userInfo) => console.log(userInfo)}
               renderCard={Card}
               disableTopSwipe
               disableBottomSwipe

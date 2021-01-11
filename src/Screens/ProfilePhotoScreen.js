@@ -9,11 +9,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import * as Yup from 'yup';
+import {useDispatch} from 'react-redux';
+
+import RNFetchBlob from 'rn-fetch-blob';
 
 import Screen from '../Components/Common/Screen';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
+import VideoInput from '../Components/Common/VideoInput';
 
 import {
   Form,
@@ -21,6 +25,9 @@ import {
   FormVideoPicker,
   SubmitButton,
 } from '../Components/Forms';
+import {setProfilePicture} from '../Store/api/profile';
+
+import axios from 'axios';
 
 const {width, height} = Dimensions.get('window');
 
@@ -28,22 +35,32 @@ const schema = Yup.object().shape({
   // images: Yup.array().min(5),
 });
 
-function ProfilePhotoScreen({navigation}) {
+function ProfilePhotoScreen(props) {
+  // const dispatch = useDispatch();
+  // const userId = props.route.params.userId;
+
   const handleSubmit = async (values) => {
     console.log(values);
-    // const data = new FormData();
-    // data.append('video', values.video);
-    // values.images.forEach((image, index) => {
-    //   data.append('images', {
-    //     filename: 'image' + index,
-    //     type: 'image/jpeg',
-    //     uri: image,
-    //   });
-    // });
 
-    // console.log('images============', data);
+    const data = new FormData();
+    data.append('id', 66);
+    data.append('video', values.video);
+    values.images.map((image, index) => {
+      data.append(`images[${index}]`, image);
+    });
 
-    navigation.navigate(Routes.BIO_SETTING);
+    // console.log(data);
+
+    // dispatch(
+    //   setProfilePicture({
+    //     body: data,
+    //     onSuccess: (res) => {
+    //       console.log('response============', res.data);
+    //       // props.navigation.navigate(Routes.BIO_SETTING);
+    //     },
+    //   }),
+    // );
+    props.navigation.navigate(Routes.BIO_SETTING);
   };
 
   return (
@@ -81,6 +98,7 @@ function ProfilePhotoScreen({navigation}) {
           <FormImagePicker name="images" />
           <View style={styles.videoContainer}>
             <FormVideoPicker name="video" />
+            {/* <VideoInput /> */}
           </View>
           <View style={styles.button}>
             <SubmitButton title="upload" wp={250} hp={100} />
