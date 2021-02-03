@@ -22,8 +22,8 @@ import store from '../Store/store';
 const {width, height} = Dimensions.get('window');
 
 function ProfileScreen(props) {
-  // const data = store.getState();
-  // const name = data.auth.user.data[0].first_name;
+  const state = store.getState();
+  const user = state.auth.user.data[0];
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -39,7 +39,8 @@ function ProfileScreen(props) {
             source={Images.Logo}
           />
           <TouchableOpacity
-            onPress={() => props.navigation.navigate(Routes.PROFILE_SETTING)}>
+          // onPress={() => props.navigation.navigate(Routes.PROFILE_SETTING)}
+          >
             <Animatable.Image
               delay={900}
               animation="rotate"
@@ -55,8 +56,8 @@ function ProfileScreen(props) {
           style={styles.titleContainer}>
           <Text style={styles.title}>WELCOME.</Text>
           <Text style={styles.name}>
-            {/* {name.toUpperCase()} */}
-            DAVE
+            {user.full_name.toUpperCase()}
+            {/* DAVE */}
           </Text>
         </Animatable.View>
         <Animatable.View style={styles.lifeContainer}>
@@ -70,7 +71,7 @@ function ProfileScreen(props) {
             delay={2200}
             animation="flipInX"
             style={styles.number}>
-            2
+            {user.life_path}
           </Animatable.Text>
         </Animatable.View>
         <Animatable.View delay={2500} animation="fadeIn" style={styles.box}>
@@ -98,7 +99,10 @@ function ProfileScreen(props) {
           </View>
         </Animatable.View>
         <Animatable.View delay={3300} animation="zoomIn" style={styles.button}>
-          <Button title="continue" />
+          <Button
+            title="continue"
+            onPress={() => props.navigation.navigate(Routes.PROFILE_SETTING)}
+          />
         </Animatable.View>
       </ImageBackground>
     </View>

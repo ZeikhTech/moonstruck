@@ -44,6 +44,7 @@ function DeleteAccountScreen(props) {
         body: values,
         onSuccess: (res) => {
           console.log('res=============', res.data);
+          if (res.data) props.navigation.navigate(Routes.WELCOME);
         },
       }),
     );

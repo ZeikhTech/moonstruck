@@ -1,9 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  list: [],
-  hasMore: false,
-  pagNum: 0,
+  list: [
+    {
+      id: '1',
+      uName: 'test',
+      first_name: 'test',
+      last_name: 'test',
+      files: {file_path: 'test', type: '1'},
+    },
+  ],
   loading: false,
   cachedAt: null,
   loadingMore: false,
@@ -16,11 +22,8 @@ const slice = createSlice({
     loadingThreads: (state, action) => {
       state.loading = action.payload;
     },
-    setThread: (state, action) => {
-      const {list = [], hasMore = true, pagNum = 1} = action.payload;
-      state.list = list;
-      state.hasMore = hasMore;
-      state.pagNum = pagNum;
+    setThreads: (state, action) => {
+      state.list = action.payload;
       state.cachedAt = Date.now();
     },
     loadingMoreThread: (state, action) => {
@@ -39,7 +42,7 @@ const slice = createSlice({
 
 export const {
   loadingThreads,
-  setThread,
+  setThreads,
   loadingMoreThread,
   addOrUpdateChatThread,
 } = slice.actions;

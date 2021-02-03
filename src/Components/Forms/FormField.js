@@ -34,14 +34,16 @@ function AppFormField({name, width, label, blurb = false, ...otherProps}) {
         </>
       ) : (
         <>
-          <AppTextInput
-            onBlur={() => setFieldTouched(name)}
-            onChangeText={(text) => setFieldValue(name, text)}
-            value={values[name]}
-            width={width}
-            label={label}
-            {...otherProps}
-          />
+          <View style={{marginVertical: 5}}>
+            <AppTextInput
+              onBlur={() => setFieldTouched(name)}
+              onChangeText={(text) => setFieldValue(name, text)}
+              value={values[name]}
+              width={width}
+              label={label}
+              {...otherProps}
+            />
+          </View>
           <View style={styles.error}>
             <ErrorMessage error={errors[name]} visible={touched[name]} />
           </View>

@@ -26,28 +26,28 @@ const validationSchema = Yup.object().shape({
 });
 
 function VerifyPassScreen(props) {
-  // const {email} = props.route.params;
+  const {email} = props.route.params;
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    // console.log(values, email);
-    // const data = new FormData();
-    // data.append('email', email);
-    // data.append('password', values.password);
-    // data.append('passconf', values.passconf);
+    console.log(values, email);
 
-    // dispatch(
-    //   newPassword({
-    //     body: data,
-    //     onSuccess: (res) => {
-    //       if (res.data.status_code === 200) {
-    //         props.navigation.navigate(Routes.LOGIN);
-    //       }
-    //       return;
-    //     },
-    //   }),
-    // );
-    props.navigation.navigate(Routes.LOGIN);
+    const data = new FormData();
+    data.append('email', email);
+    data.append('password', values.password);
+    data.append('passconf', values.passconf);
+
+    dispatch(
+      newPassword({
+        body: data,
+        onSuccess: (res) => {
+          if (res.data.status_code === 200) {
+            props.navigation.navigate(Routes.LOGIN);
+          }
+          return;
+        },
+      }),
+    );
   };
   return (
     <View style={styles.container}>

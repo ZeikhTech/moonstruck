@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, Dimensions, StyleSheet, ImageBackground} from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Screen from '../Components/Common/Screen';
 import Images from '../Constants/Images';
@@ -10,8 +10,13 @@ import Routes from '../Navigation/routes';
 import {setToken} from '../Store/auth/authState';
 import {setUser} from '../Store/auth/user';
 import storage from '../Services/storage';
+import {setFeed} from '../Store/entities/myFeed';
+import {setProfile, setAsset} from '../Store/entities/profile';
+import {loadFeed} from '../Store/api/myFeed';
 
 function SplashScreen(props) {
+  const userList = useSelector((state) => state.entities.myFeed.list);
+  const user = useSelector((state) => state.auth.user.data);
   useEffect(() => {
     initializeApp();
   }, []);
@@ -21,23 +26,39 @@ function SplashScreen(props) {
   const initializeApp = async () => {
     let nextScreen = Routes.WELCOME;
     try {
-      const xAuthToken = await storage.get('xAuthToken');
       const user = await storage.get('user');
-      // console.log(user[0].email);
+      const xAuthToken = await storage.get('xAuthToken');
+      const usersList = await storage.get('allUsers');
+      const userAsset = await storage.get('userAsset');
+
+      console.log('token', xAuthToken);
+      console.log('app user', user);
+      console.log('user list ---redux', userList);
+
       if (user && xAuthToken) {
-        // dispatch(setToken(xAuthToken));
-        // dispatch(setUser(user));
+        // dispatch(
+        //   loadFeed({
+        //     onSuccess: (res) => {
+        //       console.log('Feed response =========>', res.data);
+        //     },
+        //   }),
+        // );
+
+        dispatch(setToken(xAuthToken));
+        dispatch(setUser(user));
+        dispatch(setFeed(usersList));
+        dispatch(setAsset(userAsset));
 
         nextScreen = Routes.FINDMATCH;
 
-        if (!user[0].verified) nextScreen = Routes.VERIFY_EMAIL;
+        // if (!user[0].verified) nextScreen = Routes.VERIFY_EMAIL;
       }
     } catch (err) {
       throw new Error(err);
     }
     setTimeout(() => {
       navigateToNextScreen(nextScreen);
-    }, 2000);
+    }, 3500);
   };
 
   const navigateToNextScreen = (name) => {

@@ -9,10 +9,12 @@ import Setting2Screen from '../Screens/Setting2Screen';
 import MatchScreen from '../Screens/FindMatchScreen';
 import ChatScreen from '../Screens/ChatScreen';
 import DeleteAccountScreen from '../Screens/DeleteAccountScreen';
+import MessagesScreen from '../Screens/MessagesScreen';
+import EditProfileScreen from '../Screens/EditProfileScreen';
 
 // const Stack = createStackNavigator();
 
-const AuthNavigator = (Stack) => (
+export default (Stack, user) => (
   //   <Stack.Navigator>
   <>
     <Stack.Screen
@@ -46,17 +48,25 @@ const AuthNavigator = (Stack) => (
       options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
-      name="Chat"
+      name="remove"
+      component={DeleteAccountScreen}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
+    />
+    <Stack.Screen
+      name="messageList"
+      component={MessagesScreen}
+      options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
+    />
+    <Stack.Screen
+      name="chat"
       component={ChatScreen}
       options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
     <Stack.Screen
-      name="remove"
-      component={DeleteAccountScreen}
+      name="EditProfile"
+      component={EditProfileScreen}
       options={{...TransitionPresets.SlideFromRightIOS, headerShown: false}}
     />
   </>
   //   </Stack.Navigator>
 );
-
-export default AuthNavigator;

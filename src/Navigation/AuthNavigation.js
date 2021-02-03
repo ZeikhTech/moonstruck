@@ -12,7 +12,7 @@ import NewPassScreen from '../Screens/NewPassScreen';
 
 // const Stack = createStackNavigator();
 
-const AuthNavigator = (Stack) => (
+export default (Stack, user) => (
   // <Stack.Navigator initialRouteName="SplashScreen">
   <>
     <Stack.Screen
@@ -58,5 +58,3 @@ const AuthNavigator = (Stack) => (
   </>
   // </Stack.Navigator>
 );
-
-export default AuthNavigator;

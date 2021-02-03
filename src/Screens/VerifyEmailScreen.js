@@ -12,28 +12,33 @@ import {verifyEmail} from '../Store/api/auth';
 import store from '../Store/store';
 
 const validationSchema = Yup.object().shape({
-  code: Yup.number().required().min(6).label('*Verification Code'),
+  // code: Yup.number().required().min(6).label('*Verification Code'),
 });
 
 function VerifyEmailScreen(props) {
+  const email = props.route.params.email;
+
   const [error, setError] = useState();
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    // dispatch(
-    //   verifyEmail({
-    //     body: values,
-    //     onSuccess: (res) => {
-    //       if (res.data.error) {
-    //         setError(res.data.error);
-    //       } else {
-    //         setError('');
-    //         props.navigation.navigate(Routes.LOGIN);
-    //       }
-    //     },
-    //   }),
-    // );
-    props.navigation.navigate(Routes.LOGIN);
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('code', values.code);
+
+    dispatch(
+      verifyEmail({
+        body: formData,
+        onSuccess: (res) => {
+          if (res.data.error) {
+            setError(res.data.error);
+          } else {
+            setError('');
+            props.navigation.navigate(Routes.LOGIN);
+          }
+        },
+      }),
+    );
   };
   return (
     <View style={styles.container}>

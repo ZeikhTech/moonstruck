@@ -2,17 +2,19 @@ import React, {useState} from 'react';
 import {Text, StyleSheet, TouchableOpacity, Platform, View} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import {useSelector} from 'react-redux';
 
 import Colors from '../../Constants/Colors';
+import user from '../../Store/auth/user';
 
-export default (props) => {
-  const [date, setDate] = useState(null);
+export default ({onDate}) => {
+  const [date, setDate] = useState();
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
     setShow(Platform.OS === 'ios');
     setDate(selectedDate);
-    const date = props.onDate(moment(selectedDate).format('YYYY-MM-DD'));
+    onDate(moment(selectedDate).format('YYYY-MM-DD'));
   };
 
   const showDatepicker = () => {
@@ -25,7 +27,9 @@ export default (props) => {
         <>
           {!show && (
             <TouchableOpacity style={styles.container} onPress={showDatepicker}>
-              <Text style={{color: Colors.placeholder}}>Select Your Date</Text>
+              <Text style={{color: Colors.placeholder}}>
+                {date ? moment(date).format('YYYY-MM-DD') : 'Select Your Date'}
+              </Text>
             </TouchableOpacity>
           )}
 
@@ -42,7 +46,7 @@ export default (props) => {
               <DateTimePicker
                 mode="date"
                 display="default"
-                value={date !== '' ? date || new Date() : null}
+                value={date !== '' ? date || new Date() : ''}
                 onChange={onChange}
               />
             </View>
@@ -54,14 +58,14 @@ export default (props) => {
             style={styles.androidContainer}
             onPress={showDatepicker}>
             <Text style={styles.input}>
-              {date ? moment(date).format('MMMM, DD YYYY') : null}
+              {date ? moment(date).format('YYYY-MM-DD') : 'Edit date'}
             </Text>
 
             {show && (
               <DateTimePicker
                 mode="date"
                 display="default"
-                value={date !== '' ? date || new Date() : null}
+                value={date || new Date()}
                 onChange={onChange}
               />
             )}

@@ -13,5 +13,7 @@ export default Object.freeze({
   UPLOAD_PIC: 'ProfilePic',
   FINDMATCH: 'SwipeCard',
   BIO_SETTING: 'Setting2',
-  CHAT: 'Chat',
+  MESSAGE_LIST: 'messageList',
+  CHAT: 'chat',
+  EDIT_PROFILE: 'EditProfile',
 });

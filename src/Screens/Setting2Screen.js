@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Image,
@@ -18,60 +18,69 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Form, FormField, FormSwitch, SubmitButton} from '../Components/Forms';
 import Screen from '../Components/Common/Screen';
 import Button from '../Components/Common/Button';
+import Loader from '../Components/Common/Loader';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
 
 import {setBio} from '../Store/api/profile';
 import {logout} from '../Store/api/auth';
+import {loadFeed} from '../Store/api/myFeed';
 
 import storage from '../Services/storage';
 
 const {width, height} = Dimensions.get('window');
 
 function ProfilePhotoScreen(props) {
-  // const userId = props.route.params;
-  // console.log('userid======================', userId);
-  const profile = useSelector((state) => state.auth.user.data);
-  // console.log('profile===============', profile);
+  const userId = props.route.params;
+  const loading = useSelector((state) => state.auth.user.loading);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(
+      loadFeed({
+        onSuccess: (res) => {
+          console.log('all users response========>', res.data);
+        },
+      }),
+    );
+  }, []);
+
   const handleSubmit = async (values) => {
-    console.log(values);
-    // dispatch(
-    //   setBio({
-    //     body: values,
-    //     onSuccess: (res) => {
-    //       // console.log(res.data.user);
-    //       props.navigation.navigate(Routes.FINDMATCH);
-    //     },
-    //   }),
-    // );
-    props.navigation.navigate(Routes.FINDMATCH);
+    // console.log(values);
+
+    dispatch(
+      setBio({
+        body: values,
+        onSuccess: (res) => {
+          console.log(res.data.user);
+          props.navigation.navigate(Routes.FINDMATCH);
+        },
+      }),
+    );
   };
 
   const handleLogout = async () => {
-    // dispatch(
-    //   logout({
-    //     onSuccess: (res) => {
-    //       console.log(res.data);
-    //     },
-    //   }),
-    // );
-    props.navigation.navigate(Routes.WELCOME);
+    dispatch(
+      logout({
+        onSuccess: (res) => {
+          console.log(res.data);
+        },
+      }),
+    );
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{}}
-      behavior="padding"
-      enabled={Platform.OS === 'ios'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
-      <View style={styles.container}>
-        <ImageBackground
-          style={styles.bgImage}
-          resizeMode="stretch"
-          source={Images.BluredBackground}>
+    <View style={styles.container}>
+      <ImageBackground
+        style={styles.bgImage}
+        resizeMode="stretch"
+        source={Images.BluredBackground}>
+        <KeyboardAvoidingView
+          style={{}}
+          behavior="padding"
+          enabled={Platform.OS === 'ios'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
           <ScrollView style={{height: '100%'}}>
             <View style={styles.headerContainer}>
               <TouchableOpacity onPress={() => props.navigation.goBack()}>
@@ -83,6 +92,7 @@ function ProfilePhotoScreen(props) {
                 resizeMode="contain"
               />
             </View>
+
             <View style={styles.titleContainer}>
               <Text style={styles.titleText}>SETTINGS</Text>
               <Image
@@ -91,66 +101,72 @@ function ProfilePhotoScreen(props) {
                 source={Images.SettingIcon}
               />
             </View>
-            <View style={styles.settingContainer}>
-              <Text style={styles.label}>A LITTLE BLURB ?</Text>
+            {loading ? (
+              <Loader />
+            ) : (
+              <>
+                <View style={styles.settingContainer}>
+                  <Text style={styles.label}>A LITTLE BLURB ?</Text>
 
-              <Form
-                initialValues={{
-                  blurb: '',
-                  push_notification: false,
-                }}
-                onSubmit={handleSubmit}>
-                <FormField name="blurb" autoCorrect={false} blurb={true} />
+                  <Form
+                    initialValues={{
+                      blurb: '',
+                      push_notification: false,
+                    }}
+                    onSubmit={handleSubmit}>
+                    <FormField name="blurb" autoCorrect={false} blurb={true} />
 
-                <View style={styles.separatorLight} />
-                <View style={styles.notificationContainer}>
-                  <View>
-                    <Text style={styles.notificationText}>
-                      PUSH NOTIFICATIONS
-                    </Text>
+                    <View style={styles.separatorLight} />
+                    <View style={styles.notificationContainer}>
+                      <View>
+                        <Text style={styles.notificationText}>
+                          PUSH NOTIFICATIONS
+                        </Text>
+                      </View>
+                      <View style={styles.switchContainer}>
+                        <FormSwitch name="push_notification" />
+                      </View>
+                    </View>
+                    <View style={styles.separatorLight} />
+                    <View style={styles.button}>
+                      <SubmitButton title="let's get started" />
+                    </View>
+                  </Form>
+                  <View style={styles.separatorLight2} />
+                  <View style={styles.accountContainer}>
+                    <Button
+                      title="logout"
+                      white={true}
+                      color="red"
+                      onPress={handleLogout}
+                    />
+                    <View style={{marginLeft: 8}}>
+                      <Button
+                        title="delete account"
+                        white={true}
+                        color="gray"
+                        onPress={() =>
+                          props.navigation.navigate(Routes.DELETE_ACCOUNT)
+                        }
+                      />
+                    </View>
                   </View>
-                  <View style={styles.switchContainer}>
-                    <FormSwitch name="push_notification" />
-                  </View>
                 </View>
-                <View style={styles.separatorLight} />
-                <View style={styles.button}>
-                  <SubmitButton title="let's get started" />
-                </View>
-              </Form>
-              <View style={styles.separatorLight2} />
-              <View style={styles.accountContainer}>
-                <Button
-                  title="logout"
-                  white={true}
-                  color="red"
-                  onPress={handleLogout}
-                />
-                <View style={{marginLeft: 8}}>
-                  <Button
-                    title="delete account"
-                    white={true}
-                    color="gray"
-                    onPress={() =>
-                      props.navigation.navigate(Routes.DELETE_ACCOUNT)
-                    }
-                  />
-                </View>
-              </View>
-            </View>
+              </>
+            )}
           </ScrollView>
-        </ImageBackground>
-      </View>
-    </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
   },
   bgImage: {
-    // flex: 1,
+    flex: 1,
   },
   headerContainer: {
     padding: 5,

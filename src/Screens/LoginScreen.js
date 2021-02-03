@@ -1,19 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
+  Alert,
   StyleSheet,
-  Keyboard,
   ScrollView,
-  Dimensions,
   TouchableOpacity,
+  PermissionsAndroid,
   KeyboardAvoidingView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {useSelector, useDispatch, connect} from 'react-redux';
+import Geolocation from '@react-native-community/geolocation';
+import {useSelector, useDispatch} from 'react-redux';
 import * as Yup from 'yup';
-
-import axios from 'axios';
 
 import BackgroundVideo from '../Components/Common/BackgroundVideo';
 import Screen from '../Components/Common/Screen';
@@ -26,8 +25,6 @@ import {login} from '../Store/api/auth';
 
 import {ErrorMessage, Form, FormField, SubmitButton} from '../Components/Forms';
 
-const {width, height} = Dimensions.get('screen');
-
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('*Email'),
   password: Yup.string().required().min(4).label('*Password'),
@@ -35,24 +32,114 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen(props) {
   const [error, setError] = useState();
+  const [currentLongitude, setCurrentLongitude] = useState();
+  const [currentLatitude, setCurrentLatitude] = useState();
+
   const {showLoader} = useSelector((state) => state.ui.login);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    requestLocationPermission();
+  }, []);
+
   const handleSubmit = async (values) => {
-    // dispatch(
-    //   login({
-    //     body: values,
-    //     onSuccess: (res) => {
-    //       if (res.data.error) {
-    //         setError(res.data.error);
-    //       } else {
-    //         setError('');
-    //         props.navigation.navigate(Routes.ON_BOARDING);
-    //       }
-    //     },
-    //   }),
-    // );
-    props.navigation.navigate(Routes.ON_BOARDING);
+    let formData = new FormData();
+    formData.append('email', values.email);
+    formData.append('password', values.password);
+    formData.append('latitude', currentLatitude);
+    formData.append('longitude', currentLongitude);
+
+    dispatch(
+      login({
+        body: formData,
+        onSuccess: (res) => {
+          console.log('login success', res.data);
+          if (res.data.error) {
+            requestLocationPermission();
+            setError(res.data.error);
+          } else {
+            setError('');
+            props.navigation.navigate(Routes.ON_BOARDING);
+          }
+        },
+      }),
+    );
+  };
+
+  const requestLocationPermission = async () => {
+    if (Platform.OS === 'ios') {
+      getOneTimeLocation();
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'Moonstruck needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission is granted
+          getOneTimeLocation();
+        } else {
+          Alert.alert('Warning', 'Permission Denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+  };
+
+  const getOneTimeLocation = () => {
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+      (position) => {
+        //getting the Longitude from the location json
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+
+        //getting the Latitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        setCurrentLongitude(currentLongitude);
+
+        //Setting Longitude state
+        setCurrentLatitude(currentLatitude);
+      },
+      (error) => {
+        console.log(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        // timeout: 30000,
+        // maximumAge: 1000,
+      },
+    );
+  };
+
+  const subscribeLocationLocation = () => {
+    Geolocation.watchPosition(
+      (position) => {
+        //getting the Longitude from the location json
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+
+        //getting the Latitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        setCurrentLongitude(currentLongitude);
+
+        //Setting Latitude state
+        setCurrentLatitude(currentLatitude);
+      },
+      (error) => {
+        console.log(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        maximumAge: 1000,
+      },
+    );
   };
 
   return (

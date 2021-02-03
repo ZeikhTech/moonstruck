@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Keyboard,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 
 import {Form, FormField, SubmitButton} from '../Components/Forms';
@@ -17,30 +17,33 @@ import {Form, FormField, SubmitButton} from '../Components/Forms';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes.js';
+import Loader from '../Components/Common/Loader';
 
 import {forgetPassword} from '../Store/api/auth';
 
 function ForgotScreen(props) {
   const [error, setError] = useState();
+  const {showLoader} = useSelector((state) => state.ui.login);
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    // dispatch(
-    //   forgetPassword({
-    //     body: values,
-    //     onSuccess: (res) => {
-    //       // console.log('response========================', res.data);
-    //       // if (res.data.error) {
-    //       //   setError(res.data.error);
-    //       // } else {
-    //       //   setError('');
-    //       //   props.navigation.navigate(Routes.VERIFY_PASS);
-    //       // }
-    //     },
-    //   }),
-    // );
+    dispatch(
+      forgetPassword({
+        body: values,
+        onSuccess: (res) => {
+          console.log('response========================', res.data);
+          if (res.data.error) {
+            setError(res.data.error);
+          } else {
+            setError('');
+            props.navigation.navigate(Routes.VERIFY_PASS, {
+              email: values.email,
+            });
+          }
+        },
+      }),
+    );
     // props.navigation.navigate(Routes.VERIFY_PASS, {email: values.email});
-    props.navigation.navigate(Routes.VERIFY_PASS);
   };
 
   return (
@@ -63,28 +66,32 @@ function ForgotScreen(props) {
             we will send you the reset password link.
           </Text>
         </Animatable.View>
-        <Form initialValues={{email: ''}} onSubmit={handleSubmit}>
-          <Animatable.View
-            style={styles.form}
-            delay={3000}
-            animation={'fadeIn'}>
-            <FormField
-              name="email"
-              autoCorrect={false}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              placeholder="Enter your email address..."
-            />
-            {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
-          </Animatable.View>
-          <Animatable.View
-            style={styles.submit}
-            delay={3000}
-            animation={'fadeIn'}>
-            <SubmitButton title="submit" marginTop={20} />
-          </Animatable.View>
-        </Form>
+        {showLoader ? (
+          <Loader />
+        ) : (
+          <Form initialValues={{email: ''}} onSubmit={handleSubmit}>
+            <Animatable.View
+              style={styles.form}
+              delay={3000}
+              animation={'fadeIn'}>
+              <FormField
+                name="email"
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                textContentType="emailAddress"
+                placeholder="Enter your email address..."
+              />
+              {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
+            </Animatable.View>
+            <Animatable.View
+              style={styles.submit}
+              delay={3000}
+              animation={'fadeIn'}>
+              <SubmitButton title="submit" marginTop={20} />
+            </Animatable.View>
+          </Form>
+        )}
       </ImageBackground>
     </View>
     // </Screen>

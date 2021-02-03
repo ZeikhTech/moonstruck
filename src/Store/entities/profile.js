@@ -2,14 +2,8 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   loading: false,
-  data: {
-    _id: '',
-    name: '',
-    age: null,
-    image: '',
-    country: '',
-    bio: '',
-  },
+  data: {},
+  assets: {},
   cachedAt: null,
 };
 
@@ -23,8 +17,11 @@ const slice = createSlice({
     setProfile: (state, action) => {
       state.data = action.payload;
     },
+    setAsset: (state, action) => {
+      state.assets = action.payload;
+    },
   },
 });
 
-export const {loadingProfile, setProfile} = slice.actions;
+export const {loadingProfile, setProfile, setAsset} = slice.actions;
 export default slice.reducer;

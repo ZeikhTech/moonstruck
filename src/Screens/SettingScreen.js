@@ -24,6 +24,7 @@ import {
 } from '../Components/Forms';
 import Screen from '../Components/Common/Screen';
 import Colors from '../Constants/Colors';
+import Loader from '../Components/Common/Loader';
 import Images from '../Constants/Images';
 import Routes from '../Navigation/routes';
 import {setSettings} from '../Store/api/profile';
@@ -33,24 +34,23 @@ const {width, height} = Dimensions.get('screen');
 import store from '../Store/store';
 
 function SettingsScreen(props) {
-  const profile = useSelector((state) => state.auth.user.data);
-  // console.log(profile);
+  const loading = useSelector((state) => state.auth.user.loading);
   const dispatch = useDispatch();
 
   const handleFormSubmit = async (values) => {
-    // dispatch(
-    //   setSettings({
-    //     body: values,
-    //     onSuccess: (res) => {
-    //       const _id = res.data.user[0].id;
-    //       // console.log('userid=-===', _id);
-    //       if (res.data.status_code === 300) {
-    //         props.navigation.navigate(Routes.UPLOAD_PIC, {userId: _id});
-    //       }
-    //     },
-    //   }),
-    // );
-    props.navigation.navigate(Routes.UPLOAD_PIC);
+    dispatch(
+      setSettings({
+        body: values,
+        onSuccess: (res) => {
+          console.log('res======', res.data);
+
+          const _id = res.data.user[0].id;
+          if (res.data.status_code === 300) {
+            props.navigation.navigate(Routes.UPLOAD_PIC, {userId: _id});
+          }
+        },
+      }),
+    );
   };
 
   return (
@@ -75,79 +75,85 @@ function SettingsScreen(props) {
                 resizeMode="contain"
               />
             </View>
-            <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>SETTINGS</Text>
-              <Image
-                style={styles.settingIcon}
-                resizeMode="center"
-                source={Images.SettingIcon}
-              />
-            </View>
-            <View style={styles.subtitleContainer}>
-              <Text style={styles.subtitleText}>
-                (PLEASE CHECK {'\n'}THE APPROPRIATE OPTIONS)
-              </Text>
-            </View>
-            <View style={styles.human}>
-              <View style={styles.manContainer}>
-                <Text style={styles.manText}>I AM A </Text>
-                <Text style={styles.manColor}>MAN</Text>
-              </View>
-              <View style={styles.womanContainer}>
-                <Text style={styles.womanText}>I AM A </Text>
-                <Text style={styles.womanColor}>WOMAN</Text>
-              </View>
-            </View>
-            <Form
-              initialValues={{
-                is_man: false,
-                is_woman: false,
-                zip_code: '',
-                age: [18, 70],
-                distance_range: 500,
-                search_worldwide: false,
-                man: false,
-                woman: false,
-              }}
-              onSubmit={handleFormSubmit}>
-              <View style={styles.iconContainer}>
-                <FormGender name="is_man" />
-                <FormGender name="is_woman" />
-              </View>
-              <View style={styles.zipcodeContainer}>
-                <Text style={styles.zipcode}>
-                  DESIRED{'\n'}ZIP CODE PLEASE:
-                </Text>
-                <FormZip name="zip_code" keyboardType="numeric" />
-              </View>
-              <View style={styles.rangeContainer}>
-                <FormAgeSlider name="age" />
-                <FormRangeSlider name="distance_range" />
-                <View style={styles.worldwideContainer}>
-                  <FormCheckbox name="search_worldwide" />
-                  <Text style={styles.worldwide}>SEARCH WORLDWIDE</Text>
+            {loading ? (
+              <Loader />
+            ) : (
+              <>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.titleText}>SETTINGS</Text>
+                  <Image
+                    style={styles.settingIcon}
+                    resizeMode="center"
+                    source={Images.SettingIcon}
+                  />
                 </View>
-              </View>
-              <View style={styles.lookingContainer}>
-                <View style={styles.manLook}>
-                  <Text style={styles.manText}>LOOKING FOR A </Text>
-                  <Text style={styles.manColor}>MAN</Text>
-                  <View style={{left: 45}}>
-                    <FormCheckbox name="man" />
+                <View style={styles.subtitleContainer}>
+                  <Text style={styles.subtitleText}>
+                    (PLEASE CHECK {'\n'}THE APPROPRIATE OPTIONS)
+                  </Text>
+                </View>
+                <View style={styles.human}>
+                  <View style={styles.manContainer}>
+                    <Text style={styles.manText}>I AM A </Text>
+                    <Text style={styles.manColor}>MAN</Text>
+                  </View>
+                  <View style={styles.womanContainer}>
+                    <Text style={styles.womanText}>I AM A </Text>
+                    <Text style={styles.womanColor}>WOMAN</Text>
                   </View>
                 </View>
-                <View style={styles.womanLook}>
-                  <Text style={styles.womanText}>LOOKING FOR A </Text>
-                  <Text style={styles.womanColor}>WOMAN</Text>
-                  <View style={{left: 10, bottom: 20}}>
-                    <FormCheckbox name="woman" />
+                <Form
+                  initialValues={{
+                    is_man: false,
+                    is_woman: false,
+                    zip_code: '',
+                    age: [18, 70],
+                    distance_range: 500,
+                    search_worldwide: false,
+                    man: false,
+                    woman: false,
+                  }}
+                  onSubmit={handleFormSubmit}>
+                  <View style={styles.iconContainer}>
+                    <FormGender name="is_man" />
+                    <FormGender name="is_woman" />
                   </View>
-                </View>
-              </View>
-              <View style={styles.button}>
-                <SubmitButton title="next" />
-              </View>
-            </Form>
+                  <View style={styles.zipcodeContainer}>
+                    <Text style={styles.zipcode}>
+                      DESIRED{'\n'}ZIP CODE PLEASE:
+                    </Text>
+                    <FormZip name="zip_code" keyboardType="numeric" />
+                  </View>
+                  <View style={styles.rangeContainer}>
+                    <FormAgeSlider name="age" />
+                    <FormRangeSlider name="distance_range" />
+                    <View style={styles.worldwideContainer}>
+                      <FormCheckbox name="search_worldwide" />
+                      <Text style={styles.worldwide}>SEARCH WORLDWIDE</Text>
+                    </View>
+                  </View>
+                  <View style={styles.lookingContainer}>
+                    <View style={styles.manLook}>
+                      <Text style={styles.manText}>LOOKING FOR A </Text>
+                      <Text style={styles.manColor}>MAN</Text>
+                      <View style={{left: 45}}>
+                        <FormCheckbox name="man" />
+                      </View>
+                    </View>
+                    <View style={styles.womanLook}>
+                      <Text style={styles.womanText}>LOOKING FOR A </Text>
+                      <Text style={styles.womanColor}>WOMAN</Text>
+                      <View style={{left: 10, bottom: 20}}>
+                        <FormCheckbox name="woman" />
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.button}>
+                    <SubmitButton title="next" />
+                  </View>
+                </Form>
+              </>
+            )}
           </ScrollView>
         </ImageBackground>
       </View>
@@ -169,7 +175,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 20,
+    // marginVertical: 20,
   },
   backIcon: {
     marginRight: 40,

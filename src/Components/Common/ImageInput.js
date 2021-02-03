@@ -23,8 +23,9 @@ export default ({imageUri, onChangeImage}) => {
   const selectImage = async () => {
     try {
       const image = await ImagePicker.openPicker({
-        width: 720,
-        height: 720,
+        compressImageMaxHeight: 320,
+        compressImageMaxWidth: 320,
+        compressImageQuality: 1,
         mediaType: 'photo',
         cropping: false,
         includeBase64: true,

@@ -1,23 +1,26 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   Image,
   Modal,
+  Alert,
   Platform,
   ScrollView,
-  Alert,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  PermissionsAndroid,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {useSelector, useDispatch, connect} from 'react-redux';
+import * as Yup from 'yup';
+import {NetworkInfo} from 'react-native-network-info';
+import {useSelector, useDispatch} from 'react-redux';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
-import * as Yup from 'yup';
+import Geolocation from '@react-native-community/geolocation';
 
 import store from '../Store/store';
 
@@ -42,8 +45,7 @@ import {signup} from '../Store/api/auth';
 const {width, height} = Dimensions.get('window');
 
 const validationSchema = Yup.object().shape({
-  first_name: Yup.string().required().label('*First Name'),
-  last_name: Yup.string().required().label('*Last Name'),
+  full_name: Yup.string().required().label('*Full Name'),
   uName: Yup.string().required().label('*Username'),
   email: Yup.string().required().email().label('*Email'),
   password: Yup.string().required().min(6).label('*Password'),
@@ -57,45 +59,143 @@ const validationSchema = Yup.object().shape({
 });
 
 const initialValues = {
-  first_name: 'test',
-  middle_name: 'test',
-  last_name: 'test',
-  uName: 'test',
-  password: '123456',
-  passconf: '123456',
-  email: 'test@gmail.com',
-  gender: 'Male',
+  full_name: '',
+  uName: '',
+  password: '',
+  passconf: '',
+  email: '',
+  gender: '',
   birth_date: '',
 };
 
-import axios from 'axios';
-
 function RegisterScreen(props) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [ip, setIp] = useState();
   const [error, setError] = useState();
   const [toolTip, setToolTip] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentLongitude, setCurrentLongitude] = useState();
+  const [currentLatitude, setCurrentLatitude] = useState();
 
   const {showLoader} = useSelector((state) => state.ui.signup);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    getIpAddress();
+    requestLocationPermission();
+  }, []);
+
+  const requestLocationPermission = async () => {
+    if (Platform.OS === 'ios') {
+      getOneTimeLocation();
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Access Required',
+            message: 'Moonstruck needs to Access your location',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //To Check, If Permission is granted
+          getOneTimeLocation();
+        } else {
+          Alert.alert('Warning', 'Permission Denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+  };
+
+  const getOneTimeLocation = () => {
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+      (position) => {
+        //getting the Longitude from the location json
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+
+        //getting the Latitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        setCurrentLongitude(currentLongitude);
+
+        //Setting Longitude state
+        setCurrentLatitude(currentLatitude);
+      },
+      (error) => {
+        console.log(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        // timeout: 30000,
+        // maximumAge: 1000,
+      },
+    );
+  };
+
+  const subscribeLocationLocation = () => {
+    Geolocation.watchPosition(
+      (position) => {
+        //getting the Longitude from the location json
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+
+        //getting the Latitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        setCurrentLongitude(currentLongitude);
+
+        //Setting Latitude state
+        setCurrentLatitude(currentLatitude);
+      },
+      (error) => {
+        console.log(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        maximumAge: 1000,
+      },
+    );
+  };
+
+  const getIpAddress = async () => {
+    const currentIp = await NetworkInfo.getIPAddress();
+    setIp(currentIp);
+  };
+
   const confirmButton = async (values) => {
-    // dispatch(
-    //   signup({
-    //     body: values,
-    //     onSuccess: (res) => {
-    //       if (res.data.error) {
-    //         setIsVisible(false);
-    //         setError(res.data.error);
-    //       } else {
-    //         setError('');
-    //         setIsVisible(false);
-    //         props.navigation.navigate(Routes.VERIFY_EMAIL);
-    //       }
-    //     },
-    //   }),
-    // );
-    setIsVisible(false);
-    props.navigation.navigate(Routes.VERIFY_EMAIL);
+    let formData = new FormData();
+    formData.append('ip', ip);
+    formData.append('latitude', currentLatitude);
+    formData.append('longitude', currentLongitude);
+    formData.append('full_name', values.full_name);
+    formData.append('uName', values.uName);
+    formData.append('password', values.password);
+    formData.append('passconf', values.passconf);
+    formData.append('email', values.email);
+    formData.append('gender', values.gender);
+    formData.append('birth_date', values.birth_date);
+
+    dispatch(
+      signup({
+        body: formData,
+        onSuccess: (res) => {
+          console.log('SIGNUP RESPONSE======>', res.data);
+          if (res.data.error) {
+            setIsVisible(false);
+            setError(res.data.error);
+          } else {
+            setError('');
+            setIsVisible(false);
+            props.navigation.navigate(Routes.VERIFY_EMAIL, {
+              email: values.email,
+            });
+          }
+        },
+      }),
+    );
   };
 
   return (
@@ -139,14 +239,13 @@ function RegisterScreen(props) {
                   validationSchema={validationSchema}>
                   <ErrorMessage error="" />
                   <View style={{flexDirection: 'row', flex: 1}}>
-                    <Text style={styles.label}>FIRST NAME :</Text>
+                    <Text style={styles.label}>FULL NAME :</Text>
                     <View style={styles.tooltip}>
                       <Tooltip
                         isVisible={toolTip}
                         content={
                           <Text style={{color: Colors.white, fontSize: 16}}>
-                            Please enter your FULL NAME at birth, including
-                            middle name.
+                            Please enter your FULL NAME at birth.
                           </Text>
                         }
                         contentStyle={{backgroundColor: Colors.primary}}
@@ -165,20 +264,8 @@ function RegisterScreen(props) {
                   </View>
                   <FormField
                     autoCorrect={false}
-                    name="first_name"
-                    placeholder="Enter your first name"
-                  />
-                  <Text style={styles.label}>MIDDLE NAME :</Text>
-                  <FormField
-                    autoCorrect={false}
-                    name="middle_name"
-                    placeholder="Enter your middle name"
-                  />
-                  <Text style={styles.label}>LAST NAME :</Text>
-                  <FormField
-                    autoCorrect={false}
-                    name="last_name"
-                    placeholder="Enter your last name"
+                    name="full_name"
+                    placeholder="Enter your full name"
                   />
                   <Text style={styles.label}>USERNAME :</Text>
                   <FormField
